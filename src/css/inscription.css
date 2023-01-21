@@ -1,0 +1,215 @@
+@font-face {
+    font-family: 'Christmas Day';
+    src: url('../fonts/christmas/ChristmasDayRegular.eot');
+    src: url('../fonts/christmas/ChristmasDayRegular.eot') format('embedded-opentype'),
+        url('../fonts/christmas/ChristmasDayRegular.woff2') format('woff2'),
+        url('../fonts/christmas/ChristmasDayRegular.woff') format('woff'),
+        url('../fonts/christmas/ChristmasDayRegular.ttf') format('truetype'),
+        url('../fonts/christmas/ChristmasDayRegular.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+@font-face {
+    font-family: 'Jangthai';
+    src:url('../fonts/jangthai/Jangthai.woff') format('woff'),
+        url('../fonts/jangthai/Jangthai.svg') format('svg'),
+        url('../fonts/jangthai/Jangthai.eot'),
+        url('../fonts/jangthai/Jangthai.eot') format('embedded-opentype'); 
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+body
+{
+    background-color: #FBFCF4;
+    position: relative;
+   
+}
+
+/* entete*/
+#titre
+{
+    margin: auto;
+    text-align: center;
+    position:absolute;
+    top: 9%;
+    left: 27%;
+    font-family: 'Christmas Day';
+   
+}
+#entete img
+{
+    width: 100%;
+}
+
+h1
+{
+    margin: auto;
+    font-size: 80px;
+   
+}
+
+.fieldset
+{
+    border: 2px solid #2D2A32;
+    width: 50%;
+    height: 50%;
+    margin-top: 5%;
+    margin-left: 25%;
+    background-color: #83C5BE;
+    border-radius: 5px;
+    text-align: center;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    box-shadow: 5px 5px 15px 5px #77A8CC;
+}
+.legend
+{
+    font-size: 150%;
+}
+
+#email
+{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1%;
+    margin-left: 20%;
+}
+#email input{
+    margin-left: 12%;
+}
+#nom
+{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1%;
+    margin-left: 20%;
+}
+#nom input{
+    margin-left: 24%;
+}
+
+#prenom
+{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1%;
+    margin-left: 20%;
+}
+#prenom input{
+    margin-left: 20.5%;
+}
+#mdp
+{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1%;
+    margin-left: 20%;
+}
+
+#mdp input{
+    margin-left: 14%;
+}
+#mdp2
+{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1%;
+    margin-left: 20%;
+}
+
+#mdp2 input{
+    margin-left: 2%;
+}
+#check
+{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1%;
+    margin-left: 20%;
+}
+#check label{
+    margin-right: 2%;
+}
+#inscrit
+{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1%;
+    margin-left: 20%;
+    display: none;
+}
+#inscrit input{
+    margin-left: 8%;
+}
+#non-inscrit
+{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1%;
+    margin-left: 20%;
+    display: none;
+}
+
+#non-inscrit input{
+    margin-left: 16.5%;
+}
+
+#invit
+{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1%;
+    display: none;
+    
+}
+#invit input{
+    width:30%;
+    margin:auto;
+}
+
+
+label{
+    font-size: 18px;
+}
+
+#bouton
+{
+    margin-top: 10%;
+}
+#button
+{
+    width: 20%;
+    box-shadow: 5px 5px 15px 5px #77A8CC;
+    border-radius: 5px;
+    
+}
+
+.deuxieme
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 3%;
+}
+.deuxieme a
+{
+    
+    margin-left: 1%;
+    
+}
+
+/* footer*/
+#footer
+{
+    display: flex;
+    flex-direction: row;
+    background-color: #77A8CC;
+    color: #FBFCF4;
+    justify-content: space-around;
+    margin-top: 5%;
+}

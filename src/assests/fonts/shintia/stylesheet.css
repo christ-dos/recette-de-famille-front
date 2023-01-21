@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'Shintia Script';
+    src: url('ShintiaScript.eot');
+    src: url('ShintiaScript.eot?#iefix') format('embedded-opentype'),
+        url('ShintiaScript.woff2') format('woff2'),
+        url('ShintiaScript.woff') format('woff'),
+        url('ShintiaScript.ttf') format('truetype'),
+        url('ShintiaScript.svg#ShintiaScript') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
