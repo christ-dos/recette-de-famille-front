@@ -1,9 +1,6 @@
 import { IconDefinition } from '@fortawesome/free-regular-svg-icons';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FunctionComponent, useState } from 'react';
-import { Button, Modal } from 'react-bootstrap';
-import { render } from 'react-dom';
+import { FunctionComponent } from 'react';
 import '../css/bouton.css';
 import '../css/common.css';
 

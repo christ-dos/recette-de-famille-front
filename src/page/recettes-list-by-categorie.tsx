@@ -1,34 +1,37 @@
+
 import axios from 'axios';
 import { log } from 'console';
 import { FunctionComponent, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { BoutonAdd } from '../components/Bouton';
 import { TitreH2 } from '../components/children';
 import RecetteCard from '../components/recette-card';
 import RECETTES from '../models/mock-recettes';
 import Recette from '../models/recette';
-import { getAllRecette } from '../services/RecetteService';
+import { findRecetteByCategorieId, getAllRecette } from '../services/RecetteService';
 
 
-
+type Props = {
+  id: number
+}
   
-const RecetteList: FunctionComponent = () => {
+const RecetteListByCategorie: FunctionComponent<Props> = () => {
   const [recettes, setRecettes] = useState<Recette[]>([]);
-  
+  console.log(window.location.pathname.split('/'));
+  const tabPath = window.location.pathname.split('/');
+console.log(tabPath[3]);
 
   useEffect(() => {
+
       const recettes = async () => {
-      const response = await getAllRecette();
+      const response =await findRecetteByCategorieId(+tabPath[3]);
       setRecettes(response);
     }
     recettes();
     //setRecettes(RECETTES);
   }, []);
 
-  useEffect(() => {
-    console.log('upadted recettes');
-    
-    
-  }, [recettes]);
+ 
 
  
 /*async function getRecettes() {
@@ -47,7 +50,7 @@ const RecetteList: FunctionComponent = () => {
     <>
     <div className="row">
       <div className="col-12 d-flex justify-content-center">
-        <TitreH2 titre={'Livre de Recettes'}/>
+        <TitreH2 titre={'Recherche par Catégorie'}/>
       </div>
       <div className="col-12 pe-4 d-flex justify-content-end">
           <BoutonAdd/>
@@ -63,4 +66,4 @@ const RecetteList: FunctionComponent = () => {
   );
 }
   
-export default RecetteList;
+export default RecetteListByCategorie;

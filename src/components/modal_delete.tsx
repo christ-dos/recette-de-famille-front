@@ -3,12 +3,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FunctionComponent, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { deleteRecetteById } from '../services/RecetteService';
 
-const DeleteModal: FunctionComponent = () => {
+type Props = {
+    id:number
+}
+const DeleteModal: FunctionComponent<Props> = ({id}) => {
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    //const effacerRecette= () => async deleteRecette();
+
+    async function deleteRecette(id:number) {
+        console.log(id);
+       await deleteRecetteById(id);
+       setShow(false);
+    }
 
     return (
         <>
@@ -27,7 +38,7 @@ const DeleteModal: FunctionComponent = () => {
                     <Button variant="secondary" onClick={handleClose}>
                         Fermer
                     </Button>
-                    <Button variant="danger" onClick={handleClose}>
+                    <Button variant="danger" onClick={()=>deleteRecette(id)}>
                         Supprimer
                     </Button>
                 </Modal.Footer>
@@ -37,3 +48,10 @@ const DeleteModal: FunctionComponent = () => {
 
 }
 export default DeleteModal;
+
+function getId(id:number){
+  
+}
+
+
+

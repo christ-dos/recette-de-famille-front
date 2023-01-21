@@ -16,7 +16,7 @@ const CategorieList: FunctionComponent = () => {
     return (
             <div className="row">
               {categories.map(categorie => (
-                <CategorieCard key={categorie.id} categorie={categorie}/>
+                <CategorieCard key={categorie.id} categorie={categorie} />
               ))}
             </div>
     );
