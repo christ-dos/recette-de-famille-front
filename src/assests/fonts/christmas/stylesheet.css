@@ -1,0 +1,26 @@
+@font-face {
+    font-family: 'Agent Orange';
+    src: url('AgentOrange.eot');
+    src: url('AgentOrange.eot?#iefix') format('embedded-opentype'),
+        url('AgentOrange.woff2') format('woff2'),
+        url('AgentOrange.woff') format('woff'),
+        url('AgentOrange.ttf') format('truetype'),
+        url('AgentOrange.svg#AgentOrange') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Christmas Day';
+    src: url('ChristmasDayRegular.eot');
+    src: url('ChristmasDayRegular.eot?#iefix') format('embedded-opentype'),
+        url('ChristmasDayRegular.woff2') format('woff2'),
+        url('ChristmasDayRegular.woff') format('woff'),
+        url('ChristmasDayRegular.ttf') format('truetype'),
+        url('ChristmasDayRegular.svg#ChristmasDayRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+

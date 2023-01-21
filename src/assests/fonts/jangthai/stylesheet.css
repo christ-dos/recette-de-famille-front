@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'Jangthai';
+    src: url('Jangthai.eot');
+    src: url('Jangthai.eot?#iefix') format('embedded-opentype'),
+        url('Jangthai.woff2') format('woff2'),
+        url('Jangthai.woff') format('woff'),
+        url('Jangthai.ttf') format('truetype'),
+        url('Jangthai.svg#Jangthai') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+

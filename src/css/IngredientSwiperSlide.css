@@ -1,0 +1,24 @@
+
+/*Swipper slide Ingredient*/
+#swiperSlideIngredient .aliment{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #77A8CC;
+    box-shadow: 5px 5px 12px 5px #83C5BE ;
+    color: white;
+   }
+
+   #carousel_ingredient  .swiper-wrapper{
+  
+ 
+  }
+
+  #carousel_ingredient .swiper-slide{
+
+    
+  }

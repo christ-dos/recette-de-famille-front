@@ -1,0 +1,104 @@
+@font-face {
+    font-family: 'Christmas Day';
+    src: url('../fonts/christmas/ChristmasDayRegular.eot');
+    src: url('../fonts/christmas/ChristmasDayRegular.eot') format('embedded-opentype'),
+        url('../fonts/christmas/ChristmasDayRegular.woff2') format('woff2'),
+        url('../fonts/christmas/ChristmasDayRegular.woff') format('woff'),
+        url('../fonts/christmas/ChristmasDayRegular.ttf') format('truetype'),
+        url('../fonts/christmas/ChristmasDayRegular.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+      font-family: 'Jangthai';
+      src:url('../fonts/jangthai/Jangthai.woff') format('woff'),
+          url('../fonts/jangthai/Jangthai.svg') format('svg'),
+          url('../fonts/jangthai/Jangthai.eot'),
+          url('../fonts/jangthai/Jangthai.eot') format('embedded-opentype'); 
+      font-weight: normal;
+      font-style: normal;
+  
+  }
+
+
+
+#premiere
+{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+#jour{
+    margin: 2%;
+    margin-bottom: 2%;
+}
+#heure{
+    margin-bottom: 2%;
+}
+#barrederecherche{
+    margin-bottom: 2%;
+}
+
+#jour-select{
+    border-radius: 5px;
+    height: 30px;
+}
+#heure-select{
+    border-radius: 5px;
+    height: 30px;
+}
+#searchbar{
+   width: 20%;
+}
+
+/*tableau*/
+table{
+    margin: auto;
+}
+
+th{
+   height: 80px;
+   background-color: #FBFCF4;
+   
+}
+td{
+    width: 300px;
+    height: 100px;
+    
+}
+
+table tr:nth-child(odd){
+    background-color:#83C5BE;
+  }
+
+  .recette img
+  {
+     width: 30%;
+  }
+  .recette h1
+  {
+     font-size: 20px;
+  }
+  .recette
+  {
+     
+     text-align: center;
+     border-radius: 5px; 
+     box-shadow: 5px 5px 15px 5px rgba(109,166,195,255) ;
+     background-color: #FBFCF4;
+     width: 80%;
+     margin: auto;
+     
+  }
+
+/* footer*/
+#footer
+{
+    display: flex;
+    flex-direction: row;
+    background-color: #77A8CC;
+    color: #FBFCF4;
+    justify-content: space-around;
+    margin-top: 5%;
+}

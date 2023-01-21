@@ -1,0 +1,107 @@
+@font-face {
+    font-family: 'Christmas Day';
+    src: url('../fonts/christmas/ChristmasDayRegular.eot');
+    src: url('../fonts/christmas/ChristmasDayRegular.eot') format('embedded-opentype'),
+        url('../fonts/christmas/ChristmasDayRegular.woff2') format('woff2'),
+        url('../fonts/christmas/ChristmasDayRegular.woff') format('woff'),
+        url('../fonts/christmas/ChristmasDayRegular.ttf') format('truetype'),
+        url('../fonts/christmas/ChristmasDayRegular.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Jangthai';
+    src:url('../fonts/jangthai/Jangthai.woff') format('woff'),
+        url('../fonts/jangthai/Jangthai.svg') format('svg'),
+        url('../fonts/jangthai/Jangthai.eot'),
+        url('../fonts/jangthai/Jangthai.eot') format('embedded-opentype'); 
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+
+
+
+
+.fieldset
+{
+    border: 2px solid #2D2A32;
+    width: 50%;
+    height: 50%;
+    margin-top: 5%;
+    margin-left: 25%;
+    background-color: #83C5BE;
+    border-radius: 5px;
+    text-align: center;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    box-shadow: 5px 5px 15px 5px #77A8CC;
+}
+.legend
+{
+    font-size: 150%;
+}
+
+#email
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 1%;
+   
+}
+label{
+    font-size: 18px;
+}
+#mdp
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+#password
+{
+    margin-left: 6%;
+}
+#mail
+{
+    margin-left: 4.4%;
+}
+#bouton
+{
+    margin-top: 10%;
+}
+#button
+{
+    width: 20%;
+    box-shadow: 5px 5px 15px 5px #77A8CC;
+    border-radius: 5px;
+    
+}
+.deuxieme
+{
+    display: flex;
+    flex-direction: row;
+   justify-content: center;
+    margin-top: 3%;
+    
+}
+.deuxieme a{
+    margin-left: 1%;
+}
+
+
+#footer
+{
+    display: flex;
+    flex-direction: row;
+    background-color: #77A8CC;
+    color: #FBFCF4;
+    justify-content: space-around;
+    margin-top: 5%;
+}

@@ -1,0 +1,60 @@
+
+
+*{
+  box-sizing: border-box;
+}
+
+#recetteCard blockquote {
+  font-style: oblique;
+  font-size: 16px;
+  margin-left: 10px;
+  font-family: "Times New Roman", Verdana;
+  border-left: 4px solid #CCC;
+  padding-left: 8px;
+}
+
+#recetteCard h5 {
+    color: #1072b8;
+    font-weight: 700;
+    font-size: 1.4rem;
+}
+
+#recetteCard p{
+  font-size: 1.3rem;
+}
+
+#recetteCard .overflow-elipsis{
+  text-overflow: ellipsis;
+}
+
+#recetteCard .poin_de_suspension, #recetteCard h5{
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+#recetteCard 
+{    
+  max-width: 440px ;
+  transition: transform .1s;
+}
+
+#recetteCard .scale:hover
+{    
+    transform: scale(1.05);
+}
+
+#recetteCard .image{
+  max-height: 150px;
+}
+
+#recetteCard .img-fluid{
+  width: 100%;
+  height: 100%;
+}
+
+
+
+
+
+
+

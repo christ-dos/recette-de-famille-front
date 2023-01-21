@@ -1,0 +1,67 @@
+/* encart de présentation*/
+#presentation {
+   max-width: 100%;
+   margin: auto;
+   margin-top: 3%;
+   padding: 2%;
+   text-align: center;
+   box-shadow: 5px 5px 15px 5px rgba(109, 166, 195, 255);
+
+}
+
+#presentation p {
+   color: #83511c;
+}
+
+/* titre h2 de home*/
+#titreH2 h2 {
+   font-family: 'Shintia Script';
+   font-size: 70px;
+   color: #c79d6f;
+   text-align: center;
+   margin-top: 5%;
+}
+
+
+
+
+
+@media only screen and (min-width: 600px) {
+
+   #presentation {
+      max-width: 90%;
+   }
+
+}
+
+@media only screen and (min-width: 768px) {
+   #presentation {
+      max-width: 60%;
+   }
+
+}
+
+@media only screen and (min-width: 901px) {
+   #presentation {
+      max-width: 50%;
+   }
+
+}
+
+
+@media only screen and (min-width: 1200px) {
+   #presentation {
+      max-width: 40%;
+   }
+}
+
+
+
+
+
+
+#ingredient p:hover {
+   width: 105px;
+   height: 105px;
+   opacity: 0.8;
+}

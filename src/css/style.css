@@ -1,0 +1,112 @@
+@font-face {
+  font-family: 'Christmas Day';
+  src: url('../assests/fonts/christmas/ChristmasDayRegular.eot');
+  src: url('../assests/fonts/christmas/ChristmasDayRegular.eot') format('embedded-opentype'),
+      url('../assests/fonts/christmas/ChristmasDayRegular.woff2') format('woff2'),
+      url('../assests/fonts/christmas/ChristmasDayRegular.woff') format('woff'),
+      url('../assests/fonts/christmas/ChristmasDayRegular.ttf') format('truetype'),
+      url('../assests/fonts/christmas/ChristmasDayRegular.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+    font-family: 'Jangthai';
+    src:url('../assests/fonts/jangthai/Jangthai.woff') format('woff'),
+        url('../assests/fonts/jangthai/Jangthai.svg') format('svg'),
+        url('../assests/fonts/jangthai/Jangthai.eot'),
+        url('../assests/fonts/jangthai/Jangthai.eot') format('embedded-opentype'); 
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'Shintia Script';
+    src: url('../assests/fonts/shintia/ShintiaScript.eot');
+    src: url('../assests/fonts/shintia/ShintiaScript.eot') format('embedded-opentype'),
+        url('../assests/fonts/shintia/ShintiaScript.woff2') format('woff2'),
+        url('../assests/fonts/shintia/ShintiaScript.woff') format('woff'),
+        url('../assests/fonts/shintia/ShintiaScript.ttf') format('truetype'),
+        url('../assests/fonts/shintia/ShintiaScript.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+/* barre de recherche*/
+#searchbar
+{
+     margin-top:8% ;
+     margin-left: 15%;
+     padding:15px;
+     border-radius: 10px;
+     margin-bottom: 5%;
+     
+}
+input[type=text] {
+    width: 30%;
+    -webkit-transition: width 800ms ease-in-out;
+    transition: width 800ms ease-in-out;
+ }
+
+ /* When the input field gets focus,
+      change its width to 100% */
+ input[type=text]:focus {
+   width: 70%;
+ }
+ 
+
+ /*nav barre*/
+#navbarre
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 8%;
+    
+}
+#navbarre img
+{
+    width: 90%;
+}
+
+
+
+#navbarre p
+{
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    color: #FBFCF4;
+    margin-left: -3%;
+}
+/* ingrédients*/
+#ingrédient 
+{
+    margin-top: 7%;
+}
+
+#ingrédient p:hover
+{
+    width: 105px;
+    height: 105px;
+    opacity: 0.8;
+}
+
+
+/* footer*/
+#footer
+{
+    display: flex;
+    flex-direction: row;
+    background-color: #77A8CC;
+    color: #FBFCF4;
+    justify-content: space-around;
+    margin-top: 5%;
+}
+
+
+
+
+
+
+/*______________________________________________________________________________________*/

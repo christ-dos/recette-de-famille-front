@@ -1,0 +1,108 @@
+*, *::before, *::after{
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'Christmas Day';
+    src: url('../fonts/christmas/ChristmasDayRegular.eot');
+    src: url('../fonts/christmas/ChristmasDayRegular.eot') format('embedded-opentype'),
+        url('../fonts/christmas/ChristmasDayRegular.woff2') format('woff2'),
+        url('../fonts/christmas/ChristmasDayRegular.woff') format('woff'),
+        url('../fonts/christmas/ChristmasDayRegular.ttf') format('truetype'),
+        url('../fonts/christmas/ChristmasDayRegular.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+      font-family: 'Jangthai';
+      src:url('../fonts/jangthai/Jangthai.woff') format('woff'),
+          url('../fonts/jangthai/Jangthai.svg') format('svg'),
+          url('../fonts/jangthai/Jangthai.eot'),
+          url('../fonts/jangthai/Jangthai.eot') format('embedded-opentype'); 
+      font-weight: normal;
+      font-style: normal;
+  
+  }
+
+
+/* entete*/
+#titre
+{
+    margin: auto;
+    text-align: center;
+    position:absolute;
+    top: 2%;
+    left: 30%;
+    font-family: 'Christmas Day';
+}
+#entete img
+{
+    width: 100%;
+    height: 200px;
+}
+
+h1
+{
+    margin: auto;
+    font-size: 80px;
+}
+
+figure{
+   
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2%;
+}
+.mystere{
+    max-width: 100%;
+    width: 500px;
+    
+}
+h3{
+    margin-bottom: 10%;
+    color:  #77A8CC;
+}
+
+
+
+textarea{
+
+   max-width: 100%;
+   height: 320px !important;
+   
+}
+.titre{
+    text-align: center;
+    margin-bottom: 5%;
+    margin-top: 5%;
+}
+.container{
+    margin-top: 7% !important;
+}
+
+h4{
+    margin-top: 5%;
+    color: #83C5BE;
+}
+.duree{
+    margin-top: 10%;
+}
+
+.test h3{
+    text-align: center;
+    margin-bottom: 3%;
+    margin-top: -2%;
+}
+/* footer*/
+#footer
+{
+    display: flex;
+    flex-direction: row;
+    background-color: #77A8CC;
+    color: #FBFCF4;
+    justify-content: space-around;
+    margin-top: 5%;
+}
+
+
