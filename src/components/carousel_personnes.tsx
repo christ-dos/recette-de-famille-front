@@ -6,7 +6,7 @@ import { faGreaterThan } from '@fortawesome/free-solid-svg-icons'
 import { faLessThan } from '@fortawesome/free-solid-svg-icons'
 
 const CarouselPersonnes: FunctionComponent = () => {
-    
+  
   
     return (
       <section id="carousel_personne" className="mb-5">

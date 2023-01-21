@@ -6,6 +6,7 @@ import HomePage from './page/home-page';
 import ProfilePage from './page/Profile-page';
 import RcetteDetail from './page/recette-details';
 import RecetteList from './page/recettes-list';
+import RecetteListByCategorie from './page/recettes-list-by-categorie';
 
 
 
@@ -41,7 +42,7 @@ const App: React.FC = () => {
               <Route  path="/recettes/:id" component={RcetteDetail}/> 
               <Route  path="/profile" component={ProfilePage}/> 
               <Route  path="/recette/add" component={AjoutRecettePage}/> 
-            
+              <Route  path="/recette/categorie/:id" component={RecetteListByCategorie}/> 
             </Switch>
 
           </div>

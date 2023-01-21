@@ -36,7 +36,7 @@ const RecetteCard: FunctionComponent<Props> = ({ recette }) => {
           </div>
           </NavLink>
           <div className="card-footer d-flex justify-content-end  ">
-              <DeleteModal/>
+              <DeleteModal id={recette.id}/>
               <BoutonLiens href={'/'} icon={faPencil} />
               
             </div>
