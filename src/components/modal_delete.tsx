@@ -3,23 +3,30 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FunctionComponent, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { deleteRecetteById } from '../services/RecetteService';
+import Recette from '../models/recette';
+import { deleteRecetteById, getAllRecette } from '../services/RecetteService';
 
 type Props = {
-    id:number
+    id:number,
 }
 const DeleteModal: FunctionComponent<Props> = ({id}) => {
     const [show, setShow] = useState(false);
+    const [isClicked, setIsClicked] = useState(false);
+    const[recettes, setRecettes] = useState<Recette[]>([]);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     //const effacerRecette= () => async deleteRecette();
 
-    async function deleteRecette(id:number) {
-        console.log(id);
+
+    async function deleteRecette(id:number, e:any) {
+        console.log(e);
        await deleteRecetteById(id);
        setShow(false);
+       getAllRecette().then(recettes=> setRecettes(recettes))
+       console.log("dans la modal " + recettes)
     }
+
 
     return (
         <>
@@ -38,7 +45,7 @@ const DeleteModal: FunctionComponent<Props> = ({id}) => {
                     <Button variant="secondary" onClick={handleClose}>
                         Fermer
                     </Button>
-                    <Button variant="danger" onClick={()=>deleteRecette(id)}>
+                    <Button variant="danger" name={"supprimer"} disabled={isClicked} onClick={(e)=>deleteRecette(id,e)}>
                         Supprimer
                     </Button>
                 </Modal.Footer>

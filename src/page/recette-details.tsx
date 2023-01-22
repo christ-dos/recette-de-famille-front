@@ -3,7 +3,7 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { Ingredient } from '../models/Ingredient';
 import RECETTES from '../models/mock-recettes';
 import Recette from '../models/recette';
-import { getAllRecette } from '../services/RecetteService';
+import { getAllRecette, getRecetteById } from '../services/RecetteService';
 
 
 type Params = { id: string };
@@ -13,26 +13,9 @@ const RcetteDetail: FunctionComponent<RouteComponentProps<Params>> = ({ match })
   const [recette, setRecette] = useState<Recette | null>(null);
   const [ingredients, setIngredients] = useState<Ingredient>();
 
-
   useEffect(() => {
-
-
-  }, []);
-  useEffect(() => {
-    const recettes = async () => {
-      const response = await getAllRecette();
-    
-      response.forEach(recette => {
-        if (match.params.id === recette.id.toString()) {
-          setRecette(recette);
-        }
-      })
-    }
-    recettes();
+    getRecetteById(+match.params.id).then(recette=>setRecette(recette))
   }, [match.params.id]);
-
-
-
 
   return (
     <div>
@@ -99,3 +82,4 @@ const RcetteDetail: FunctionComponent<RouteComponentProps<Params>> = ({ match })
 }
 
 export default RcetteDetail;
+

@@ -19,6 +19,9 @@ const CategorieList: FunctionComponent = () => {
        // setCategories(CATEGORIES);
     }, []);
     
+
+   
+  
     return (
             <div className="row">
               {categories.map(categorie => (

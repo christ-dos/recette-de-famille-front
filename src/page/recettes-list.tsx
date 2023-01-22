@@ -6,7 +6,7 @@ import { TitreH2 } from '../components/children';
 import RecetteCard from '../components/recette-card';
 import RECETTES from '../models/mock-recettes';
 import Recette from '../models/recette';
-import { getAllRecette } from '../services/RecetteService';
+import { deleteRecetteById, getAllRecette } from '../services/RecetteService';
 
 
 
@@ -16,20 +16,28 @@ const RecetteList: FunctionComponent = () => {
   
 
   useEffect(() => {
-      const recettes = async () => {
+      /*const recettes = async () => {
       const response = await getAllRecette();
       setRecettes(response);
     }
-    recettes();
+    recettes();*/
     //setRecettes(RECETTES);
+   // getRecettes();
+   getAllRecette().then(recettes=> setRecettes(recettes))
   }, []);
 
   useEffect(() => {
-    console.log('upadted recettes');
     
-    
-  }, [recettes]);
+    getAllRecette().then(recettes=> setRecettes(recettes))
+  
+}, [recettes.length]);
 
+async function deleteRecette(id: any): Promise<any> {
+  console.log("click sur delete");
+  await deleteRecetteById(id);
+  getAllRecette().then(recettes=> setRecettes(recettes))
+  
+}
  
 /*async function getRecettes() {
   const response = await getAllRecette();
@@ -56,8 +64,9 @@ const RecetteList: FunctionComponent = () => {
 
     <div className="row mx-auto mt-4">
       {recettes.map(recette => (
-        <RecetteCard key={recette.id} recette={recette}/>
+        <RecetteCard key={recette.id} recette={recette}  />
         ))}
+        
     </div>
     </> 
   );

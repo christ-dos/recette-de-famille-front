@@ -1,8 +1,10 @@
 
+import { NOTFOUND } from 'dns';
 import React from 'react';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import AjoutRecettePage from './page/Ajout-recette-page';
 import HomePage from './page/home-page';
+import PageNotFound from './page/not_found_page';
 import ProfilePage from './page/Profile-page';
 import RcetteDetail from './page/recette-details';
 import RecetteList from './page/recettes-list';
@@ -43,6 +45,7 @@ const App: React.FC = () => {
               <Route  path="/profile" component={ProfilePage}/> 
               <Route  path="/recette/add" component={AjoutRecettePage}/> 
               <Route  path="/recette/categorie/:id" component={RecetteListByCategorie}/> 
+              <Route  path="/*" component={PageNotFound}/> 
             </Switch>
 
           </div>
