@@ -3,6 +3,7 @@ import { FunctionComponent } from 'react';
 import { NavLink } from 'react-router-dom';
 import '../css/recette-card.css';
 import Recette from '../models/recette';
+import { deleteRecetteById } from '../services/RecetteService';
 import { BoutonLiens } from './Bouton';
 import DeleteModal from './modal_delete';
 
@@ -12,6 +13,12 @@ type Props = {
 };
 
 const RecetteCard: FunctionComponent<Props> = ({ recette }) => {
+
+  /*async function deleteRecette(id: any): Promise<any> {
+    console.log("click sur delete");
+    await deleteRecetteById(id);
+    
+  }*/
 
   return (
 
@@ -36,7 +43,7 @@ const RecetteCard: FunctionComponent<Props> = ({ recette }) => {
           </div>
           </NavLink>
           <div className="card-footer d-flex justify-content-end  ">
-              <DeleteModal id={recette.id}/>
+              <DeleteModal id={recette.id} />
               <BoutonLiens href={'/'} icon={faPencil} />
               
             </div>
