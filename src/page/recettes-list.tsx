@@ -8,9 +8,6 @@ import RECETTES from '../models/mock-recettes';
 import Recette from '../models/recette';
 import { deleteRecetteById, getAllRecette } from '../services/RecetteService';
 
-
-
-  
 const RecetteList: FunctionComponent = () => {
   const [recettes, setRecettes] = useState<Recette[]>([]);
   
@@ -65,6 +62,8 @@ async function deleteRecette(id: any): Promise<any> {
     <div className="row mx-auto mt-4">
       {recettes.map(recette => (
         <RecetteCard key={recette.id} recette={recette}  />
+      
+         
         ))}
         
     </div>

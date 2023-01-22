@@ -9,6 +9,7 @@ import ProfilePage from './page/Profile-page';
 import RcetteDetail from './page/recette-details';
 import RecetteList from './page/recettes-list';
 import RecetteListByCategorie from './page/recettes-list-by-categorie';
+import RecetteListByIngredient from './page/recettes-list-by-ingredient.';
 
 
 
@@ -45,6 +46,7 @@ const App: React.FC = () => {
               <Route  path="/profile" component={ProfilePage}/> 
               <Route  path="/recette/add" component={AjoutRecettePage}/> 
               <Route  path="/recette/categorie/:id" component={RecetteListByCategorie}/> 
+              <Route  path="/recette/ingrdient/:id" component={RecetteListByIngredient}/> 
               <Route  path="/*" component={PageNotFound}/> 
             </Switch>
 
