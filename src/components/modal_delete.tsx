@@ -12,7 +12,6 @@ type Props = {
 const DeleteModal: FunctionComponent<Props> = ({id}) => {
     const [show, setShow] = useState(false);
     const [isClicked, setIsClicked] = useState(false);
-    const[recettes, setRecettes] = useState<Recette[]>([]);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -23,8 +22,8 @@ const DeleteModal: FunctionComponent<Props> = ({id}) => {
         console.log(e);
        await deleteRecetteById(id);
        setShow(false);
-       getAllRecette().then(recettes=> setRecettes(recettes))
-       console.log("dans la modal " + recettes)
+
+
     }
 
 

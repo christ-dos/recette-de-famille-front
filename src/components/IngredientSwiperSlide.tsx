@@ -15,7 +15,7 @@ const IngredientSwiperSlide: FunctionComponent<PropsIngredient> = ({ ingredient 
 
     return (
         <main id="swiperSlideIngredient" className="pt-2 pb-2">
-             <NavLink to={'/livrerecettes'} style={{textDecoration: 'none'}}>
+             <NavLink to={'/recette/ingrdient/' +ingredient.id} style={{textDecoration: 'none'}}>
                 <div id="slide" className="swiper-slide d-flex justify-content-center px-3 " >
                     <p className="aliment pe-0" onClick={() => searchByIngredient(ingredient.id)}>{ingredient.name}</p>
                 </div>

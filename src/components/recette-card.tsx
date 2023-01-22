@@ -12,7 +12,7 @@ type Props = {
   recette: Recette
 };
 
-const RecetteCard: FunctionComponent<Props> = ({ recette }) => {
+const RecetteCard: FunctionComponent<Props> = ({ recette}) => {
 
   /*async function deleteRecette(id: any): Promise<any> {
     console.log("click sur delete");

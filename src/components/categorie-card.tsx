@@ -11,7 +11,6 @@ type Props = {
 
 const CategorieCard: FunctionComponent<Props>= ({ categorie}) => {
 
-
     return (
 
             <div id="categarieCard"  className="col-12 col-sm-6 col-md-6 col-lg-3 ">
@@ -24,7 +23,6 @@ const CategorieCard: FunctionComponent<Props>= ({ categorie}) => {
                     </div>
                 </NavLink>
              </div>
-
     );
   }
 

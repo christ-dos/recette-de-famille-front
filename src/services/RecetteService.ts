@@ -28,13 +28,7 @@ import Recette from "../models/recette";
       return reponse.data;
     }
     
-   //Requetes sur le Contôleur Categorie
-   const urlCategorie ='http://localhost:8082/categorie';
-
-   export  async function getAllCategorie() : Promise<Categorie[]>{
-      const categories = await axios.get<Categorie[]>(urlCategorie + '/all')
-      return categories.data;
-     }
+  
   
  
 
