@@ -6,22 +6,22 @@ const CATEGORIES: Categorie[] = [
  {
   id: 1,
   name: CategorieEnum.APERITIFS,
-  url: './images/apero.jpg',
+  urlPicture: './images/apero.jpg',
 },
 {
    id: 2,
    name: CategorieEnum.ENTREES,
-   url: './images/entree.jpg',
+   urlPicture: './images/entree.jpg',
  },
  {
    id: 3,
    name: CategorieEnum.DESSERTS,
-   url: './images/dessert.jpg',
+   urlPicture: './images/dessert.jpg',
  },
  {
    id: 4,
    name: CategorieEnum.PLATS,
-   url: './images/plat.jpg',
+   urlPicture: './images/plat.jpg',
  },
  
 ];
