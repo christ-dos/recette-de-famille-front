@@ -24,7 +24,7 @@ export default class Recette {
     difficultyLevel:  'facile',
     numberOfPeople:  '4 personnes'
     ) {
-     // 3. Initialisation des propiétés d'un pokémons.
+     
      this.id = id;
      this.title = title;
      this.urlPicture = urlPicture;

@@ -1,43 +1,28 @@
 
-import axios from 'axios';
-import { log } from 'console';
 import { FunctionComponent, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { BoutonAdd } from '../components/Bouton';
 import { TitreH2 } from '../components/children';
 import RecetteCard from '../components/recette-card';
-import RECETTES from '../models/mock-recettes';
 import Recette from '../models/recette';
-import { findRecetteByCategorieId, getAllRecette } from '../services/RecetteService';
+import { findRecetteByIngredientId } from '../services/RecetteService';
 
 
 type Props = {
-  id: number
+  IsClicked: boolean 
 }
 
-const RecetteListByIngredient: FunctionComponent<Props> = () => {
+const RecetteListByIngredient: FunctionComponent<Props> = ({IsClicked}) => {
+  const [isClicked, setIsClicked] = useState(false);
   const [recettes, setRecettes] = useState<Recette[]>([]);
+
+
   const tabPath = window.location.pathname.split('/');
 
   console.log(window.location.pathname.split('/'));
   console.log(tabPath[3]);
 
   useEffect(() => {
-
-    const recettes = async () => {
-      const response = await findRecetteByCategorieId(+tabPath[3]);
-      setRecettes(response);
-    }
-    recettes();
-    //setRecettes(RECETTES);
+    findRecetteByIngredientId(+tabPath[3]).then(recettes=>setRecettes(recettes));
   }, []);
-
-  useEffect(() => {
-    //setCategories
-    console.log('rectte mit à jour');
-    
-
-  }, [recettes]);
 
   return (
     <>
@@ -50,7 +35,7 @@ const RecetteListByIngredient: FunctionComponent<Props> = () => {
 
       <div className="row mx-auto mt-4">
         {recettes.map(recette => (
-          <RecetteCard key={recette.id} recette={recette}/>
+          <RecetteCard key={recette.id} recette={recette} />
         ))}
       </div>
     </>

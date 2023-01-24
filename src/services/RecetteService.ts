@@ -27,6 +27,11 @@ import Recette from "../models/recette";
       const reponse = await axios.get<Recette>(urlRecette + '/find/' + id);
       return reponse.data;
     }
+
+    export async function findRecetteByIngredientId(id: number): Promise<Recette[]> {
+      const reponse = await axios.get<Recette[]>(urlRecette + '/find/ingredient/' + id);
+      return reponse.data;
+    }
     
   
   

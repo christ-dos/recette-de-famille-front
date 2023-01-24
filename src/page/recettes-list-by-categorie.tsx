@@ -23,13 +23,7 @@ const RecetteListByCategorie: FunctionComponent<Props> = () => {
   console.log(tabPath[3]);
 
   useEffect(() => {
-
-    const recettes = async () => {
-      const response = await findRecetteByCategorieId(+tabPath[3]);
-      setRecettes(response);
-    }
-    recettes();
-    //setRecettes(RECETTES);
+    findRecetteByCategorieId(+tabPath[3]).then(recettes=>setRecettes(recettes));
   }, []);
 
   useEffect(() => {

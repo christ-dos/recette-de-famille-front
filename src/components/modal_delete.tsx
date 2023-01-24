@@ -8,7 +8,9 @@ import { deleteRecetteById, getAllRecette } from '../services/RecetteService';
 
 type Props = {
     id:number,
+
 }
+
 const DeleteModal: FunctionComponent<Props> = ({id}) => {
     const [show, setShow] = useState(false);
     const [isClicked, setIsClicked] = useState(false);
@@ -18,9 +20,10 @@ const DeleteModal: FunctionComponent<Props> = ({id}) => {
     //const effacerRecette= () => async deleteRecette();
 
 
-    async function deleteRecette(id:number, e:any) {
-        console.log(e);
+    async function deleteRecette(id:number) {
+
        await deleteRecetteById(id);
+       console.log(isClicked)
        setShow(false);
 
 
@@ -44,7 +47,7 @@ const DeleteModal: FunctionComponent<Props> = ({id}) => {
                     <Button variant="secondary" onClick={handleClose}>
                         Fermer
                     </Button>
-                    <Button variant="danger" name={"supprimer"} disabled={isClicked} onClick={(e)=>deleteRecette(id,e)}>
+                    <Button variant="danger" name={"supprimer"} disabled={isClicked} onClick={()=>deleteRecette(id)}>
                         Supprimer
                     </Button>
                 </Modal.Footer>

@@ -24,11 +24,6 @@ const HomePage: FunctionComponent = () => {
 
       <TitreH2 titre={"Qui cuisine aujourd'hui ?"} />
       <CarouselPersonnes/>
-      <footer  className='bg-primary'>
-        <h2 > mon Footer</h2>
-        
-      </footer>
-
     </>
   );
 }

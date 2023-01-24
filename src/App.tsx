@@ -1,7 +1,8 @@
 
-import { NOTFOUND } from 'dns';
 import React from 'react';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
+import Footer from './components/Footer';
+import Header from './components/Header';
 import AjoutRecettePage from './page/Ajout-recette-page';
 import HomePage from './page/home-page';
 import PageNotFound from './page/not_found_page';
@@ -14,44 +15,28 @@ import RecetteListByIngredient from './page/recettes-list-by-ingredient.';
 
 
 const App: React.FC = () => {
-  return(
-    
-      <Router>
-        <div>
-          {/*  la barre de navigation commun a ttes les pages*/}
-          <nav id="nav_barre_principal" className='bg-primary'>
-            <h2>Ma nav Barre</h2>
-            <div> 
-              <ul>
-                <li><Link to="/" className="text-black">Home</Link></li>
-                <li> <Link to="/livrerecettes" className="text-black">livrerecettes</Link></li>
-                <li><Link to="/recettes/:id" className="text-black">DetailsREcette</Link></li>
-                <li><Link to="/profile" className="text-black">Profile</Link></li>
-                <li><Link to="/recette/add" className="text-black">Ajouter Recette</Link></li>
+  return (
 
-              
-              </ul>
-             
-             
-            </div>
-          </nav>
-          <div className='container'>
+    <Router>
+      <Header />
+      <div>
+        <div className='container'>
           {/* le systeme de gestion* de notre application*/}
-            
 
-            <Switch>
-              <Route  exact path="/" component={HomePage}/> 
-              <Route  exact path="/livrerecettes" component={RecetteList}/> 
-              <Route  path="/recettes/:id" component={RcetteDetail}/> 
-              <Route  path="/profile" component={ProfilePage}/> 
-              <Route  path="/recette/add" component={AjoutRecettePage}/> 
-              <Route  path="/recette/categorie/:id" component={RecetteListByCategorie}/> 
-              <Route  path="/recette/ingrdient/:id" component={RecetteListByIngredient}/> 
-              <Route  path="/*" component={PageNotFound}/> 
-            </Switch>
+          <Switch>
+            <Route exact path="/" component={HomePage} />
+            <Route exact path="/livrerecettes" component={RecetteList} />
+            <Route path="/recettes/:id" component={RcetteDetail} />
+            <Route path="/profile" component={ProfilePage} />
+            <Route path="/recette/add" component={AjoutRecettePage} />
+            <Route path="/recette/categorie/:id" component={RecetteListByCategorie} />
+            <Route path="/recette/ingrdient/:id" component={RecetteListByIngredient} />
+            <Route path="/*" component={PageNotFound} />
+          </Switch>
 
-          </div>
+        </div>
       </div>
+      <Footer />
     </Router>
   )
 }
