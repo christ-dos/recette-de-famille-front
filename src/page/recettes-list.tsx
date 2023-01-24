@@ -1,3 +1,4 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { log } from 'console';
 import { FunctionComponent, useEffect, useState } from 'react';
@@ -55,6 +56,7 @@ async function deleteRecette(id: any): Promise<any> {
         <TitreH2 titre={'Livre de Recettes'}/>
       </div>
       <div className="col-12 pe-4 d-flex justify-content-end">
+        <FontAwesomeIcon icon={'function'}/>
           <BoutonAdd/>
       </div>
     </div>

@@ -17,10 +17,10 @@ function getProductOne(): number {
   } else if (windowWidth >= 721 && windowWidth <= 800) {
     slidesPerView = '3';
   } else if (windowWidth >= 801 && windowWidth <= 1000) {
-    slidesPerView = '5';
+    slidesPerView = '4';
   }
   else if (windowWidth >= 1000) {
-    slidesPerView = '4';
+    slidesPerView = '5';
   }
   return +slidesPerView;
 }

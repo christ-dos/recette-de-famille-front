@@ -1,0 +1,14 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+#footer {
+    display: flex;
+    flex-direction: row;
+    background-color: #83C5BE;
+    color: #FBFCF4;
+    justify-content: space-around;
+    margin-top: 5%;
+    padding-bottom: 10px;
+
+}
