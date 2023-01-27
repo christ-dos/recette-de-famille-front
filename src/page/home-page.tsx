@@ -1,9 +1,8 @@
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent } from 'react';
 import CarouselIngrdients from '../components/carousel_ingredient';
 import CarouselPersonnes from '../components/carousel_personnes';
 import CategorieList from '../components/categorie-list';
 import { BienvenueComponent, TitreH2 } from '../components/children';
-import Recette from '../models/recette';
 
 
 
