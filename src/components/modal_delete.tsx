@@ -1,6 +1,6 @@
 import { faTrash, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent, MouseEventHandler, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Recette from '../models/recette';
@@ -8,10 +8,11 @@ import { deleteRecetteById, getAllRecette } from '../services/RecetteService';
 
 type Props = {
     id:number,
+    click:MouseEventHandler
 
 }
 
-const DeleteModal: FunctionComponent<Props> = ({id}) => {
+const DeleteModal: FunctionComponent<Props> = ({id, click}) => {
     const [show, setShow] = useState(false);
     const [isClicked, setIsClicked] = useState(false);
 
@@ -47,7 +48,7 @@ const DeleteModal: FunctionComponent<Props> = ({id}) => {
                     <Button variant="secondary" onClick={handleClose}>
                         Fermer
                     </Button>
-                    <Button variant="danger" name={"supprimer"} disabled={isClicked} onClick={()=>deleteRecette(id)}>
+                    <Button variant="danger" name={"supprimer"} disabled={isClicked} onClick={click}>
                         Supprimer
                     </Button>
                 </Modal.Footer>

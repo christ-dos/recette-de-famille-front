@@ -1,14 +1,12 @@
 
-import axios from 'axios';
-import { log } from 'console';
+import { faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FunctionComponent, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { BoutonAdd } from '../components/Bouton';
+import { Link } from 'react-router-dom';
 import { TitreH2 } from '../components/children';
 import RecetteCard from '../components/recette-card';
-import RECETTES from '../models/mock-recettes';
 import Recette from '../models/recette';
-import { findRecetteByCategorieId, getAllRecette } from '../services/RecetteService';
+import { deleteRecetteById, findRecetteByCategorieId } from '../services/RecetteService';
 
 
 type Props = {
@@ -29,9 +27,12 @@ const RecetteListByCategorie: FunctionComponent<Props> = () => {
   useEffect(() => {
     //setCategories
     console.log('rectte mit à jour');
-    
-
   }, [recettes]);
+
+  async function deleteById(id: number) {
+    await deleteRecetteById(id);
+    findRecetteByCategorieId(+tabPath[3]).then(recettes => setRecettes(recettes));
+  }
 
   return (
     <>
@@ -39,15 +40,16 @@ const RecetteListByCategorie: FunctionComponent<Props> = () => {
         <div className="col-12 d-flex justify-content-center">
           <TitreH2 titre={'Recherche par Catégorie'} />
         </div>
-        <div className="col-12 pe-4 d-flex justify-content-end">
-          <BoutonAdd />
+        <div>
+          <Link to={'/'}> 
+            <FontAwesomeIcon className='d-flex justify-content-start custom-vert ps-3' icon={faArrowCircleLeft} style={{fontSize:'60px'}}/>
+          </Link>
         </div>
       </div>
-
       <div className="row mx-auto mt-4">
         {recettes.map(recette => (
-          <RecetteCard key={recette.id} recette={recette}/>
-        ))}
+          <RecetteCard key={recette.id} recette={recette} click={() => deleteById(recette.id)}/>
+        ))}  
       </div>
     </>
   );

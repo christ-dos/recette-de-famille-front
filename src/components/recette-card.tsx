@@ -1,27 +1,23 @@
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
-import { FunctionComponent } from 'react';
+import axios from 'axios';
+import { FunctionComponent, MouseEventHandler } from 'react';
 import { NavLink } from 'react-router-dom';
 import '../css/recette-card.css';
 import Recette from '../models/recette';
-import { deleteRecetteById } from '../services/RecetteService';
 import { BoutonLiens } from './Bouton';
 import DeleteModal from './modal_delete';
 
 
+
 type Props = {
-  recette: Recette
+  recette: Recette,
+  click: MouseEventHandler
 };
 
-const RecetteCard: FunctionComponent<Props> = ({ recette}) => {
-
-  /*async function deleteRecette(id: any): Promise<any> {
-    console.log("click sur delete");
-    await deleteRecetteById(id);
-    
-  }*/
-
+const RecetteCard: FunctionComponent<Props> = ({ recette, click}) => {
+  
   return (
-
+   
     <div id="recetteCard" className=" col-12 col-md-6 col-lg-4" >
         <div className=" card mb-4 custom-bg-vert custom-shadow-card text-light scale">
         <NavLink to={'/recettes/' + recette.id} style={{ textDecoration: 'none' }}>
@@ -43,7 +39,8 @@ const RecetteCard: FunctionComponent<Props> = ({ recette}) => {
           </div>
           </NavLink>
           <div className="card-footer d-flex justify-content-end  ">
-              <DeleteModal id={recette.id}/>
+              <DeleteModal id={recette.id} click={click}/>
+             {/*<button onClick={()=> childToParent(recettes)}> clic me</button> */} 
               <BoutonLiens href={'/'} icon={faPencil} />
               
             </div>
@@ -56,3 +53,15 @@ const RecetteCard: FunctionComponent<Props> = ({ recette}) => {
 
 
 export default RecetteCard;
+
+function getAllRecette() {
+  throw new Error('Function not implemented.');
+}
+function useState<T>(arg0: never[]): [any, any] {
+  throw new Error('Function not implemented.');
+}
+
+function useEffect(arg0: () => void, arg1: any[]) {
+  throw new Error('Function not implemented.');
+}
+
