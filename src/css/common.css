@@ -11,6 +11,31 @@
     font-display: swap;
 }
 
+@font-face {
+    font-family: 'Christmas Day';
+    src: url('../assests/fonts/christmas/ChristmasDayRegular.eot');
+    src: url('../assests/fonts/christmas/ChristmasDayRegular.eot') format('embedded-opentype'),
+        url('../assests/fonts/christmas/ChristmasDayRegular.woff2') format('woff2'),
+        url('../assests/fonts/christmas/ChristmasDayRegular.woff') format('woff'),
+        url('../assests/fonts/christmas/ChristmasDayRegular.ttf') format('truetype'),
+        url('../assests/fonts/christmas/ChristmasDayRegular.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+@font-face {
+    font-family: 'Jangthai';
+    src:url('../assests/fonts/jangthai/Jangthai.woff') format('woff'),
+        url('../assests/fonts/jangthai/Jangthai.svg') format('svg'),
+        url('../assests/fonts/jangthai/Jangthai.eot'),
+        url('../assests/fonts/jangthai/Jangthai.eot') format('embedded-opentype'); 
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 .custom-shadow {
     box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 50%) !important
 }

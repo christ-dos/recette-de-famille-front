@@ -41,7 +41,6 @@ const RecetteList: FunctionComponent = () => {
          
       </div>
     </div>
-
     <div className="row mx-auto mt-4">
       {recettes.map(recette => (
         <RecetteCard key={recette.id} recette={recette} click={() => deleteById(recette.id)}/>
