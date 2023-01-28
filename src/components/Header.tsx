@@ -1,9 +1,11 @@
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react"
+import React, { ChangeEventHandler, FunctionComponent } from "react"
 import {Link} from "react-router-dom";
 
-const Header = () => {
+
+
+const Header: FunctionComponent = () => {
     return (
         <div id="header" className="container-fluid sticky-top" style={{width: "100%"}}>
             <section className="row">
@@ -39,14 +41,7 @@ const Header = () => {
                                         <Link className="nav-link custom-bleu" href="#" to={"/profile"}>Profil</Link>
                                     </li>
                                 </ul>
-                                <form className="d-flex" role="search">
-                                    <input className="form-control me-2  " type="search"
-                                           placeholder="Rechercher une recette"
-                                           aria-label="Search"/>
-                                    <button className="btn custom-bleu  " type="submit">
-                                        <FontAwesomeIcon icon={faMagnifyingGlass}/>
-                                        </button>
-                                </form>
+                               
                             </div>
                         </div>
                     </nav>

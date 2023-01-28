@@ -7,8 +7,8 @@ import Recette from '../models/recette';
 import { deleteRecetteById, getAllRecette } from '../services/RecetteService';
 
 type Props = {
-    id:number,
-    click:MouseEventHandler
+    id: number,
+    click: MouseEventHandler
 
 }
 
@@ -18,17 +18,17 @@ const DeleteModal: FunctionComponent<Props> = ({id, click}) => {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    //const effacerRecette= () => async deleteRecette();
 
 
-    async function deleteRecette(id:number) {
+
+    /*async function deleteRecette(id:number) {
 
        await deleteRecetteById(id);
        console.log(isClicked)
        setShow(false);
 
 
-    }
+    }*/
 
 
     return (
