@@ -59,20 +59,19 @@ const RecetteList: FunctionComponent = () => {
         </Link>
       </div>
     </div>
-    
+
     {/* ******************* Liste de recettes****************************/}
     <div className="row mx-auto mt-4">
       {
         recettes
-        .filter((recette)=>{
-          if(recette.title.toLowerCase().includes(searchTerm.toLowerCase())){
-            return recette;
-          }
-        })
-        .map(recette => (
-          <RecetteCard key={recette.id} recette={recette} click={() => deleteById(recette.id)}/>
-          )) 
+          .filter((recette)=>
+            recette.title.toLowerCase().includes(searchTerm.toLowerCase())
+          )
+          .map(recette => (
+            <RecetteCard key={recette.id} recette={recette} click={() => deleteById(recette.id)}/>
+            )) 
       }
+       <h4 className="center" hidden={recettes.length !== 0}>Aucune Recette à afficher !</h4>
     </div>
     </> 
   );
