@@ -6,7 +6,7 @@ const Footer = () => {
 
     <div className="container-fluid" id="footer">
       <div className="row">
-        <div className="col-12 col-md-12 col-lg-12 col-xxl-12">
+        <div className="col-12 col-md-12 col-lg-12 col-xxl-12 ps-0 pe-0">
           <ul className="nav justify-content-center mt-5 custom-bg-vert">
             <li className="nav-item">
               <NavLink className="nav-link disabled" to={""}>

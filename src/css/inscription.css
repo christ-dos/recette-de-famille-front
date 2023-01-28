@@ -1,113 +1,112 @@
-
-
-#inscription .fieldset
-{
+#inscription .fieldset {
     border: 2px solid #2D2A32;
     width: 100%;
     height: 50%;
     margin-top: 5%;
-   /* margin-left: 25%;*/
+    /* margin-left: 25%;*/
     background-color: #83C5BE;
     border-radius: 5px;
     text-align: center;
     padding-top: 5%;
     padding-bottom: 5%;
     box-shadow: 5px 5px 15px 5px #77A8CC;
-    
-}
-#inscription .legend
-{
-    font-size: 200%;
-    
+
 }
 
-#inscription label{
+#inscription .legend {
+    font-size: 250%;
+    font-family: Shintia Script;
+
+}
+
+#inscription label {
     font-size: 18px;
 }
 
-#inscription #bouton{
+#inscription #bouton {
     margin-top: 10%;
+  
 }
 
-#inscription #button
-{
-    min-width: 40%;
+#inscription #button {
+    min-width: 80%;
     box-shadow: 5px 5px 15px 5px #77A8CC;
     border-radius: 5px;
+    font-weight: bold;
+    font-size: 1.3rem;
+    color:  #c79d6f;
     
 }
 
-#inscription .deuxieme
-{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    margin-top: 3%;
-}
-#inscription .deuxieme a
-{
-    
-    margin-left: 1%;
-    
-}
+/* *******************Les medias queries*************************** */
 
+@media screen and (min-width: 200px) and (max-width: 768px) {
 
-@media screen and (min-width: 200px) and (max-width: 768px){
+    #inscription #oui,
+    #non {
+        margin-right: 5px;
+    }
 
-   #inscription #oui, #non{
-    margin-right: 5px;
-   }
+    #inscription #button {
+        min-width: 50%;
+    }
 }
 
-@media screen and (min-width: 768px){
+@media screen and (min-width: 768px) {
 
-    #inscription .fieldset{
+    #inscription .fieldset {
         width: 80%;
         margin: auto;
     }
 
-    #inscription .label-div{
+    #inscription .label-div {
         display: flex;
-        
+
     }
 
-    #inscription label{
+    #inscription label {
         margin-left: 12px;
-        
+
     }
-    
+
+    #inscription #button {
+        min-width: 40%;
+    }
+
 }
 
-@media screen and (min-width: 992px){
+@media screen and (min-width: 992px) {
 
-    #inscription .fieldset{
+    #inscription .fieldset {
         width: 70%;
     }
 
+    #inscription #button {
+        min-width: 30%; 
+    }
+
+    
+
 }
 
-@media screen and (min-width: 1200px){
+@media screen and (min-width: 1200px) {
 
-    #inscription .fieldset{
+    #inscription .fieldset {
         width: 60%;
     }
 
-    #inscription  #check label, #invit label {
+    #inscription #check label,
+    #invit label {
         padding-left: 8px;
-    
+
     }
-
-    
-}
-
-@media screen and (min-width: 1400px){
-
-    #inscription .fieldset{
-        width: 50%;
-    }
-
 
    
 }
 
+@media screen and (min-width: 1400px) {
 
+    #inscription .fieldset {
+        width: 50%;
+    }
+}

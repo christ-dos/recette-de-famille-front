@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import AjoutRecettePage from './page/Ajout-recette-page';
+import Connexion from './page/connexion';
 import HomePage from './page/home-page';
 import { Inscription } from './page/inscription';
 import PageNotFound from './page/not_found_page';
@@ -33,6 +34,7 @@ const App: React.FC = () => {
             <Route path="/recette/categorie/:id" component={RecetteListByCategorie} />
             <Route path="/recette/ingrdient/:id" component={RecetteListByIngredient} />
             <Route path="/inscription" component={Inscription} />
+            <Route path="/connexion" component={Connexion} />
             <Route path="/*" component={PageNotFound} />
           </Switch>
 
