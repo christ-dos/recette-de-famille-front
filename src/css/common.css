@@ -46,10 +46,10 @@
     color: #77A8CC !important;
 }
 .custom-bg-vert{
-    background-color: #83C5BE;
+    background-color: #83C5BE !important;
 }
 .custom-bg-bleu{
-    background-color: #77A8CC;
+    background-color: #77A8CC !important;
 }
 .custom-shadow-card{
     box-shadow: 5px 5px 15px 5px #77A8CC;
