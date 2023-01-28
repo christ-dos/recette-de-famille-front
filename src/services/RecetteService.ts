@@ -14,13 +14,24 @@ import Recette from "../models/recette";
       const reponse = await axios.delete<Recette>(urlRecette + '/delete/' + id);
    }
 
-   export async function findRecetteByCategorieId(id: number) : Promise<Recette[] >{
+   export async function findRecetteByCategorieId(id: number) : Promise<Recette[]>{
       const reponse = await axios.get<Recette[]>(urlRecette + '/find/categorie', {
          params : {
             id: id
         }
       });
       return reponse.data;
+   }
+
+   export async function findRecetteByTitle(titre: string): Promise<Recette[]>{
+      const reponse = await axios.get<Recette[]>(urlRecette + '/find/title', {
+         params : {
+            title: titre
+        }
+      });
+
+      return reponse.data;
+
    }
 
    export async function getRecetteById(id: number): Promise<Recette> {
