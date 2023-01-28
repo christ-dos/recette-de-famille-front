@@ -1,7 +1,7 @@
 
-import { faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowCircleLeft, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FunctionComponent, useEffect, useState } from 'react';
+import { ChangeEvent, FunctionComponent, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { TitreH2 } from '../components/children';
 import RecetteCard from '../components/recette-card';
@@ -15,27 +15,51 @@ type Props = {
 
 const RecetteListByCategorie: FunctionComponent<Props> = () => {
   const [recettes, setRecettes] = useState<Recette[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  
   const tabPath = window.location.pathname.split('/');
 
-  console.log(window.location.pathname.split('/'));
-  console.log(tabPath[3]);
+ // console.log(window.location.pathname.split('/'));
+ // console.log(tabPath[3]);
 
   useEffect(() => {
     findRecetteByCategorieId(+tabPath[3]).then(recettes=>setRecettes(recettes));
   }, []);
 
-  useEffect(() => {
-    //setCategories
-    console.log('rectte mit à jour');
-  }, [recettes]);
 
   async function deleteById(id: number) {
     await deleteRecetteById(id);
     findRecetteByCategorieId(+tabPath[3]).then(recettes => setRecettes(recettes));
   }
 
+  const handleSearchTerm = (e: ChangeEvent<HTMLInputElement>)=>{
+    let value = e.target.value;
+    console.log(value);
+    
+    value.length > 2 ? (setSearchTerm(value)) : (setSearchTerm(""))
+  }
+
   return (
     <>
+    {/* ******************* input search ****************************/}
+    <div className='mt-2'>
+        <form className="row d-flex flex-row justify-content-end" role="search">
+          <div className='col-10 col-sm-6 col-md-4 col-lg-3 pe-0'>
+            <input className="form-control" type="search"
+                    placeholder="Rechercher une recette"
+                    aria-label="Search"
+                    onChange={handleSearchTerm}
+              />
+          </div>
+          <div className='col-2 col-sm-1 d-flex justify-content-md-end ps-0'>
+            <button className="btn custom-bleu " type="submit">
+                  <FontAwesomeIcon icon={faMagnifyingGlass}/>
+            </button>
+          </div> 
+      </form>
+    </div>
+
+     {/* ******************* Titre et bouton add ****************************/}
       <div className="row">
         <div className="col-12 d-flex justify-content-center">
           <TitreH2 titre={'Recherche par Catégorie'} />
@@ -46,8 +70,13 @@ const RecetteListByCategorie: FunctionComponent<Props> = () => {
           </Link>
         </div>
       </div>
+       {/* ******************* Liste des recettes par catégorie****************************/}
       <div className="row mx-auto mt-4">
-        {recettes.map(recette => (
+        {
+        recettes
+        .filter((recette)=>
+          recette.title.toLowerCase().includes(searchTerm.toLowerCase()))
+        .map(recette => (
           <RecetteCard key={recette.id} recette={recette} click={() => deleteById(recette.id)}/>
         ))}  
       </div>
