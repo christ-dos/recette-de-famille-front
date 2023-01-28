@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 import AjoutRecettePage from './page/Ajout-recette-page';
 import HomePage from './page/home-page';
+import { Inscription } from './page/inscription';
 import PageNotFound from './page/not_found_page';
 import ProfilePage from './page/Profile-page';
 import RcetteDetail from './page/recette-details';
@@ -31,6 +32,7 @@ const App: React.FC = () => {
             <Route path="/recette/add" component={AjoutRecettePage} />
             <Route path="/recette/categorie/:id" component={RecetteListByCategorie} />
             <Route path="/recette/ingrdient/:id" component={RecetteListByIngredient} />
+            <Route path="/inscription" component={Inscription} />
             <Route path="/*" component={PageNotFound} />
           </Switch>
 
