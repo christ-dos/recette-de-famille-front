@@ -6,7 +6,7 @@ import { BoutonAdd } from '../components/Bouton';
 import { TitreH2 } from '../components/children';
 import RecetteCard from '../components/recette-card';
 import Recette from '../models/recette';
-import { deleteRecetteById, getAllRecette } from '../services/RecetteService';
+import { deleteRecetteById, findRecetteByTitle, getAllRecette } from '../services/RecetteService';
 
 const RecetteList: FunctionComponent = () => {
   const [recettes, setRecettes] = useState<Recette[]>([]);
@@ -23,21 +23,36 @@ const RecetteList: FunctionComponent = () => {
   }
 
   const handleSearchTerm = (e: ChangeEvent<HTMLInputElement>)=>{
+   
     let value = e.target.value;
     value.length > 2 ? (setSearchTerm(value)) : (setSearchTerm(""))
   }
+
+  async function findByTitle(e: any) {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const titre = form.search.value;
+
+    findRecetteByTitle(titre).then(recettes=> setRecettes(recettes))
+    
+  }
+
+
   
   
   return (
     <>
      {/* ******************* input search ****************************/}
     <div className='mt-2'>
-        <form className="row d-flex flex-row justify-content-end" role="search">
+        <form className="row d-flex flex-row justify-content-end" role="search"
+        onSubmit={(e) => findByTitle(e)}>
           <div className='col-10 col-sm-6 col-md-4 col-lg-3 pe-0'>
             <input className="form-control" type="search"
                     placeholder="Rechercher une recette"
                     aria-label="Search"
                     onChange={handleSearchTerm}
+                    name="search"
+                    id='search'
               />
           </div>
           <div className='col-2 col-sm-1 d-flex justify-content-md-end ps-0'>
