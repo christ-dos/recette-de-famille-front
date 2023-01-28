@@ -31,8 +31,9 @@ const RecetteList: FunctionComponent = () => {
   async function findByTitle(e: any) {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
-    const titre = form.search.value;
-
+    const titre: string = "%" + form.search.value + "%";
+    console.log(titre);
+  
     findRecetteByTitle(titre).then(recettes=> setRecettes(recettes))
     
   }
