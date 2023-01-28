@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from "react-router-dom";
+import { BoutonClassique } from '../components/Bouton';
 import '../css/inscription.css';
 
 
@@ -97,9 +98,7 @@ export function Inscription() {
                         )}
 
                         <div id="bouton">
-                            <button type="submit" name="submit" id="button" className='btn btn-sm btn-light border border-dark custom-color-dore'>
-                                Inscription
-                            </button>
+                            <BoutonClassique value={'Inscription'} id={'btnInsc'} type={'submit'} name="btnInsc"/>
                         </div>
                     </form>
                 </fieldset>

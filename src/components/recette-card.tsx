@@ -19,7 +19,7 @@ const RecetteCard: FunctionComponent<Props> = ({ recette, click}) => {
   return (
    
     <div id="recetteCard" className=" col-12 col-md-6 col-lg-4" >
-        <div className=" card mb-4 custom-bg-vert custom-shadow-card text-light scale">
+        <div className="card mb-4 custom-bg-vert custom-shadow-card text-light scale">
         <NavLink to={'/recettes/' + recette.id} style={{ textDecoration: 'none' }}>
           <div className="row g-0">
             <div className=" col-12 col-sm-6 image">

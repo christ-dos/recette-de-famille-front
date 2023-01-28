@@ -25,7 +25,12 @@ const ProfileCard: FunctionComponent<UserProps> = ({ user }) => {
                 {/* <!-- form user info --> */}
                 <div className="card  border border-dark border-2 custom-bg-vert custom-shadow-card py-3" >
                     <div className="card-body">
-                        <h3 className="mb-0 text-center">Profile Utilisateur</h3>
+                        <h3 className="mb-0 text-center" 
+                        style={{
+                            fontFamily: 'Shintia Script',
+                            fontSize:'250%'}}>
+                                Profile Utilisateur
+                        </h3>
                         <form className="form p-2" 
                             action="#" 
                             role="form"
@@ -85,7 +90,7 @@ const ProfileCard: FunctionComponent<UserProps> = ({ user }) => {
 
                             { /*  <!--***************************** Button save Changes **********************************-->*/}
                             <div className="row col-12 col-md-6 col-lg-3 my-4 mx-auto">
-                                <BoutonClassique value={"Enregistrer"} />
+                                <BoutonClassique value={"Enregistrer"} id={"btnEnreg"} type={"submit"} name="btnEnreg"/>
                             </div>
                         </form>
                     </div>

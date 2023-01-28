@@ -3,7 +3,6 @@
     width: 100%;
     height: 50%;
     margin-top: 5%;
-    /* margin-left: 25%;*/
     background-color: #83C5BE;
     border-radius: 5px;
     text-align: center;
@@ -24,18 +23,12 @@
 }
 
 #inscription #bouton {
-    margin-top: 10%;
+    margin-top: 8%;
   
 }
 
 #inscription #button {
     min-width: 80%;
-    box-shadow: 5px 5px 15px 5px #77A8CC;
-    border-radius: 5px;
-    font-weight: bold;
-    font-size: 1.3rem;
-    color:  #c79d6f;
-    
 }
 
 /* *******************Les medias queries*************************** */
@@ -47,7 +40,7 @@
         margin-right: 5px;
     }
 
-    #inscription #button {
+    #inscription #btnInsc {
         min-width: 50%;
     }
 }
@@ -69,7 +62,7 @@
 
     }
 
-    #inscription #button {
+    #inscription #btnInsc {
         min-width: 40%;
     }
 
@@ -81,7 +74,7 @@
         width: 70%;
     }
 
-    #inscription #button {
+    #inscription #btnInsc {
         min-width: 30%; 
     }
 
@@ -101,7 +94,6 @@
 
     }
 
-   
 }
 
 @media screen and (min-width: 1400px) {
