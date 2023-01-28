@@ -1,11 +1,11 @@
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
 import { FunctionComponent, MouseEventHandler } from 'react';
 import { NavLink } from 'react-router-dom';
 import '../css/recette-card.css';
 import Recette from '../models/recette';
 import { BoutonLiens } from './Bouton';
 import DeleteModal from './modal_delete';
+
 
 
 

@@ -7,7 +7,7 @@ const Header = () => {
     return (
         <div id="header" className="container-fluid sticky-top" style={{width: "100%"}}>
             <section className="row">
-                <div className="col-12 col-md-12 col-lg-12 col-xxl-12 ">
+                <div className="col-12 col-md-12 col-lg-12 col-xxl-12 ps-0 pe-0">
                     <nav className="navbar bg-light" style={{backgroundImage: 'url("../images/mosaique.jpg")'}}>
                         <div className="container-fluid d-flex justify-content-center">
                             <Link to="/" className="navbar-brand">

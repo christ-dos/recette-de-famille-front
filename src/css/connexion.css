@@ -1,107 +1,109 @@
-@font-face {
-    font-family: 'Christmas Day';
-    src: url('../fonts/christmas/ChristmasDayRegular.eot');
-    src: url('../fonts/christmas/ChristmasDayRegular.eot') format('embedded-opentype'),
-        url('../fonts/christmas/ChristmasDayRegular.woff2') format('woff2'),
-        url('../fonts/christmas/ChristmasDayRegular.woff') format('woff'),
-        url('../fonts/christmas/ChristmasDayRegular.ttf') format('truetype'),
-        url('../fonts/christmas/ChristmasDayRegular.svg') format('svg');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'Jangthai';
-    src:url('../fonts/jangthai/Jangthai.woff') format('woff'),
-        url('../fonts/jangthai/Jangthai.svg') format('svg'),
-        url('../fonts/jangthai/Jangthai.eot'),
-        url('../fonts/jangthai/Jangthai.eot') format('embedded-opentype'); 
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-
-
-
-
-
-
-
-.fieldset
-{
+#connexion .fieldset {
     border: 2px solid #2D2A32;
-    width: 50%;
+    width: 100%;
     height: 50%;
     margin-top: 5%;
-    margin-left: 25%;
+    /* margin-left: 25%;*/
     background-color: #83C5BE;
     border-radius: 5px;
     text-align: center;
     padding-top: 5%;
     padding-bottom: 5%;
     box-shadow: 5px 5px 15px 5px #77A8CC;
-}
-.legend
-{
-    font-size: 150%;
+
 }
 
-#email
-{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    margin-bottom: 1%;
-   
+#connexion .legend {
+    font-size: 250%;
+    font-family: Shintia Script;
+
 }
-label{
+
+#connexion label {
     font-size: 18px;
 }
-#mdp
-{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-#password
-{
-    margin-left: 6%;
-}
-#mail
-{
-    margin-left: 4.4%;
-}
-#bouton
-{
+
+#connexion #bouton {
     margin-top: 10%;
+
 }
-#button
-{
-    width: 20%;
+
+#connexion #button {
+    min-width: 90%;
     box-shadow: 5px 5px 15px 5px #77A8CC;
     border-radius: 5px;
-    
-}
-.deuxieme
-{
-    display: flex;
-    flex-direction: row;
-   justify-content: center;
-    margin-top: 3%;
-    
-}
-.deuxieme a{
-    margin-left: 1%;
+    font-weight: bold;
+    font-size: 1.3rem;
+    color: #c79d6f;
+
 }
 
+/* *******************Les medias queries*************************** */
 
-#footer
-{
-    display: flex;
-    flex-direction: row;
-    background-color: #77A8CC;
-    color: #FBFCF4;
-    justify-content: space-around;
-    margin-top: 5%;
+@media screen and (min-width: 200px) and (max-width: 768px) {
+
+    #connexion #button {
+        min-width: 50%;
+    }
+
+}
+
+@media screen and (min-width: 568px) {
+
+    #connexion #button {
+        min-width: 40%;
+    }
+
+}
+
+@media screen and (min-width: 768px) {
+
+    #connexion .fieldset {
+        width: 80%;
+        margin: auto;
+    }
+
+    #connexion .label-div {
+        display: flex;
+
+    }
+
+    #connexion label {
+        margin-left: 12px;
+
+    }
+
+}
+
+@media screen and (min-width: 992px) {
+
+    #connexion .fieldset {
+        width: 70%;
+    }
+
+    #connexion #button {
+        min-width: 30%;
+    }
+
+    #connexion #button {
+        min-width: 30%;
+    }
+
+}
+
+@media screen and (min-width: 1200px) {
+
+    #connexion .fieldset {
+        width: 60%;
+    }
+}
+
+@media screen and (min-width: 1400px) {
+
+    #connexion .fieldset {
+        width: 50%;
+    }
+
+
+
 }

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link } from "react-router-dom";
 import '../css/inscription.css';
-import '../css/common.css';
 
 
 export function Inscription() {
@@ -9,7 +8,6 @@ export function Inscription() {
     return (
 
         <>
-    
             <section id="inscription" className='container mx-auto mt-4'>
                 <fieldset className="fieldset">
                     <legend className="legend">Inscription</legend>
@@ -99,14 +97,16 @@ export function Inscription() {
                         )}
 
                         <div id="bouton">
-                            <button type="submit" name="submit" id="button" className='btn btn-sm btn-light border border-dark'>Inscription</button>
+                            <button type="submit" name="submit" id="button" className='btn btn-sm btn-light border border-dark custom-color-dore'>
+                                Inscription
+                            </button>
                         </div>
                     </form>
                 </fieldset>
             </section>
             <section className="deuxieme row mt-3">
                 <p className="col-6 d-flex justify-content-end pe-0">déjà inscrit ?</p>
-                <Link to="/login" id="insc" className="col-6 d-flex justify-content-start ps-1">
+                <Link to="/connexion" id="insc" className="col-6 d-flex justify-content-start ps-1">
                     Cliquez ici
                 </Link>
             </section>
