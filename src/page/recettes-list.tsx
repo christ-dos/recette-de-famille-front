@@ -23,7 +23,6 @@ const RecetteList: FunctionComponent = () => {
   }
 
   const handleSearchTerm = (e: ChangeEvent<HTMLInputElement>)=>{
-   
     let value = e.target.value;
     value.length > 2 ? (setSearchTerm(value)) : (setSearchTerm(""))
   }
@@ -32,7 +31,6 @@ const RecetteList: FunctionComponent = () => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
     const titre  = "%" + form.search.value + "%";
-    console.log(titre);
   
     findRecetteByTitle(titre).then(recettes=> setRecettes(recettes))
     
