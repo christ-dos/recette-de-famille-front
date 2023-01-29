@@ -8,7 +8,7 @@ import { getAllRecette, getRecetteById } from '../services/RecetteService';
 
 type Params = { id: string };
 
-const RcetteDetail: FunctionComponent<RouteComponentProps<Params>> = ({ match }) => {
+const RecetteDetail: FunctionComponent<RouteComponentProps<Params>> = ({ match }) => {
 
   const [recette, setRecette] = useState<Recette | null>(null);
   const [ingredients, setIngredients] = useState<Ingredient>();
@@ -81,5 +81,5 @@ const RcetteDetail: FunctionComponent<RouteComponentProps<Params>> = ({ match })
   );
 }
 
-export default RcetteDetail;
+export default RecetteDetail;
 

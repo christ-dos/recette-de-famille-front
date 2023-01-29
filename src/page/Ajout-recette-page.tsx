@@ -1,12 +1,13 @@
 import { FunctionComponent } from "react";
+import { TitreH2 } from "../components/children";
 
 const AjoutRecettePage: FunctionComponent = () => {
   
 
     return (
       <>
-        <h2>page ajout de Recette</h2>  
-  
+      <TitreH2 titre={"Ajouter une Recette"}/>
+        
       </>
     );
   }
