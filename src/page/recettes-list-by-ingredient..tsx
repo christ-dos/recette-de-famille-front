@@ -1,5 +1,5 @@
 
-import { faArrowCircleLeft, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faArrowCircleLeft, faExclamation, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ChangeEvent, FunctionComponent, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -39,8 +39,7 @@ const RecetteListByIngredient: FunctionComponent = ({ }) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
     const titre  = "%" + form.search.value + "%";
-    console.log(form);
-  
+
     findRecetteByTitleAndIngredientId(+tabPath[3], titre).then(recettes=> setRecettes(recettes))
     
   }
@@ -92,6 +91,13 @@ const RecetteListByIngredient: FunctionComponent = ({ }) => {
         .map(recette => (
           <RecetteCard key={recette.id} recette={recette} click={() => deleteById(recette.id)} />
         ))}
+         <h4 
+          hidden={recettes.length !== 0}
+          className="center alert alert-warning"
+          >
+          <FontAwesomeIcon icon={faExclamation} style={{color:'rgb(106,53,53)',  fontSize: '1.5rem'}}/>
+          &nbsp; Aucune recette ne correspond à la recherche pour cette ingédient !
+        </h4>
       </div>
     </>
   );

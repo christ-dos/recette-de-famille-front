@@ -1,5 +1,5 @@
 
-import { faArrowCircleLeft, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faArrowCircleLeft, faCircleExclamation, faExclamation, faMagnifyingGlass, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ChangeEvent, FunctionComponent, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -43,7 +43,6 @@ const RecetteListByCategorie: FunctionComponent<Props> = () => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
     const titre  = "%" + form.search.value + "%";
-    console.log(form);
   
     findRecetteByTitleAndCategorieId(+tabPath[3], titre).then(recettes=> setRecettes(recettes))
     
@@ -94,7 +93,15 @@ const RecetteListByCategorie: FunctionComponent<Props> = () => {
           recette.title.toLowerCase().includes(searchTerm.toLowerCase()))
         .map(recette => (
           <RecetteCard key={recette.id} recette={recette} click={() => deleteById(recette.id)}/>
-        ))}  
+        ))
+        }  
+        <h4 
+          hidden={recettes.length !== 0}
+          className="center alert alert-warning"
+          >
+          <FontAwesomeIcon icon={faExclamation} style={{color:'rgb(106,53,53)',  fontSize: '1.5rem'}}/>
+          &nbsp; Aucune recette ne correspond à la recherche dans cette catégorie!
+        </h4>
       </div>
     </>
   );

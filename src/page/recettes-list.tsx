@@ -1,4 +1,4 @@
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faExclamation, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ChangeEvent, FunctionComponent, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -87,7 +87,13 @@ const RecetteList: FunctionComponent = () => {
             <RecetteCard key={recette.id} recette={recette} click={() => deleteById(recette.id)}/>
             )) 
       }
-       <h4 className="center" hidden={recettes.length !== 0}>Aucune Recette à afficher !</h4>
+       <h4 
+          hidden={recettes.length !== 0}
+          className="center alert alert-warning"
+          >
+          <FontAwesomeIcon icon={faExclamation} style={{color:'rgb(106,53,53)',  fontSize: '1.5rem'}}/>
+          &nbsp; Aucune recette ne correspond à la recherche !
+        </h4>
     </div>
     </> 
   );
