@@ -28,25 +28,25 @@ const RecetteList: FunctionComponent = () => {
     value.length > 2 ? (setSearchTerm(value)) : (setSearchTerm(""))
   }
 
-  async function findByTitle(e: any) {
+  async function rechercherParTitre(e: any) {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
-    const titre: string = "%" + form.search.value + "%";
+    const titre  = "%" + form.search.value + "%";
     console.log(titre);
   
     findRecetteByTitle(titre).then(recettes=> setRecettes(recettes))
     
   }
 
-
-  
-  
   return (
     <>
      {/* ******************* input search ****************************/}
     <div className='mt-2'>
-        <form className="row d-flex flex-row justify-content-end" role="search"
-        onSubmit={(e) => findByTitle(e)}>
+        <form   
+          className="row d-flex flex-row justify-content-end" 
+          role="search"
+          onSubmit={(e) => rechercherParTitre(e)}
+          >
           <div className='col-10 col-sm-6 col-md-4 col-lg-3 pe-0'>
             <input className="form-control" type="search"
                     placeholder="Rechercher une recette"
