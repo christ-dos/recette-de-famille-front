@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { TitreH2 } from '../components/children';
 import RecetteCard from '../components/recette-card';
 import Recette from '../models/recette';
-import { deleteRecetteById, findRecetteByCategorieId } from '../services/RecetteService';
+import { deleteRecetteById, findRecetteByCategorieId, findRecetteByTitle, findRecetteByTitleAndCategorieId } from '../services/RecetteService';
 
 
 type Props = {
@@ -34,21 +34,37 @@ const RecetteListByCategorie: FunctionComponent<Props> = () => {
 
   const handleSearchTerm = (e: ChangeEvent<HTMLInputElement>)=>{
     let value = e.target.value;
-    console.log(value);
+   // console.log(value);
     
     value.length > 2 ? (setSearchTerm(value)) : (setSearchTerm(""))
+  }
+
+  async function rechercherParTitreEtCategorieId(e: any) {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const titre  = "%" + form.search.value + "%";
+    console.log(form);
+  
+    findRecetteByTitleAndCategorieId(+tabPath[3], titre).then(recettes=> setRecettes(recettes))
+    
   }
 
   return (
     <>
     {/* ******************* input search ****************************/}
     <div className='mt-2'>
-        <form className="row d-flex flex-row justify-content-end" role="search">
+        <form 
+          className="row d-flex flex-row justify-content-end" 
+          role="search"
+          onSubmit={(e) => rechercherParTitreEtCategorieId(e)}
+          >
           <div className='col-10 col-sm-6 col-md-4 col-lg-3 pe-0'>
             <input className="form-control" type="search"
                     placeholder="Rechercher une recette"
                     aria-label="Search"
                     onChange={handleSearchTerm}
+                    name="search"
+                    id='search'
               />
           </div>
           <div className='col-2 col-sm-1 d-flex justify-content-md-end ps-0'>
@@ -83,5 +99,6 @@ const RecetteListByCategorie: FunctionComponent<Props> = () => {
     </>
   );
 }
+
 
 export default RecetteListByCategorie;
