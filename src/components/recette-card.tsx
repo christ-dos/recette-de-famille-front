@@ -23,7 +23,7 @@ const RecetteCard: FunctionComponent<Props> = ({ recette, click}) => {
         <NavLink to={'/recettes/' + recette.id} style={{ textDecoration: 'none' }}>
           <div className="row g-0">
             <div className=" col-12 col-sm-6 image">
-              <img src={recette.urlPicture} className="img-fluid rounded-start " alt="image de la recette" style={{}} />
+              <img src={recette.urlPicture} className="img-fluid rounded-start " alt="image de la recette" />
             </div>
             <div className=" col-12 col-sm-6">
               <div className="card-body text-light">
@@ -41,7 +41,10 @@ const RecetteCard: FunctionComponent<Props> = ({ recette, click}) => {
           <div className="card-footer d-flex justify-content-end  ">
               <DeleteModal id={recette.id} click={click}/>
              {/*<button onClick={()=> childToParent(recettes)}> clic me</button> */} 
-              <BoutonLiens href={'/'} icon={faPencil} />
+             <div>
+                <BoutonLiens href={'/recettes/edit/' + recette.id} icon={faPencil} />
+             </div>
+             
               
             </div>
         </div>

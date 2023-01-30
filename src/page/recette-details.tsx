@@ -1,5 +1,14 @@
+import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FunctionComponent, useEffect, useState } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
+import BarreVerte from '../components/barre-verte';
+import { BoutonLiens, Boutons2 } from '../components/Bouton';
+import { TitreH2 } from '../components/children';
+import EtapesPrepa from '../components/etapes-prepa';
+import Retour from '../components/retour';
+import TableauIngredients from '../components/tableau-ingredients';
+import TempsPrepa from '../components/Temps-prepa';
 import { Ingredient } from '../models/Ingredient';
 import RECETTES from '../models/mock-recettes';
 import Recette from '../models/recette';
@@ -11,64 +20,45 @@ type Params = { id: string };
 const RecetteDetail: FunctionComponent<RouteComponentProps<Params>> = ({ match }) => {
 
   const [recette, setRecette] = useState<Recette | null>(null);
-  const [ingredients, setIngredients] = useState<Ingredient>();
+  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
 
   useEffect(() => {
     getRecetteById(+match.params.id).then(recette=>setRecette(recette))
   }, [match.params.id]);
 
   return (
+
     <div>
+
       {recette ? (
         <div className="row">
-          <div className="col s12 m8 offset-m2">
-            <h2 className="header center">{recette.title}</h2>
-            <div className="card hoverable">
-              <div className="card-image">
-                <img src={recette.urlPicture} alt={recette.title} style={{ width: '250px', margin: '0 auto' }} />
+          <div className="col-12 col-sm col-md">
+            <div className='container d-flex flex-row-reverse mt-5' >
+              <BoutonLiens href={''} icon={faTrash}/>
+              <BoutonLiens href={''} icon={faPencil}/>
+            </div>
+        
+            <TitreH2 titre={recette.title}/>
+            <div className="card">
+              <div className=" d-flex justify-content-center">
+                <img src={recette.urlPicture} alt={recette.title} style={{ width: '450px', margin: '0 auto', marginBottom: '20px', marginTop: '20px' }} />
               </div>
+              <h3>Ingredients</h3>
+              <hr />
+              {ingredients.map(ingredient => (
+                <TableauIngredients key={ingredient.id} ingredients={ingredient} />
+              ))}
+              <div className="">
+                <div className="card-body">
+                  <BarreVerte />
+                  <h3>Préparation</h3>
+                  <hr />
+                  <TempsPrepa />
+                  <EtapesPrepa />
 
-              <div className="card-stacked">
-                <div className="card-content">
-                  <table className="bordered striped">
-                    <tbody>
-                      <tr>
-                        <td>Titre</td>
-                        <td><strong>{recette.title}</strong></td>
-                      </tr>
-                      <tr>
-                        <td>Temps Total de Préparation</td>
-                        <td><strong>{recette.totalTimePreparation}</strong></td>
-                      </tr>
-                      <tr>
-                        <td>Temps Préparation</td>
-                        <td><strong>{recette.timePreparation}</strong></td>
-                      </tr>
-                      <tr>
-                        <td>Temps de Repos</td>
-                        <td><strong>{recette.restTime}</strong></td>
-                      </tr>
-                      <tr>
-                        <td>Temps  de Cuisson</td>
-                        <td><strong>{recette.cookingTime}</strong></td>
-                      </tr>
-                      <tr>
-                        <td>Niveau de Difficulté</td>
-                        <td><strong>{recette.difficultyLevel}</strong></td>
-                      </tr>
-                      <tr>
-                        <td>Nombre de parts</td>
-                        <td><strong>{recette.numberOfPeople}</strong></td>
-                      </tr>
-                      <tr>
-                        <td>Etapes de préparations</td>
-                        <td><strong>{recette.stepPreparation}</strong></td>
-                      </tr>
-                    </tbody>
-                  </table>
                 </div>
-                <div className="card-action">
-                  <Link to="/">Retour</Link>
+                <div className="">
+                  <Link to="/livrerecettes"><Retour/></Link>
                 </div>
               </div>
             </div>
@@ -78,8 +68,7 @@ const RecetteDetail: FunctionComponent<RouteComponentProps<Params>> = ({ match }
         <h4 className="center">Aucune Recette à afficher !</h4>
       )}
     </div>
-  );
-}
+  );}
 
 export default RecetteDetail;
 

@@ -11,14 +11,10 @@
     background-color: #77A8CC;
     box-shadow: 5px 5px 12px 5px #83C5BE ;
     color: white;
+    transition: transform .1s;
    }
 
-   #carousel_ingredient  .swiper-wrapper{
-  
- 
-  }
-
-  #carousel_ingredient .swiper-slide{
-
-    
-  }
+   #swiperSlideIngredient .scale:hover
+   {    
+       transform: scale(1.05);
+   }
