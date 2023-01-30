@@ -2,6 +2,7 @@ import { FunctionComponent } from "react";
 import { Switch, Route } from "react-router-dom";
 import AjoutRecettePage from "../page/Ajout-recette-page";
 import Connexion from "../page/connexion";
+import RecetteEdit from "../page/Edit-recette-page";
 import HomePage from "../page/home-page";
 import { Inscription } from "../page/inscription";
 import PageNotFound from "../page/not_found_page";
@@ -24,6 +25,7 @@ const CustomRoutes: FunctionComponent = () => {
         <Route exact path="/recette/ingrdient/:id" component={RecetteListByIngredient} />
         <Route exact path="/inscription" component={Inscription} />
         <Route exact path="/connexion" component={Connexion} />
+        <Route exact path="/recettes/edit/:id" component={RecetteEdit} />
         <Route exact path="/*" component={PageNotFound} />
       </Switch>
 

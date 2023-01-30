@@ -1,8 +1,10 @@
-import { IconDefinition } from '@fortawesome/free-regular-svg-icons';
+import { faTrashAlt, IconDefinition } from '@fortawesome/free-regular-svg-icons';
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FunctionComponent } from 'react';
 import '../css/bouton.css';
 import '../css/common.css';
+
 
 /*********************************Bouton avec icone add********************* */
 export const BoutonAdd: FunctionComponent = () => {
@@ -61,4 +63,21 @@ export const BoutonLiens: FunctionComponent<BtnLienProps> = ({ href, icon }) => 
 
     </>
   );
+}
+/*********************************Bouton Modifier /supprimer********************* */
+export const Boutons2: FunctionComponent = () => {
+
+  return (
+      <main>
+          <div className="container d-flex flex-row-reverse mt-5 ">
+              <div className="me-4" >
+                  <button type="button" className="btn custom-vert  "><FontAwesomeIcon icon={faPencilAlt} style={{fontSize:'25'}}/></button>
+              </div>
+              <div className="pe-4">
+              <button type="button" className="btn custom-vert "><FontAwesomeIcon icon={faTrashAlt} style={{fontSize:'25'}}/></button>
+              </div>
+          </div>
+
+      </main >
+  )
 }
