@@ -20,17 +20,42 @@ export const BienvenueComponent: FunctionComponent = () => {
   };
 
 /****************** Composant titre  H2************************/
-type PropsTitre = {
+type PropsTitreH2 = {
   titre: string;
 };
-  export const TitreH2: FunctionComponent<PropsTitre> = ({titre}) => {
+  export const TitreH2: FunctionComponent<PropsTitreH2> = ({titre}) => {
+    function camelize(titre: string){
+      const tab : string[] = titre.split(" ");
+    return  tab.map(word=>word.replace((word.charAt(0)), ()=>word.charAt(0).toUpperCase())).join(" ")
+      
+    }
     
     return (
       <main id="titreH2">
-        <h2>{titre}</h2>
+        <h2>{camelize(titre)}</h2>
       </main>
     );
   };
+
+  /****************** Composant titre  H5************************/
+type PropsTitreH5 = {
+  titre: string;
+  className: string
+};
+  export const TitreH5: FunctionComponent<PropsTitreH5> = ({titre, className}) => {
+    function camelize(titre: string){
+      const tab : string[] = titre.split(" ");
+    return  tab.map(word=>word.replace((word.charAt(0)), ()=>word.charAt(0).toUpperCase())).join(" ")
+      
+    }
+    
+    return (
+      <main id="titreH5">
+        <h5 className={className}>{camelize(titre)}</h5>
+      </main>
+    );
+  };
+
   
 /****************** Composant Form Group Input************************/
 type AttributsInputProps = {
@@ -54,5 +79,6 @@ export const FormGroupInput: FunctionComponent<AttributsInputProps> = ({id, nom,
   </div>
   );
 };
+
 
  

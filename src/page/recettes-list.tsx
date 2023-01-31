@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { BoutonAdd } from '../components/Bouton';
 import { TitreH2 } from '../components/children';
 import RecetteCard from '../components/recette-card';
-import Recette from '../models/recette';
+import {Recette} from '../models/recette';
 import { deleteRecetteById, findRecetteByTitle, getAllRecette } from '../services/RecetteService';
 
 const RecetteList: FunctionComponent = () => {

@@ -1,21 +1,26 @@
 import { FunctionComponent } from "react";
+import {Recette} from "../models/recette";
 
-const TempsPrepa: FunctionComponent = () => {
+type Props = {
+    recette: Recette,
+  };
+  
+const TempsPrepa: FunctionComponent<Props> = ({recette}) => {
 
     return(
     <div className="mb-5">
         <ul className="nav justify-content-center">
             <li className="nav-item">
-                <a className="nav-link disabled text-dark">Temps de préparation total : 1h20</a>
+                <a className="nav-link disabled text-dark">Temps de préparation total : {recette.totalTimePreparation}</a>
             </li>
             <li className="nav-item">
-                <a className="nav-link disabled text-dark">Préparation : 20min</a>
+                <a className="nav-link disabled text-dark">Préparation : {recette.timePreparation}</a>
             </li>
             <li className="nav-item">
-                <a className="nav-link disabled text-dark">Repos : -</a>
+                <a className="nav-link disabled text-dark">Repos : {recette.restTime}</a>
             </li>
             <li className="nav-item">
-                <a className="nav-link disabled text-dark">Cuisson : 1h00</a>
+                <a className="nav-link disabled text-dark">Cuisson : {recette.cookingTime}</a>
             </li>
         </ul>
     </div>

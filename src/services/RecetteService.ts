@@ -1,6 +1,5 @@
 import axios from "axios";
-import { Categorie } from "../models/Categorie";
-import Recette from "../models/recette";
+import { Recette } from "../models/recette";
 
 //Requetes sur le Contôleur Recette
    const urlRecette = 'http://localhost:8082/recette';
@@ -70,8 +69,3 @@ import Recette from "../models/recette";
     
   
   
- 
-
-//}
-
-//export default new RecetteService();

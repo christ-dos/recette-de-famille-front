@@ -1,12 +1,12 @@
 import { getAllRecette } from "../services/RecetteService";
-import Recette from "./recette";
+//import Recette from "./recette";
 
 async function getRecettes() {
    const reponse = await getAllRecette();
    return reponse;
  }
 
- let RECETTES: Recette[] = [];
+ /*let RECETTES: Recette[] = [];
  const recettes = async () => {
    RECETTES = await getAllRecette();
    console.log(RECETTES);
@@ -167,4 +167,4 @@ recettes();
  }
 ];*/
   
-export default RECETTES;
+/*export default RECETTES;*/

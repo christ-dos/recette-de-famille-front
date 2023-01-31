@@ -1,7 +1,7 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import RecetteForm from '../components/recette-modifier-form';
-import Recette from '../models/recette';
+import {Recette} from '../models/recette';
 import { getRecetteById } from '../services/RecetteService';
 
 type Params = { id: string };

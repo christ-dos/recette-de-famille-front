@@ -1,13 +1,18 @@
 import { FunctionComponent } from "react"
+import {Recette} from "../models/recette";
 
-const EtapesPrepa: FunctionComponent = () => {
+type Props = {
+    recette: Recette,
+  };
+  
+const EtapesPrepa: FunctionComponent<Props> = ({recette}) => {
 
     return (
 
         <main>
             <div className="container d-flex justify-content-center  ">
             <p className="card col-10 p-4 ">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem laudantium omnis corrupti neque ipsam qui inventore consequatur illum eveniet temporibus, nam delectus id mollitia earum, molestiae pariatur optio! Ex quibusdam eum quaerat distinctio fugit debitis quisquam iure id consequatur beatae, accusamus earum explicabo perferendis nesciunt odio vitae dolore sed blanditiis.
+                {recette.stepPreparation}
             </p>
             </div>
 

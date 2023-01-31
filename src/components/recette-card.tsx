@@ -2,8 +2,9 @@ import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { FunctionComponent, MouseEventHandler } from 'react';
 import { NavLink } from 'react-router-dom';
 import '../css/recette-card.css';
-import Recette from '../models/recette';
+import {Recette} from '../models/recette';
 import { BoutonLiens } from './Bouton';
+import { TitreH5 } from './children';
 import DeleteModal from './modal_delete';
 
 
@@ -27,7 +28,8 @@ const RecetteCard: FunctionComponent<Props> = ({ recette, click}) => {
             </div>
             <div className=" col-12 col-sm-6">
               <div className="card-body text-light">
-                <h5 className="card-title overflow-elipsis">{recette.title}</h5>
+                <TitreH5 titre={recette.title} className="card-title overflow-elipsis"/>
+                
                 <blockquote>
                   <p className="card-text">{recette.difficultyLevel}</p>
                   <p className="card-text">{recette.numberOfPeople} parts</p>

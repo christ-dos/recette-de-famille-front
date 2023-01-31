@@ -5,7 +5,7 @@ import { ChangeEvent, FunctionComponent, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { TitreH2 } from '../components/children';
 import RecetteCard from '../components/recette-card';
-import Recette from '../models/recette';
+import {Recette} from '../models/recette';
 import { deleteRecetteById, findRecetteByCategorieId, findRecetteByTitle, findRecetteByTitleAndCategorieId } from '../services/RecetteService';
 
 
