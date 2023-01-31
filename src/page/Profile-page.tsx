@@ -1,6 +1,5 @@
 import { FunctionComponent, useState } from "react";
 import ProfileCard from "../components/profile_card";
-import Recette from "../models/recette";
 
 const ProfilePage: FunctionComponent = () => {
    

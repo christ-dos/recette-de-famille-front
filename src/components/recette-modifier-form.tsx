@@ -1,5 +1,5 @@
 import { ChangeEvent, FunctionComponent, useState } from "react";
-import Recette from "../models/recette";
+import {Recette} from "../models/recette";
 
 type Props = {
     recette: Recette

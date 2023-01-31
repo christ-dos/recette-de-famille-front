@@ -1,18 +1,17 @@
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FunctionComponent, useEffect, useState } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import BarreVerte from '../components/barre-verte';
-import { BoutonLiens, Boutons2 } from '../components/Bouton';
+import { BoutonLiens } from '../components/Bouton';
 import { TitreH2 } from '../components/children';
 import EtapesPrepa from '../components/etapes-prepa';
 import Retour from '../components/retour';
 import TableauIngredients from '../components/tableau-ingredients';
 import TempsPrepa from '../components/Temps-prepa';
 import { Ingredient } from '../models/Ingredient';
-import RECETTES from '../models/mock-recettes';
-import Recette from '../models/recette';
-import { getAllRecette, getRecetteById } from '../services/RecetteService';
+import { Recette } from '../models/recette';
+import { RecetteIngredient } from '../models/RecetteIngredient';
+import { getRecetteById } from '../services/RecetteService';
 
 
 type Params = { id: string };
@@ -20,11 +19,15 @@ type Params = { id: string };
 const RecetteDetail: FunctionComponent<RouteComponentProps<Params>> = ({ match }) => {
 
   const [recette, setRecette] = useState<Recette | null>(null);
-  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+  const [ingredientsRecettes, setingredientsRecettes] = useState<RecetteIngredient[]>([]);
 
   useEffect(() => {
     getRecetteById(+match.params.id).then(recette=>setRecette(recette))
+    
   }, [match.params.id]);
+
+ 
+  
 
   return (
 
@@ -45,16 +48,23 @@ const RecetteDetail: FunctionComponent<RouteComponentProps<Params>> = ({ match }
               </div>
               <h3>Ingredients</h3>
               <hr />
-              {ingredients.map(ingredient => (
-                <TableauIngredients key={ingredient.id} ingredients={ingredient} />
-              ))}
+              {
+                recette.recettesIngredients?.map(recetteIngredient=>(
+                  <TableauIngredients 
+                    key={recetteIngredient.ingredient.id} 
+                    ingredient={recetteIngredient.ingredient} 
+                    uniteMesure={recetteIngredient.uniteMesure} 
+                    quantite={recetteIngredient.quantite}
+                  />
+                ))
+              }
               <div className="">
                 <div className="card-body">
-                  <BarreVerte />
+                  <BarreVerte recette={recette} />
                   <h3>Préparation</h3>
                   <hr />
-                  <TempsPrepa />
-                  <EtapesPrepa />
+                  <TempsPrepa recette={recette} />
+                  <EtapesPrepa recette={recette} />
 
                 </div>
                 <div className="">
