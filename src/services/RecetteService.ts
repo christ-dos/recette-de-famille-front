@@ -4,9 +4,11 @@ import { Recette } from "../models/recette";
 //Requetes sur le Contôleur Recette
    const urlRecette = 'http://localhost:8082/recette';
 
-  export  async function getAllRecette() : Promise<Recette[]>{
+  export  async function getAllRecette() : Promise<any>{
     const recettes = await axios.get<Recette[]>(urlRecette + '/all')
-    return recettes.data;
+    //console.log(recettes.data.length);
+    
+    return recettes;
    }
 
    export  async function getAllRecettePagine(page: number, size:number) : Promise<any>{
@@ -17,8 +19,8 @@ import { Recette } from "../models/recette";
             size:size
         }
       });
-      console.log(recettes.data.content);
-      return recettes.data.content;
+     // console.log(recettes);
+      return recettes;
      }
 
    export async function deleteRecetteById(id: number){

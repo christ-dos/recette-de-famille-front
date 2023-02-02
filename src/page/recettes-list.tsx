@@ -6,28 +6,29 @@ import { BoutonAdd } from '../components/Bouton';
 import { TitreH2 } from '../components/children';
 import PaginationComposant from '../components/pagination_composant';
 import RecetteCard from '../components/recette-card';
-import {Recette} from '../models/recette';
+import { Recette } from '../models/recette';
 import { deleteRecetteById, findRecetteByTitle, getAllRecette, getAllRecettePagine } from '../services/RecetteService';
 
 const RecetteList: FunctionComponent = () => {
   const [recettes, setRecettes] = useState<Recette[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(0);
-  
+
 
   useEffect(() => {
-   // getAllRecette().then(recettes=> setRecettes(recettes))
-    getAllRecettePagine(page, 6).then(recettes=> setRecettes(recettes));
-    
-    
+    // getAllRecette().then(recettes=> setRecettes(recettes))
+
+    getAllRecettePagine(page, 6).then(recettes => setRecettes(recettes.data.content));
+
+
   }, [page]);
 
   async function deleteById(id: number) {
     await deleteRecetteById(id);
-    getAllRecette().then(recettes=> setRecettes(recettes))
+    getAllRecette().then(recettes => setRecettes(recettes))
   }
 
-  const handleSearchTerm = (e: ChangeEvent<HTMLInputElement>)=>{
+  const handleSearchTerm = (e: ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
     value.length > 2 ? (setSearchTerm(value)) : (setSearchTerm(""))
   }
@@ -35,80 +36,100 @@ const RecetteList: FunctionComponent = () => {
   async function rechercherParTitre(e: any) {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
-    const titre  = "%" + form.search.value + "%";
-  
-    findRecetteByTitle(titre).then(recettes=> setRecettes(recettes))
-    
+    const titre = "%" + form.search.value + "%";
+
+    findRecetteByTitle(titre).then(recettes => setRecettes(recettes))
+
   }
 
-const handleClickPagination = (nombre:number, selected: number): any =>{
-   setPage(nombre)
-   selected = nombre;
-  let totalPages = recettes.length
-  let itemsParPages = 9;
-  console.log("total pages " + totalPages)
+  const handleClickPagination = (nombre: number): any => {
+    console.log("nombre:" + nombre);
+    
+    if (nombre === -1) {
+      if (page < 0) {
+        setPage(0);
+      } else {
+        setPage((page - 1));
+        console.log("setpages:" + page);
+      }
+
+    } else if (nombre === -2) {
+      if(recettes.length > 0){
+        setPage((page + 1));
+      }else{
+        setPage(0);
+      }
+     
+      console.log("setpages:" + page);
+
+    } else {
+      setPage(nombre);
+    }
+
   }
-  console.log(page);
+
+  console.log("page sortie methode:" + page);
   return (
     <>
-     {/* ******************* input search ****************************/}
-    <div className='mt-2'>
-        <form   
-          className="row d-flex flex-row justify-content-end" 
+      {/* ******************* input search ****************************/}
+      <div className='mt-2'>
+        <form
+          className="row d-flex flex-row justify-content-end"
           role="search"
           onSubmit={(e) => rechercherParTitre(e)}
-          >
+        >
           <div className='col-10 col-sm-6 col-md-4 col-lg-3 pe-0'>
             <input className="form-control" type="search"
-                    placeholder="Rechercher une recette"
-                    aria-label="Search"
-                    onChange={handleSearchTerm}
-                    name="search"
-                    id='search'
-              />
+              placeholder="Rechercher une recette"
+              aria-label="Search"
+              onChange={handleSearchTerm}
+              name="search"
+              id='search'
+            />
           </div>
           <div className='col-2 col-sm-1 d-flex justify-content-md-end ps-0'>
             <button className="btn custom-bleu " type="submit">
-                  <FontAwesomeIcon icon={faMagnifyingGlass}/>
+              <FontAwesomeIcon icon={faMagnifyingGlass} />
             </button>
-          </div> 
-      </form>
-    </div>
-
-    {/* ******************* Titre et bouton add ****************************/}
-    <div className="row">
-      <div className="col-12 d-flex justify-content-center">
-        <TitreH2 titre={'Livre de Recettes'}/>
+          </div>
+        </form>
       </div>
-      <div className="col-12 pe-4 d-flex justify-content-end">
-        <Link to={'/recette/add'}>
-          <BoutonAdd />
-        </Link>
-      </div>
-    </div>
 
-    {/* ******************* Liste de recettes****************************/}
-    <div className="row mx-auto mt-4">
-      {
-        recettes
-          .filter((recette)=>
-            recette.title.toLowerCase().includes(searchTerm.toLowerCase())
-          )
-          .map(recette => (
-            <RecetteCard key={recette.id} recette={recette} click={() => deleteById(recette.id)}/>
-            )) 
-      }
-      <PaginationComposant click={handleClickPagination}  />
-       <h4 
+      {/* ******************* Titre et bouton add ****************************/}
+      <div className="row">
+        <div className="col-12 d-flex justify-content-center">
+          <TitreH2 titre={'Livre de Recettes'} />
+        </div>
+        <div className="col-12 pe-4 d-flex justify-content-end">
+          <Link to={'/recette/add'}>
+            <BoutonAdd />
+          </Link>
+        </div>
+      </div>
+
+      {/* ******************* Liste de recettes****************************/}
+      <div className="row mx-auto mt-4">
+        {
+          recettes
+            .filter((recette) =>
+              recette.title.toLowerCase().includes(searchTerm.toLowerCase())
+            )
+            .map(recette => (
+              <RecetteCard key={recette.id} recette={recette} click={() => deleteById(recette.id)} />
+            ))
+        }
+        <h4
           hidden={recettes.length !== 0}
           className="center alert alert-warning"
-          >
-          <FontAwesomeIcon icon={faExclamation} style={{color:'rgb(106,53,53)',  fontSize: '1.5rem'}}/>
-          &nbsp; Aucune recette ne correspond à la recherche !
+        >
+          <FontAwesomeIcon icon={faExclamation} style={{ color: 'rgb(106,53,53)', fontSize: '1.5rem' }} />
+          &nbsp; Aucune recette ne correspond à la recherche
         </h4>
-    </div>
-    </> 
+        <PaginationComposant click={handleClickPagination}/>
+
+      </div>
+    </>
   );
 }
-  
+
 export default RecetteList;
