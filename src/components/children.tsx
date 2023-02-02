@@ -2,6 +2,13 @@ import { FunctionComponent } from 'react';
 import '../css/children.css';
 
 
+/****************** fonction Camelize qui transforme en CamelCase ************************/
+export function camelize(titre: string){
+  const tab : string[] = titre.split(" ");
+return  tab.map(word=>word.replace((word.charAt(0)), ()=>word.charAt(0).toUpperCase())).join(" ")
+  
+}
+
 /****************** Composant Encart de présentation ************************/
 export const BienvenueComponent: FunctionComponent = () => {
     
@@ -21,18 +28,28 @@ export const BienvenueComponent: FunctionComponent = () => {
 
 /****************** Composant titre  H2************************/
 type PropsTitreH2 = {
-  titre: string;
+  titre: string,
+  className?: string
 };
-  export const TitreH2: FunctionComponent<PropsTitreH2> = ({titre}) => {
-    function camelize(titre: string){
-      const tab : string[] = titre.split(" ");
-    return  tab.map(word=>word.replace((word.charAt(0)), ()=>word.charAt(0).toUpperCase())).join(" ")
-      
-    }
+  export const TitreH2: FunctionComponent<PropsTitreH2> = ({titre, className}) => {
     
     return (
-      <main id="titreH2">
+      <main id="titreH2" className={className}>
         <h2>{camelize(titre)}</h2>
+      </main>
+    );
+  };
+
+ /****************** Composant titre  H3************************/
+ type PropsTitreH3 = {
+  titre: string;
+  className?: string
+};
+  export const TitreH3: FunctionComponent<PropsTitreH5> = ({titre, className}) => {
+   
+    return (
+      <main id="titreH3">
+        <h3 className={className}>{camelize(titre)}</h3>
       </main>
     );
   };
@@ -40,15 +57,10 @@ type PropsTitreH2 = {
   /****************** Composant titre  H5************************/
 type PropsTitreH5 = {
   titre: string;
-  className: string
+  className?: string
 };
   export const TitreH5: FunctionComponent<PropsTitreH5> = ({titre, className}) => {
-    function camelize(titre: string){
-      const tab : string[] = titre.split(" ");
-    return  tab.map(word=>word.replace((word.charAt(0)), ()=>word.charAt(0).toUpperCase())).join(" ")
-      
-    }
-    
+   
     return (
       <main id="titreH5">
         <h5 className={className}>{camelize(titre)}</h5>

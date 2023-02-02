@@ -9,6 +9,18 @@ import { Recette } from "../models/recette";
     return recettes.data;
    }
 
+   export  async function getAllRecettePagine(page: number, size:number) : Promise<Recette[]>{
+      const recettes = await axios.get<Recette[]>(urlRecette + '/all', 
+      {
+         params : {
+            page: page,
+            size:size
+        }
+      });
+      console.log(recettes.data);
+      return recettes.data;
+     }
+
    export async function deleteRecetteById(id: number){
       const reponse = await axios.delete<Recette>(urlRecette + '/delete/' + id);
    }
