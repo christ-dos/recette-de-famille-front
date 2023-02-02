@@ -6,6 +6,7 @@ import RecetteEdit from "../page/Edit-recette-page";
 import HomePage from "../page/home-page";
 import { Inscription } from "../page/inscription";
 import PageNotFound from "../page/not_found_page";
+import Planning from "../page/planning-menu";
 import ProfilePage from "../page/Profile-page";
 import RecetteDetail from "../page/recette-details";
 import RecetteList from "../page/recettes-list";
@@ -26,6 +27,7 @@ const CustomRoutes: FunctionComponent = () => {
         <Route exact path="/inscription" component={Inscription} />
         <Route exact path="/connexion" component={Connexion} />
         <Route exact path="/recettes/edit/:id" component={RecetteEdit} />
+        <Route exact path="/planning" component={Planning} />
         <Route exact path="/*" component={PageNotFound} />
       </Switch>
 
