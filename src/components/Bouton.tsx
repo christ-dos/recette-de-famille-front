@@ -1,7 +1,7 @@
 import { faTrashAlt, IconDefinition } from '@fortawesome/free-regular-svg-icons';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, MouseEventHandler } from 'react';
 import '../css/bouton.css';
 import '../css/common.css';
 
@@ -51,14 +51,16 @@ export const BoutonClassique: FunctionComponent<Props> = ({ value, id, name , ty
 type BtnLienProps = {
   href: string,
   icon: IconDefinition,
+  onClick?: MouseEventHandler<SVGSVGElement>,
+  className?: string
 }
 /*********************************Bouton lien avec rediection ********************* */
-export const BoutonLiens: FunctionComponent<BtnLienProps> = ({ href, icon }) => {
+export const BoutonLiens: FunctionComponent<BtnLienProps> = ({ href, icon, onClick, className}) => {
 
   return (
     <>
       <div id="btn_lien" className='ps-1'>
-        <a href={href} className="btn btn-light border border-dark"><FontAwesomeIcon icon={icon} /></a>
+        <a href={href} className="btn btn-light border border-dark " style={{ width: '55px'}}><FontAwesomeIcon icon={icon} onClick={onClick} className={className} /></a>
       </div>
 
     </>

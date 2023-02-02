@@ -1,20 +1,23 @@
 import { faExclamation, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ChangeEvent, FunctionComponent, useEffect, useState } from 'react';
+import { ChangeEvent, FunctionComponent, MouseEventHandler, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BoutonAdd } from '../components/Bouton';
 import { TitreH2 } from '../components/children';
+import PaginationComposant from '../components/pagination_composant';
 import RecetteCard from '../components/recette-card';
 import {Recette} from '../models/recette';
-import { deleteRecetteById, findRecetteByTitle, getAllRecette } from '../services/RecetteService';
+import { deleteRecetteById, findRecetteByTitle, getAllRecette, getAllRecettePagine } from '../services/RecetteService';
 
 const RecetteList: FunctionComponent = () => {
   const [recettes, setRecettes] = useState<Recette[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [page, setPage] = useState(0);
   
 
   useEffect(() => {
-    getAllRecette().then(recettes=> setRecettes(recettes))
+   // getAllRecette().then(recettes=> setRecettes(recettes))
+    getAllRecettePagine(page, 9).then(recettes=> setRecettes(recettes));
   }, []);
 
   async function deleteById(id: number) {
@@ -35,6 +38,8 @@ const RecetteList: FunctionComponent = () => {
     findRecetteByTitle(titre).then(recettes=> setRecettes(recettes))
     
   }
+
+
 
   return (
     <>
@@ -85,6 +90,7 @@ const RecetteList: FunctionComponent = () => {
             <RecetteCard key={recette.id} recette={recette} click={() => deleteById(recette.id)}/>
             )) 
       }
+      <PaginationComposant />
        <h4 
           hidden={recettes.length !== 0}
           className="center alert alert-warning"

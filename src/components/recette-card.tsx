@@ -42,7 +42,6 @@ const RecetteCard: FunctionComponent<Props> = ({ recette, click}) => {
           </NavLink>
           <div className="card-footer d-flex justify-content-end  ">
               <DeleteModal id={recette.id} click={click}/>
-             {/*<button onClick={()=> childToParent(recettes)}> clic me</button> */} 
              <div>
                 <BoutonLiens href={'/recettes/edit/' + recette.id} icon={faPencil} />
              </div>
@@ -59,14 +58,4 @@ const RecetteCard: FunctionComponent<Props> = ({ recette, click}) => {
 
 export default RecetteCard;
 
-function getAllRecette() {
-  throw new Error('Function not implemented.');
-}
-function useState<T>(arg0: never[]): [any, any] {
-  throw new Error('Function not implemented.');
-}
-
-function useEffect(arg0: () => void, arg1: any[]) {
-  throw new Error('Function not implemented.');
-}
 

@@ -1,7 +1,6 @@
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FunctionComponent } from "react";
-import "../css/common.css";
 
 
 
@@ -12,7 +11,7 @@ const Retour: FunctionComponent = () => {
              <div className="container  mt-5 ">
                 <div className="me-4" >
                     <button type="button" className="btn custom-vert  ">
-                        <FontAwesomeIcon icon={faArrowLeft} style={{fontSize:'25'}}/>
+                        <FontAwesomeIcon icon={faArrowLeft} style={{fontSize:'30', color:'#83C5BE'}}/>
                     </button>
                 </div>
              </div>

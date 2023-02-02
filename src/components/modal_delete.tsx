@@ -1,8 +1,10 @@
+import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import { faTrash, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FunctionComponent, MouseEventHandler, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { BoutonLiens } from './Bouton';
 
 type Props = {
     id: number,
@@ -19,24 +21,12 @@ const DeleteModal: FunctionComponent<Props> = ({id, click}) => {
 
 
 
-    /*async function deleteRecette(id:number) {
-
-       await deleteRecetteById(id);
-       console.log(isClicked)
-       setShow(false);
-
-
-    }*/
-
-
     return (
         <>
-            <div className='ps-1' >
-                <button className="btn btn-light border border-dark" onClick={handleShow} style={{ color:  '#c79d6f'}}>
-                    <FontAwesomeIcon icon={faTrash} />
-                </button>
+            <div>
+                <BoutonLiens href={'#'} icon={faTrash} onClick={handleShow}/>
             </div>
-
+           
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton  className='custom-bg-vert'>
                     <Modal.Title>Supprimer Recette</Modal.Title>
