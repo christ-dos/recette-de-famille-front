@@ -1,22 +1,39 @@
 
+import { click } from "@testing-library/user-event/dist/click";
 import { FunctionComponent, MouseEventHandler } from "react";
 import Pagination from 'react-bootstrap/Pagination';
+import { Recette } from "../models/recette";
+import { getAllRecette } from "../services/RecetteService";
 
 
 type Props={
-    numeroPage?: number,
+    nombrePage?: number,
     nombreTotaldePage?: number,
-    //click: MouseEventHandler
+    click?:any
+    
 }
-const PaginationComposant: FunctionComponent<Props> = ({ }) =>{
+const PaginationComposant: FunctionComponent<Props> = ({click}) =>{
+    
     let selected = 1;
     let items = [];
-    for (let page = 1; page <= 7; page++) {
+
+    const handleClickPagination = async (nombre:number): Promise<any> =>{
+       const recettes: Recette[] = await getAllRecette();
+       let totalPages = (await getAllRecette()).length;
+       let itemsParPages = 9;
+       console.log("total pages " + totalPages)
+       }
+    
+
+       for (let page = 1; page <= 7; page++) {
+        
+        
         items.push(
-            <Pagination.Item key={page} active={page === selected}>
+            <Pagination.Item key={page} active={page === selected} onClick={()=>click(page)}>
                 {page}
             </Pagination.Item>,
         );
+        
     }
     return (
 
