@@ -34,7 +34,7 @@ const Header: FunctionComponent = () => {
                                         href="#" to={"/livrerecettes"}>Livre de recette</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link className="nav-link active custom-bleu" href="#" to={""}>Menu de la
+                                        <Link className="nav-link active custom-bleu" href="#" to={"/planning"}>Menu de la
                                             semaine</Link>
                                     </li>
                                     <li className="nav-item">
