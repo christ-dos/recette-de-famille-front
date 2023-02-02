@@ -1,6 +1,6 @@
 import { faExclamation, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ChangeEvent, FunctionComponent, MouseEventHandler, useEffect, useState } from 'react';
+import { ChangeEvent, FunctionComponent, MouseEvent, MouseEventHandler, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BoutonAdd } from '../components/Bouton';
 import { TitreH2 } from '../components/children';
@@ -17,8 +17,10 @@ const RecetteList: FunctionComponent = () => {
 
   useEffect(() => {
    // getAllRecette().then(recettes=> setRecettes(recettes))
-    getAllRecettePagine(page, 9).then(recettes=> setRecettes(recettes));
-  }, []);
+    getAllRecettePagine(page, 6).then(recettes=> setRecettes(recettes));
+    
+    
+  }, [page]);
 
   async function deleteById(id: number) {
     await deleteRecetteById(id);
@@ -39,8 +41,14 @@ const RecetteList: FunctionComponent = () => {
     
   }
 
-
-
+const handleClickPagination = (nombre:number, selected: number): any =>{
+   setPage(nombre)
+   selected = nombre;
+  let totalPages = recettes.length
+  let itemsParPages = 9;
+  console.log("total pages " + totalPages)
+  }
+  console.log(page);
   return (
     <>
      {/* ******************* input search ****************************/}
@@ -90,7 +98,7 @@ const RecetteList: FunctionComponent = () => {
             <RecetteCard key={recette.id} recette={recette} click={() => deleteById(recette.id)}/>
             )) 
       }
-      <PaginationComposant />
+      <PaginationComposant click={handleClickPagination}  />
        <h4 
           hidden={recettes.length !== 0}
           className="center alert alert-warning"
