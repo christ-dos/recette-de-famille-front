@@ -3,11 +3,7 @@ h1 {
     font-size: 80px;
 }
 
-.figure {
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 2%;
-}
+
 
 .mystere {
     max-width: 100%;
@@ -16,8 +12,9 @@ h1 {
 }
 
 .h3 {
-    margin-bottom: 10%;
+    margin-bottom: 2%;
     color: #77A8CC;
+    margin-top: 2%;
 }
 
 
@@ -39,5 +36,5 @@ h4 {
 }
 
 .duree {
-    margin-top: 10%;
+    margin-top: 5%;
 }
