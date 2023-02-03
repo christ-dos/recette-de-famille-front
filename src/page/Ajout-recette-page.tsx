@@ -1,3 +1,4 @@
+import { log } from "console";
 import { FunctionComponent, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
@@ -18,7 +19,7 @@ const AjoutRecettePage: FunctionComponent = () => {
     }
 
     const createRecipe = (data: any) => {
-        return fetch('http://localhost:3001/recipes', {
+        return fetch('http://localhost:8082/recette/add', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(data),
@@ -27,13 +28,26 @@ const AjoutRecettePage: FunctionComponent = () => {
     };
 
     function onSubmit(data:any) {
+        console.log(data);
         console.log(count)
         const ingredients = [];
+        const RecettesIngredients = [];
         for (let i = 0; i <= count; i++) {
+
             ingredients.push({name: data[`ingredient-${i}`], quantity: data[`quantity-${i}`]})
             delete data[`ingredient-${i}`];
             delete data[`quantity-${i}`];
+
+            RecettesIngredients.push({
+                quantite: data[`quantity-${i}`],
+                uniteMesure: data[`uniteMesure-${i}`],
+                ingredient: data[`name-${i}`]
+        });
+
+
         }
+
+        
 
         data.ingredients = ingredients;
         createRecipe(data,).then((response) => {
@@ -64,7 +78,7 @@ const AjoutRecettePage: FunctionComponent = () => {
                             </figure>
                         </div>
 
-                        <div className="col-12 col-md-6 col-lg-6  ">
+                        <div className="col-12 col-md-6 col-lg-6">
 
                             <div className="input-group mb-3">
                                 <span className="input-group-text" id="inputGroup-sizing-default">Titre</span>
@@ -72,7 +86,6 @@ const AjoutRecettePage: FunctionComponent = () => {
                                        aria-label="Sizing example input"
                                        aria-describedby="inputGroup-sizing-default"/>
                             </div>
-
 
                             <div className="form-floating ">
                             <textarea {...register("comment")} className={`form-control ${styles.textarea}`}
