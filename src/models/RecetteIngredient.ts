@@ -1,5 +1,4 @@
 import { Ingredient } from "./Ingredient";
-import { Recette } from "./recette";
 
 export enum UniteMesureEnum {
     GRAMME,
