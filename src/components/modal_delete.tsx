@@ -19,7 +19,7 @@ const DeleteModal: FunctionComponent<Props> = ({id, click}) => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-
+    
 
     return (
         <>
@@ -36,7 +36,7 @@ const DeleteModal: FunctionComponent<Props> = ({id, click}) => {
                     <Button variant="secondary" onClick={handleClose}>
                         Fermer
                     </Button>
-                    <Button variant="danger" name={"supprimer"} disabled={isClicked} onClick={click}>
+                    <Button variant="danger" name={"supprimer"} onClick={click}>
                         Supprimer
                     </Button>
                 </Modal.Footer>

@@ -6,7 +6,8 @@ import { Ingredient } from "../models/Ingredient";
 
   export  async function getAllIngredient() : Promise<Ingredient[]>{
      const ingredients = await axios.get<Ingredient[]>(urlIngredient + '/all')
-  
+    //console.log(ingredients.data);
+    
      return ingredients.data;
     }
  

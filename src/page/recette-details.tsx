@@ -59,7 +59,7 @@ const RecetteDetail: FunctionComponent<RouteComponentProps<Params>> = ({ match},
             <TitreH2 titre={recette.title}/>
             <div className="card shadow-lg">
               <div className=" d-flex justify-content-center">
-                <img src={recette.urlPicture} alt={recette.title} style={{ width: '450px', margin: '0 auto', marginBottom: '20px', marginTop: '20px' }} />
+                <img src={recette.urlPicture} alt={`image de ${recette.title}`} style={{ width: '450px', margin: '0 auto', marginBottom: '20px', marginTop: '20px' }} />
               </div>
               <TitreH3 titre={"Ingredients"} className={"ms-4 custom-color-dore"} />
               <hr />

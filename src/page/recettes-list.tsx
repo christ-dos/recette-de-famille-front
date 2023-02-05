@@ -13,19 +13,19 @@ const RecetteList: FunctionComponent = () => {
   const [recettes, setRecettes] = useState<Recette[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(0);
+  const [items, setItems] = useState(6);
 
 
   useEffect(() => {
     // getAllRecette().then(recettes=> setRecettes(recettes))
 
-    getAllRecettePagine(page, 6).then(recettes => setRecettes(recettes.data.content));
+    getAllRecettePagine(page, items).then(recettes => setRecettes(recettes.data.content));
 
-
-  }, [page]);
+  }, [page, items]);
 
   async function deleteById(id: number) {
     await deleteRecetteById(id);
-    getAllRecette().then(recettes => setRecettes(recettes))
+    getAllRecettePagine(page, items).then(recettes => setRecettes(recettes.data.content));
   }
 
   const handleSearchTerm = (e: ChangeEvent<HTMLInputElement>) => {
@@ -43,14 +43,12 @@ const RecetteList: FunctionComponent = () => {
   }
 
   const handleClickPagination = (nombre: number): any => {
-    console.log("nombre:" + nombre);
-    
+
     if (nombre === -1) {
       if (page < 0) {
         setPage(0);
       } else {
         setPage((page - 1));
-        console.log("setpages:" + page);
       }
 
     } else if (nombre === -2) {
@@ -59,16 +57,12 @@ const RecetteList: FunctionComponent = () => {
       }else{
         setPage(0);
       }
-     
-      console.log("setpages:" + page);
-
     } else {
       setPage(nombre);
     }
 
   }
 
-  console.log("page sortie methode:" + page);
   return (
     <>
       {/* ******************* input search ****************************/}

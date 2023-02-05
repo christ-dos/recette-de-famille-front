@@ -1,5 +1,6 @@
 import { Ingredient } from "./Ingredient";
 
+
 export enum UniteMesureEnum {
     GRAMME,
     KILOGRAMME,
@@ -8,9 +9,10 @@ export enum UniteMesureEnum {
     CENTILITRE,
     PIECE,
     CUILLEREASOUPE,
-    CUILLEREACAFE, 
-    TRANCHE, 
-    PINCEE
+    CUILLEREACAFE,
+    TRANCHE,
+    PINCEE,
+    map
 }
 
 type RecetteIngredientId  = {
