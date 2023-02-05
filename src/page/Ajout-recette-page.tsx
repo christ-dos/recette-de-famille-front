@@ -3,17 +3,17 @@ import { FunctionComponent, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { TitreH2 } from "../components/children";
-import styles  from '../css/ajout-recette-page.module.css';
+import styles from '../css/ajout-recette-page.module.css';
 
 const AjoutRecettePage: FunctionComponent = () => {
 
-  const [ingredients, setIngredients] = useState([{name: '', quantity: ''}]);
+    const [ingredients, setIngredients] = useState([{ name: '', quantity: '' }]);
     const [count, setCount] = useState(0);
 
-    const {register, handleSubmit} = useForm();
+    const { register, handleSubmit } = useForm();
 
     function addNewLine() {
-        const newLine = {name: '', quantity: ''}
+        const newLine = { name: '', quantity: '' }
         setIngredients([...ingredients, newLine])
         setCount(count + 1);
     }
@@ -21,7 +21,7 @@ const AjoutRecettePage: FunctionComponent = () => {
     const createRecipe = (data: any) => {
         return fetch('http://localhost:8082/recette/add', {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
         }).then((response) => response.json())
             .catch((error) => console.log(error));
@@ -58,51 +58,43 @@ const AjoutRecettePage: FunctionComponent = () => {
             }
         })
     }
-  
+
 
     return (
-      <>
-      <TitreH2 titre={"Ajouter une Recette"}/>
+        <>
+            <TitreH2 titre={"Ajouter une Recette"} />
 
-      <form action="" onSubmit={handleSubmit(onSubmit)}>
-                <main className="container">
-                    <section className="row d-flex justify-content-around">
-                        <div className="col-12 col-md-6 col-lg-6  ">
+            <form action="" onSubmit={handleSubmit(onSubmit)} >
+                <main className="container ">
+                    <div className="d-flex justify-content-center">
+                        <div className="input-group-text  mt-5 w-50 ">
+                            <span className="input-group-text" id="inputGroup-sizing-default">Titre</span>
+                            <input {...register("title")} type="text" className="form-control"
+                                aria-label="Sizing example input"
+                                aria-describedby="inputGroup-sizing-default" />
+                        </div>
+                    </div>
 
+                    <div className="d-flex flex-column mt-5 ">
+                        <div className=" d-flex justify-content-center mt-5" >
                             <label htmlFor="avatar">Choisir une image:</label>
                             <input {...register("file")} type="file" id="avatar" name="avatar"
-                                   accept="image/png, image/jpeg"/>
-
-                            <figure className={styles.figure}>
-                                <img className={styles.mystere} src="./images/mystere.jpg" alt="point d'interrogation"/>
+                                accept="image/png, image/jpeg" />
+                        </div>
+                        <div className=" d-flex justify-content-center mt-5">
+                            <figure >
+                                <img className={styles.mystere} src="/images/mystere.jpg" alt="point d'interrogation" />
                             </figure>
                         </div>
+                    </div>
 
-                        <div className="col-12 col-md-6 col-lg-6">
-
-                            <div className="input-group mb-3">
-                                <span className="input-group-text" id="inputGroup-sizing-default">Titre</span>
-                                <input {...register("title")} type="text" className="form-control"
-                                       aria-label="Sizing example input"
-                                       aria-describedby="inputGroup-sizing-default"/>
-                            </div>
-
-                            <div className="form-floating ">
-                            <textarea {...register("comment")} className={`form-control ${styles.textarea}`}
-                                      placeholder="Leave a comment here"
-                                      id="floatingTextarea"></textarea>
-                                <label htmlFor="floatingTextarea">Présentation</label>
-
-                            </div>
-                        </div>
-                    </section>
                 </main>
                 <main className="container mt-4">
                     <section className="row">
                         <div className="col-12 col-md-6 col-lg-6 ">
                             <h3 className={styles.h3}>Infos clés</h3>
-                            <select {...register('difficulty')} className="form-select form-select-lg mb-3"
-                                    aria-label=".form-select-lg example">
+                            <select {...register('difficulty')} className="form-select form-select-lg mb-3 w-50"
+                                aria-label=".form-select-lg example">
                                 <option selected>Difficultés</option>
                                 <option value="1">Facile</option>
                                 <option value="2">Intermédiaire</option>
@@ -111,14 +103,10 @@ const AjoutRecettePage: FunctionComponent = () => {
                             <div className={styles.duree}>
                                 <h4>Temps de préparation</h4>
                                 <div className=" d-flex flex-row justify-content-between">
-                                    <div className="input-group w-50 ">
-                                        <input {...register("hourPrep")} type="text" className="form-control"
-                                               aria-label="Dollar amount (with dot and two decimal places)"/>
-                                        <span className="input-group-text">Heures</span>
-                                    </div>
+
                                     <div className="input-group w-50">
-                                        <input {...register("minPrep")} type="text" className="form-control"
-                                               aria-label="Dollar amount (with dot and two decimal places)"/>
+                                        <input {...register("minPrep")} type="text" className="form-control "
+                                            aria-label="Dollar amount (with dot and two decimal places)" />
                                         <span className="input-group-text">Minutes</span>
                                     </div>
                                 </div>
@@ -126,14 +114,10 @@ const AjoutRecettePage: FunctionComponent = () => {
                             <div className={styles.duree}>
                                 <h4>Temps de cuisson</h4>
                                 <div className=" d-flex flex-row justify-content-between">
-                                    <div className="input-group w-50 ">
-                                        <input {...register("hourCuisson")} type="text" className="form-control "
-                                               aria-label="Dollar amount (with dot and two decimal places)"/>
-                                        <span className="input-group-text ">Heures</span>
-                                    </div>
+
                                     <div className="input-group w-50">
                                         <input {...register("minCuisson")} type="text" className="form-control"
-                                               aria-label="Dollar amount (with dot and two decimal places)"/>
+                                            aria-label="Dollar amount (with dot and two decimal places)" />
                                         <span className="input-group-text">Minutes</span>
                                     </div>
                                 </div>
@@ -142,14 +126,10 @@ const AjoutRecettePage: FunctionComponent = () => {
                             <div className={styles.duree}>
                                 <h4>Temps de repos</h4>
                                 <div className=" d-flex flex-row justify-content-between">
-                                    <div className="input-group w-50 ">
-                                        <input {...register('hourRepos')} type="text" className="form-control "
-                                               aria-label="Dollar amount (with dot and two decimal places)"/>
-                                        <span className="input-group-text ">Heures</span>
-                                    </div>
+
                                     <div className="input-group w-50">
                                         <input {...register('minRepos')} type="text" className="form-control"
-                                               aria-label="Dollar amount (with dot and two decimal places)"/>
+                                            aria-label="Dollar amount (with dot and two decimal places)" />
                                         <span className="input-group-text">Minutes</span>
                                     </div>
                                 </div>
@@ -157,11 +137,11 @@ const AjoutRecettePage: FunctionComponent = () => {
                         </div>
                         <div className="col-12 col-md-6 col-lg-6 ">
                             <h3 className={styles.h3}>Ingrédients</h3>
-                            <h4>Nombre de personnes</h4>
+                            <h4 className="mb-3">Nombre de personnes</h4>
                             <div className=" d-flex flex-row justify-content-between">
-                                <div className="input-group w-50 ">
+                                <div className="input-group w-50 mb-3 ">
                                     <input {...register("numOfPeople")} type="text" className="form-control "
-                                           aria-label="Dollar amount (with dot and two decimal places)"/>
+                                        aria-label="Dollar amount (with dot and two decimal places)" />
                                     <span className="input-group-text ">personnes</span>
                                 </div>
 
@@ -169,29 +149,29 @@ const AjoutRecettePage: FunctionComponent = () => {
 
                             <h4>Ingrédients</h4>
                             {ingredients.map((ingredient, index) =>
-                                (
-                                    <div className=" d-flex flex-row justify-content-between mb-1">
-                                        <div className="input-group w-50 ">
-                                            <input type="number"
-                                                   className="form-control" {...register(`quantity-${index}`)}
-                                                   aria-label="Dollar amount (with dot and two decimal places)"
-                                                   onChange={(e) => console.log(e.target.value)}
-                                            />
-                                            <span className="input-group-text">Quantité</span>
-                                        </div>
-                                        <div className="input-group w-50">
-                                            <input type="text"
-                                                   className="form-control" {...register(`ingredient-${index}`)}
-                                                   aria-label="Dollar amount (with dot and two decimal places)"
-                                                   onChange={(e) => console.log(e.target.value)}
-                                            />
-                                            <span className="input-group-text">Ingrédient</span>
-                                        </div>
+                            (
+                                <div className=" d-flex flex-row justify-content-between mb-1">
+                                    <div className="input-group w-50 ">
+                                        <input type="number"
+                                            className="form-control" {...register(`quantity-${index}`)}
+                                            aria-label="Dollar amount (with dot and two decimal places)"
+                                            onChange={(e) => console.log(e.target.value)}
+                                        />
+                                        <span className="input-group-text">Quantité</span>
                                     </div>
-                                ))}
+                                    <div className="input-group w-50 ms-2">
+                                        <input type="text"
+                                            className="form-control" {...register(`ingredient-${index}`)}
+                                            aria-label="Dollar amount (with dot and two decimal places)"
+                                            onChange={(e) => console.log(e.target.value)}
+                                        />
+                                        <span className="input-group-text">Ingrédient</span>
+                                    </div>
+                                </div>
+                            ))}
 
                             <Button className="mt-3" variant="secondary" type={"button"}
-                                    onClick={addNewLine}>+</Button>
+                                onClick={addNewLine}>+</Button>
                         </div>
                     </section>
                 </main>
@@ -200,22 +180,22 @@ const AjoutRecettePage: FunctionComponent = () => {
                         <div className="col-12 col-md-12 col-lg-12 ">
                             <h3 className={styles.h3}>Préparation</h3>
                             <div className="form-floating">
-                            <textarea {...register("steps")} className={`form-control ${styles.textarea}`}
-                                      placeholder="Leave a comment here"
-                                      id="floatingTextarea"></textarea>
+                                <textarea {...register("steps")} className={`form-control ${styles.textarea}`}
+                                    placeholder="Leave a comment here"
+                                    id="floatingTextarea"></textarea>
                                 <label htmlFor="floatingTextarea">Aller à la ligne pour chaque étape</label>
                             </div>
                         </div>
                     </section>
                 </main>
-
-                <Button className="mt-3" variant="secondary" type={"submit"}>Valider</Button>
+                <div className="d-flex justify-content-center">
+                    <Button className="mt-3 " variant="secondary" type={"submit"}>Valider</Button>
+                </div>
             </form>
-        
-      </>
+
+        </>
     );
-  }
-  
-  export default AjoutRecettePage;
-  
-  
+}
+
+export default AjoutRecettePage;
+
