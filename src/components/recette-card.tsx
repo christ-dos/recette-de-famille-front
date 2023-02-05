@@ -24,16 +24,19 @@ const RecetteCard: FunctionComponent<Props> = ({ recette, click }) => {
         <NavLink to={'/recettes/' + recette.id} style={{ textDecoration: 'none' }}>
           <div className="row g-0">
             <div className=" col-12 col-sm-6 image">
-              <img src={recette.urlPicture} className="img-fluid rounded-start " alt="image de la recette" />
+              <img src={recette.urlPicture} 
+              className="img-fluid rounded-start " 
+              alt="image de la recette" 
+              style={{objectFit: 'scale-down'}} />
             </div>
             <div className=" col-12 col-sm-6">
               <div className="card-body text-light">
                 <TitreH5 titre={recette.title} className="card-title overflow-elipsis" />
 
                 <blockquote>
-                  <p className="card-text">{recette.difficultyLevel}</p>
-                  <p className="card-text">{recette.numberOfPeople} parts</p>
-                  <p className="card-text">{recette.totalTimePreparation}</p>
+                  <p className="card-text overflow-elipsis">{recette.difficultyLevel}</p>
+                  <p className="card-text overflow-elipsis">{recette.numberOfPeople} parts</p>
+                  <p className="card-text overflow-elipsis">{recette.totalTimePreparation}</p>
                 </blockquote>
               </div>
             </div>
