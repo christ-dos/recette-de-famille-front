@@ -31,14 +31,14 @@ const Header: FunctionComponent = () => {
                                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                                     <li className="nav-item ">
                                         <Link className="nav-link active custom-bleu " aria-current="page"
-                                        href="#" to={"/livrerecettes"}>Livre de recette</Link>
+                                        to={"/livrerecettes"}>Livre de recette</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link className="nav-link active custom-bleu" href="#" to={"/planning"}>Menu de la
+                                        <Link className="nav-link active custom-bleu" to={"/planning"}>Menu de la
                                             semaine</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link className="nav-link custom-bleu" href="#" to={"/profile"}>Profil</Link>
+                                        <Link className="nav-link custom-bleu" to={"/profile"}>Profil</Link>
                                     </li>
                                 </ul>
                                

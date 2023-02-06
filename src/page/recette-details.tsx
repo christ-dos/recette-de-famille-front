@@ -41,10 +41,7 @@ const RecetteDetail: FunctionComponent<RouteComponentProps<Params>> = ({ match},
     console.log("recette supprimre pour id " + match.params.id);
     setRecette(null)
     
-    //etRecetteById(+match.params.id).then(recette=>setRecette(recette))
   }
-
- 
 
   return (
 
@@ -54,12 +51,13 @@ const RecetteDetail: FunctionComponent<RouteComponentProps<Params>> = ({ match},
           <div className="col-12 col-sm col-md">
             <div className='container d-flex flex-row-reverse mt-4' >
               <DeleteModal id={recette.id} click={()=>deleteById()} />
-              <BoutonLiens href={''} icon={faPencil}/>
+              <BoutonLiens href={'/recettes/edit/' + recette.id} icon={faPencil}/>
             </div>
             <TitreH2 titre={recette.title}/>
             <div className="card shadow-lg">
               <div className=" d-flex justify-content-center">
-                <img src={recette.urlPicture} alt={`image de ${recette.title}`} style={{ width: '450px', margin: '0 auto', marginBottom: '20px', marginTop: '20px' }} />
+                <img src={recette.urlPicture} alt={`image de ${recette.title}`} 
+                style={{ width: '450px', margin: '0 auto', marginBottom: '20px', marginTop: '20px' }} />
               </div>
               <TitreH3 titre={"Ingredients"} className={"ms-4 custom-color-dore"} />
               <hr />

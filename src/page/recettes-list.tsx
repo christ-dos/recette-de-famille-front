@@ -106,8 +106,7 @@ const RecetteList: FunctionComponent = () => {
         {
           recettes
             .filter((recette) =>
-              recette.title.toLowerCase().includes(searchTerm.toLowerCase())
-            )
+              recette.title.toLowerCase().includes(searchTerm.toLowerCase()))
             .map(recette => (
               <RecetteCard key={recette.id} 
               recette={recette} 
