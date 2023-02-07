@@ -5,7 +5,7 @@ import { TitreH2 } from "../components/children";
 import styles from '../css/ajout-recette-page.module.css';
 import { Ingredient } from "../models/Ingredient";
 import { Recette } from "../models/recette";
-import { recettesIngredients, UniteMesureEnum } from "../models/RecetteIngredient";
+import { UniteMesureEnum } from "../models/RecetteIngredient";
 import { getCategorieById } from "../services/CategorieService";
 import { getAllIngredient } from "../services/IngredientService";
 
@@ -20,13 +20,10 @@ type Field = {
   isValid?: boolean
 }
 
-type IngredientLine = {
-  name: string,
-  quantite: number,
-  uniteMesure: UniteMesureEnum
-}
 
 type Form = {
+  id: Field,
+
   title: Field,
 
   urlPicture: Field
@@ -53,13 +50,16 @@ type Form = {
 
 const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
 
-  const [recettesIngredients, setRecettesIngredients] = useState<recettesIngredients[]>([]);
+  const [recettesIngredients, setRecettesIngredients] = useState<any>([{ingredient: { name: '', urlPicture: ''}, uniteMesure: UniteMesureEnum, quantity: 0}]);
   const [allIngredients, setAllIngredients] = useState<Ingredient[]>([]);
   const [count, setCount] = useState(0);
   const [selectedFile, setSelectedFile] = useState<any>()
   const [preview, setPreview] = useState<string | undefined>()
   const [searchTerm, setSearchTerm] = useState("")
+ // const [categorie, setCategorie] = useState("")
   const [form, setForm] = useState<Form>({
+
+    id: { value: recette.id, isValid: true },
 
     title: { value: recette.title, isValid: true },
 
@@ -94,25 +94,11 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
 
   useEffect(() => {
     getAllIngredient().then(allIngredients => setAllIngredients(allIngredients));
-    //console.log(allIngredients);
-
-    getCategorieSelect()
+   
+    getCategorieSelect();
     getDifficultySelect(recette);
-    // displayIngredients(recette)
-    // recette.recettesIngredients.map((recetteIngredient) => {
-    /* recette.recettesIngredients.forEach(element => {
-       let newLine = {
-         ingredient: { name: element.ingredient.name},
-         uniteMesure: element.uniteMesure,
-         quantity: element.quantite
-       }
-      
-      });*/
-
-
-
-    //  })
-
+    getUniteMesureSelect();
+   
   }, []);
 
 
@@ -130,14 +116,8 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
   }, [selectedFile])
 
   useEffect(() => {
-    console.log("********************************* evolution recettes ingre", recettesIngredients)
-    console.log(recettesIngredients.length)
+    
   }, [recettesIngredients]);
-
-  function hasUniteMesure(uniteMesure: string): boolean {
-
-    return form.recettesIngredients.value.includes(uniteMesure);
-  }
 
 
   function getDifficultySelect(recette: Recette) {
@@ -160,13 +140,22 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
         console.log("choix impossible")
         break;
     }
-    const selectDifficulté = document.getElementById('difficultyLevel')
-    console.log("choix: " + choix)
-    const optionDifficulte = selectDifficulté?.getElementsByTagName('option')[choix]
+    const selectDifficulte = document.getElementById('difficultyLevel')
+    const optionDifficulte = selectDifficulte?.getElementsByTagName('option')[choix]
     console.log(optionDifficulte);
     optionDifficulte?.setAttribute('selected', 'selected');
+   // optionDifficulte?.setAttribute('defaultValue', recette.difficultyLevel.toLowerCase());
+   // console.log(optionDifficulte?.getAttribute('defaultValue'));
   }
 
+  function getUniteMesureSelect() {
+
+    const selectUniteMesure = document.getElementById('uniteMesure')
+    console.log(selectUniteMesure)
+    const optionUniteMesure = selectUniteMesure?.getElementsByTagName('option').namedItem('KILOGRAMME')
+    console.log(optionUniteMesure?.getAttribute('defaultValue'))
+    optionUniteMesure?.setAttribute('selected', 'selected');
+  }
 
   function getCategorieSelect() {
 
@@ -175,14 +164,12 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
     optionCategorie?.setAttribute('selected', 'selected');
   }
 
- 
   function addNewLine() {
     const newLine = { ingredient: { name: '', urlPicture: '' }, uniteMesure: '', quantite: 0 }
-    //setRecettesIngredients([...recettesIngredients, newLine])
+    setRecettesIngredients([...recettesIngredients, newLine])
     setCount(count + 1);
   }
 
-  
   function deleteLine() {
     if (recettesIngredients.length > 1) {
       recettesIngredients.pop()
@@ -190,21 +177,21 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
     }
   }
 
-  const createRecipe = (data: any) => {
+  const updateRecipe = (data: any) => {
     return fetch('http://localhost:8082/recette/update', {
-      method: 'UPDATE',
+      method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     }).then((response) => response.json())
       .catch((error) => console.log(error));
   };
 
-  /*function getIngedientByName(name: string): Ingredient | undefined {
+  function getIngedientByName(name: string): Ingredient | undefined {
     const result = allIngredients.filter(x => x.name.toLowerCase() === name.toLowerCase())
     if (result) {
       return result[0];
     }
-  }*/
+  }
 
   const onSelectFile = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) {
@@ -225,24 +212,37 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
   }
 
   async function onSubmit(data: any) {
-    console.log(data)
+    console.log("datas:" ,data)
+    console.log("picture:" ,data.urlPicture)
+    console.log("id: " + data.id)
 
-    let blob = data.urlPicture[0].slice();
+    if (selectedFile) {
+      let blob = selectedFile.slice();
 
-    let reader = new FileReader();
-    reader.readAsDataURL(blob);
-    reader.onload = function () {
-      data.urlPicture = reader.result;
-    }
+      let reader = new FileReader();
+      reader.readAsDataURL(blob);
+
+      reader.onload = function () {
+          data.urlPicture = reader.result;
+      }
+  } else {
+      data.urlPicture = '/images/mystere.jpg';
+  }
 
     const recettesIngredients = [];
-
+    console.log("cate: ", data.categorie);
     const resultCategorie = await getCategorieById(data.categorie);
     data.categorie = { id: resultCategorie.id, name: resultCategorie.name, urlPicture: resultCategorie.urlPicture }
 
+    data.recettesIngredients.map((recIng: any) => console.log(recIng.ingredient.name));
+    data.recettesIngredients.map((recIng: any) => {
+        const ingredient = getIngedientByName(recIng.ingredient.name)
+        recIng.ingredient = ingredient;
+    });
+
     //  data.recettesIngredients = recettesIngredients
 
-    createRecipe(data).then((response) => {
+    updateRecipe(data).then((response) => {
       if (response.error) {
         console.log(response.error);
       } else {
@@ -255,20 +255,22 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
     <>
       <TitreH2 titre={"Editer une Recette"} />
       <form action="" onSubmit={handleSubmit(onSubmit)} className="border border-secundary shadow-lg">
+        
         <main className="container" >
           <div className='row mx-4 my-2 pb-3 mt-3' style={{
             border: '1px 1px solidrgba(131,197,190,0.9)', backgroundColor: 'rgba(131,197,190,0.1)',
-            boxShadow: '1px 1px 1px rgba(131,197,190,0.9)', borderRadius: ' 20px'
+            boxShadow: '1px 1px 1px rgba(131,197,190,0.9)', borderRadius: '20px'
           }}>
             <div className="d-flex justify-content-center">
               <div className="input-group-text  mt-5 w-50 ">
+              <input type="text"  hidden value={form.id.value} {...register("id")}/>
                 <span className="input-group-text" id="inputGroup-sizing-default">Titre</span>
-                <input {...register("title")}
-                  type="text"
+                <input type="text"
+                {...register("title")}
                   className="form-control"
                   aria-label="Sizing example input"
                   aria-describedby="inputGroup-sizing-default"
-                  value={form.title.value}
+                  defaultValue={form.title.value}
                   id="title" />
               </div>
             </div>
@@ -277,9 +279,12 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
             <div className="d-flex flex-column ">
               <div className=" d-flex justify-content-center mt-5" >
                 <label htmlFor="avatar">Choisir une image:</label>
-                <input  {...register("urlPicture")} type="file" id="avatar"
+                <input  {...register("urlPicture")} 
+                  type="file" 
+                  id="avatar"
                   accept="image/png, image/jpeg"
                   onChange={onSelectFile}
+                  
                 />
               </div>
               {<p className="text-danger d-flex justify-content-center">{errors.urlPicture?.message?.toString()}</p>}
@@ -303,7 +308,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
               <select {...register('difficultyLevel')} className="form-select form-select-lg mb-3 w-50"
                 aria-label=".form-select-lg example"
                 id="difficultyLevel">
-                <option selected defaultValue={'Facile'}>Difficultés</option>
+                <option selected value={'facile'}>Difficultés</option>
                 <option value="facile">Facile</option>
                 <option value="intermediaire">Intermédiaire</option>
                 <option value="difficile">Difficile</option>
@@ -314,7 +319,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                 className="form-select form-select-lg mb-3 w-50 "
                 aria-label=".form-select-lg example"
                 id="categorie">
-                <option selected value="0">Catégories</option>
+                <option selected defaultValue="0">Catégories</option>
                 <option value="1">Plat</option>
                 <option value="2">Entrees</option>
                 <option value="3">Desserts</option>
@@ -400,11 +405,12 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
 
               <h4 className="custom-color-dore">Ingrédients</h4>
 
-              {recette.recettesIngredients.map(ingredient => (
+              {recette.recettesIngredients.map((ingredient, index) => (
                 <>
                   <div className=" d-flex flex-row justify-content-between mb-1 mt-3">
                     <div className="me-2">
                       <input type="text"
+                      {...register(`recettesIngredients.${index}.ingredient.name`)}
                         className="form-control"
                         aria-label="Dollar amount (with dot and two decimal places)"
                         onChange={(e) => handleSearchTerm(e)}
@@ -415,13 +421,16 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                       {allIngredients
                         .filter(ingredient => ingredient.name.includes(searchTerm))
                         .map(ingredient =>
-                          <option value={ingredient.name} />
+                          <option key={ingredient.id} defaultValue={ingredient.name} />
                         )}
                     </datalist>
                     </div>
 
                     <div>
-                      <input type="number" step={1} min={0}
+                      <input type="number" 
+                       {...register(`recettesIngredients.${index}.quantite`)}
+                        step={1} 
+                        min={0}
                         className="form-control"
                         aria-label="Dollar amount (with dot and two decimal places)"
                         onChange={(e) => console.log(e.target.value)}
@@ -431,13 +440,15 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
 
                     <select
                       className="form-select form-select mb-3 w-50 ms-2"
+                      {...register(`recettesIngredients.${index}.uniteMesure`)}
                       required
-                      aria-label=".form-select example">
+                      aria-label=".form-select example"
+                      id="uniteMesure">
                       <option selected>Mesure</option>
                       {Object.keys(UniteMesureEnum)
                         .filter(key => isNaN(Number(key)))
                         .filter(key => key != "map")
-                        .map(key => <option value={key}>{key}</option>)}
+                        .map(key => <option key={key} defaultValue={key}>{key}</option>)}
                     </select>
 
                   </div></>

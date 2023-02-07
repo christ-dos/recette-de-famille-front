@@ -170,7 +170,6 @@ const AjoutRecettePage: FunctionComponent = () => {
         data.recettesIngredients.map((recIng: any) => {
             const ingredient = getIngedientByName(recIng.ingredient.name)
             recIng.ingredient = ingredient;
-            console.log(recIng.ingredient);
         });
             
 
