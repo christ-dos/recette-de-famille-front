@@ -23,7 +23,7 @@ type RecetteIngredientId  = {
 
 
 export interface recettesIngredients{
-    id :RecetteIngredientId,
+    id?:RecetteIngredientId,
     quantite: number,
     uniteMesure: UniteMesureEnum,
     ingredient: Ingredient,

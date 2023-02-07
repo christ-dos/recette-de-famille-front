@@ -53,7 +53,7 @@ type Form = {
 
 const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
 
-  const [recettesIngredients, setRecettesIngredients] = useState<any>([{ ingredient: { name: '', urlPicture: ''}, uniteMesure: typeof UniteMesureEnum, quantity: 0 }]);
+  const [recettesIngredients, setRecettesIngredients] = useState<recettesIngredients[]>([]);
   const [allIngredients, setAllIngredients] = useState<Ingredient[]>([]);
   const [count, setCount] = useState(0);
   const [selectedFile, setSelectedFile] = useState<any>()
@@ -98,24 +98,24 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
 
     getCategorieSelect()
     getDifficultySelect(recette);
-
-   // recette.recettesIngredients.map((recetteIngredient) => {
-     recette.recettesIngredients.forEach(element => {
-      let newLine = {
-        ingredient: { name: element.ingredient.name},
-        uniteMesure: element.uniteMesure,
-        quantity: element.quantite
-      }
-     
-     });
+    // displayIngredients(recette)
+    // recette.recettesIngredients.map((recetteIngredient) => {
+    /* recette.recettesIngredients.forEach(element => {
+       let newLine = {
+         ingredient: { name: element.ingredient.name},
+         uniteMesure: element.uniteMesure,
+         quantity: element.quantite
+       }
       
-    
+      });*/
 
-  //  })
+
+
+    //  })
 
   }, []);
 
-  
+
 
   useEffect(() => {
     if (!selectedFile) {
@@ -130,16 +130,16 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
   }, [selectedFile])
 
   useEffect(() => {
-    console.log("*********************************",recettesIngredients)
+    console.log("********************************* evolution recettes ingre", recettesIngredients)
     console.log(recettesIngredients.length)
   }, [recettesIngredients]);
 
-  function hasUniteMesure(uniteMesure: string):boolean{
+  function hasUniteMesure(uniteMesure: string): boolean {
 
-      return form.recettesIngredients.value.includes(uniteMesure);
+    return form.recettesIngredients.value.includes(uniteMesure);
   }
 
-  
+
   function getDifficultySelect(recette: Recette) {
     let choix: number = 0
 
@@ -175,25 +175,24 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
     optionCategorie?.setAttribute('selected', 'selected');
   }
 
-  function displayIngredients(recette: Recette) {
-console.log ("(((((",recette.recettesIngredients)
-    recette.recettesIngredients.map(recetteIngredient => {
-     // addNewLineIngredientFilled(recetteIngredient);
-     console.log ("++++",recetteIngredient)
-     const newLine = {
-      ingredient: { name: recetteIngredient.ingredient.name, urlPicture: ''},
-      uniteMesure: typeof recetteIngredient.uniteMesure,
-      quantity: recetteIngredient.quantite
-    }
-    console.log("newLine: ", newLine)
-    setRecettesIngredients([...recettesIngredients, newLine])
-    })
-   // console.log("///////",recettesIngredients)
-  }
+  /* function displayIngredients(recette: Recette) {
+     recette.recettesIngredients.map(recetteIngredient => {
+      // addNewLineIngredientFilled(recetteIngredient);
+      console.log ("++++",recetteIngredient)
+      const newLine = {
+       ingredient: { name: recetteIngredient.ingredient.name, urlPicture: ''},
+       uniteMesure:  recetteIngredient.uniteMesure,
+       quantite: recetteIngredient.quantite
+     }
+     console.log("newLine: ", newLine)
+     setRecettesIngredients([...recettesIngredients, newLine])
+     })
+    console.log("///////",recettesIngredients)
+   }*/
 
   function addNewLine() {
-    const newLine = { ingredient: {name: '', urlPicture: ''}, uniteMesure: typeof UniteMesureEnum, quantity: 0 }
-    setRecettesIngredients([...recettesIngredients, newLine])
+    const newLine = { ingredient: { name: '', urlPicture: '' }, uniteMesure: '', quantite: 0 }
+    //setRecettesIngredients([...recettesIngredients, newLine])
     setCount(count + 1);
   }
 
@@ -266,7 +265,7 @@ console.log ("(((((",recette.recettesIngredients)
     }
 
     const recettesIngredients = [];
-    
+
     const resultCategorie = await getCategorieById(data.categorie);
     data.categorie = { id: resultCategorie.id, name: resultCategorie.name, urlPicture: resultCategorie.urlPicture }
 
@@ -366,7 +365,7 @@ console.log ("(((((",recette.recettesIngredients)
                   </div>
                   {<p className="text-danger">{errors.totalTimePreparation?.message?.toString()}</p>}
                 </div>
-              
+
               </div>
 
               <div className={styles.duree}>
@@ -429,56 +428,44 @@ console.log ("(((((",recette.recettesIngredients)
 
 
               <h4 className="custom-color-dore">Ingrédients</h4>
-            
-              {recettesIngredients.map((recetteIngredient: any, index: string | number) =>
-             
-              (
-                <div className=" d-flex flex-row justify-content-between mb-1 mt-3">
-                  <div className="input-group w-50 me-2">
-                    <input type="text"
-                    {...register(`recettesIngredients.${index}.ingredient.name`)}
-                      className="form-control"
-                      aria-label="Dollar amount (with dot and two decimal places)"
-                      onChange={(e) => handleSearchTerm(e)}
-                      list="ingredients"
-                      required
-                      defaultValue= {recettesIngredients[index].ingredient.name}
-                    />
-                    <span className="input-group-text ">Ingrédient</span>
-                    <datalist id="ingredients">
-                      {allIngredients
-                        .filter(ingredient => ingredient.name.includes(searchTerm))
-                        .map(ingredient =>
-                          <option value={ingredient.name} />
-                        )}
-                    </datalist>
-                    {<p className="text-danger">{errors.ingredient?.message?.toString()}</p>}
-                  </div>
 
-                  <div className="input-group w-50 ">
-                    <input type="number" step={1} min={0}
-                      className="form-control" {...register(`recettesIngredients.${index}.quantite`)}
-                      aria-label="Dollar amount (with dot and two decimal places)"
-                      onChange={(e) => console.log(e.target.value)}
-                      defaultValue={recettesIngredients[index].quantity}
-                      required
-                    />
-                    <span className="input-group-text">Quantité</span>
-                    {<p className="text-danger">{errors.recette?.toString()}</p>}
-                  </div>
+              {recette.recettesIngredients.map(ingredient => (
+                <>
+                  <div className=" d-flex flex-row justify-content-between mb-1 mt-3">
+                    <div className="input-group w-50 me-2">
+                      <input type="text"
+                        className="form-control"
+                        aria-label="Dollar amount (with dot and two decimal places)"
+                        onChange={(e) => handleSearchTerm(e)}
+                        list="ingredients"
+                        required
+                        defaultValue={ingredient.ingredient.name} />
+                      <span className="input-group-text ">Ingrédient</span>
+                    </div>
 
-                  <select {...register(`recettesIngredients.${index}.uniteMesure`)}
-                    className="form-select form-select-lg mb-3 w-50 ms-2"
-                    required
-                    aria-label=".form-select-lg example">
-                    <option selected>Mesure</option>
-                    {Object.keys(UniteMesureEnum)
-                      .filter(key => isNaN(Number(key)))
-                      .filter(key => key != "map")
-                      .map(key => <option value={key}>{key}</option>)}
-                  </select>
-                  {<p className="text-danger">{errors.uniteMesure?.message?.toString()}</p>}
-                </div>
+                    <div className="input-group w-50 ">
+                      <input type="number" step={1} min={0}
+                        className="form-control"
+                        aria-label="Dollar amount (with dot and two decimal places)"
+                        onChange={(e) => console.log(e.target.value)}
+                        defaultValue={ingredient.quantite}
+                        required />
+                      <span className="input-group-text">Quantité</span>
+
+                    </div>
+
+                    <select
+                      className="form-select form-select-lg mb-3 w-50 ms-2"
+                      required
+                      aria-label=".form-select-lg example">
+                      <option selected>Mesure</option>
+                      {Object.keys(UniteMesureEnum)
+                        .filter(key => isNaN(Number(key)))
+                        .filter(key => key != "map")
+                        .map(key => <option value={key}>{key}</option>)}
+                    </select>
+
+                  </div></>
               ))}
 
               <Button className="mt-3 me-1"
@@ -496,6 +483,7 @@ console.log ("(((((",recette.recettesIngredients)
                 X
               </Button>
             </div>
+
           </section>
         </main>
         <main className="container">
@@ -514,6 +502,7 @@ console.log ("(((((",recette.recettesIngredients)
               </div>
               {<p className="text-danger">{errors.stepPreparation?.message?.toString()}</p>}
             </div>
+
           </section>
         </main>
         <div className="d-flex justify-content-center mb-3">
