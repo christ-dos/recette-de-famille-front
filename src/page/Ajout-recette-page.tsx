@@ -18,11 +18,11 @@ const schema = yup.object({
         .min(3, "Entrer au min 3 caracteres ")
         .max(100, "100 caractères maximum"),
 
-    /* urlPicture: yup.string()
-         .required("Ce champs est requis"),*/
+    urlPicture: yup.string()
+        .required("Ce champs est requis"),
 
     totalTimePreparation: yup.string()
-       .matches(/^[0-9]*$/, "Uniquement les nombres sont acceptés")
+        .matches(/^[0-9]*$/, "Uniquement les nombres sont acceptés")
         .required("Ce champs est requis")
         .max(5, "5 caractères maximum"),
 
@@ -48,7 +48,6 @@ const schema = yup.object({
 
     categorie: yup.string()
         .required("Ce champs est requis")
-        .uppercase("Ce champs doit être en majuscule"),
 
     /* quantity: yup.number()
      .required("Ce champs est requis"),
@@ -121,14 +120,15 @@ const AjoutRecettePage: FunctionComponent = () => {
             .catch((error) => console.log(error));
     };
 
-    function getIngedientByName(name: string): Ingredient | undefined {
-        const result = allIngredients.filter(x => x.name.toLowerCase() === name.toLowerCase())
-        if (result) {
-            return result[0];
-        }
-    }
+    /* function getIngedientByName(name: string): Ingredient | undefined {
+          const result = allIngredients.filter(x => x.name.toLowerCase() === name.toLowerCase())
+          if (result) {
+              return result[0];
+          }
+      }*/
 
     const onSelectFile = (e: ChangeEvent<HTMLInputElement>) => {
+        console.log(e.target.files)
         if (!e.target.files || e.target.files.length === 0) {
             setSelectedFile(undefined)
             return
@@ -136,43 +136,36 @@ const AjoutRecettePage: FunctionComponent = () => {
         // I've kept this example simple by using the first image instead of multiple
         setSelectedFile(e.target.files[0])
         setPreview(selectedFile)
-        console.log(preview);
+        console.log(selectedFile);
     }
 
     const handleSearchTerm = (e: ChangeEvent<HTMLInputElement>) => {
         let value = e.target.value;
         console.log(value)
         setSearchTerm(value)
-        //value.length > 2 ? (setSearchTerm(value)) : (setSearchTerm(""))
+       
     }
 
     async function onSubmit(data: any) {
-            console.log(data);
-        let blob = data.urlPicture[0].slice();
+        console.log(data);
 
-        let reader = new FileReader();
-        reader.readAsDataURL(blob);
-        reader.onload = function () {
-            data.urlPicture = reader.result;
+        if (selectedFile) {
+            let blob = selectedFile.slice();
+
+            let reader = new FileReader();
+            reader.readAsDataURL(blob);
+
+            reader.onload = function () {
+                data.urlPicture = reader.result;
+            }
+        } else {
+            data.urlPicture = '/images/mystere.jpg';
         }
 
         const recettesIngredients = [];
-        for (let i = 0; i <= count; i++) {
-            const ingredient = getIngedientByName(data[`ingredient-${i}`].toLowerCase());
 
-            recettesIngredients.push({
-                quantite: data[`quantity-${i}`],
-                uniteMesure: data[`uniteMesure-${i}`],
-                ingredient: { id: ingredient?.id, name: data[`ingredient-${i}`].toLowerCase(), urlPicture: 'https://previews.123rf.com/images/karandaev/karandaev1506/karandaev150600338/41087901-italienne-ingr%C3%A9dients-de-cuisine-alimentaire-p%C3%A2tes-l%C3%A9gumes-%C3%A9pices-vue-de-dessus.jpg' }
-            });
-            delete data[`ingredient-${i}`];
-            delete data[`quantity-${i}`];
-            delete data[`uniteMesure-${i}`];
-        }
         const resultCategorie = await getCategorieById(data.categorie);
         data.categorie = { id: resultCategorie.id, name: resultCategorie.name, urlPicture: resultCategorie.urlPicture }
-
-        data.recettesIngredients = recettesIngredients
 
         createRecipe(data).then((response) => {
             if (response.error) {
@@ -313,14 +306,13 @@ const AjoutRecettePage: FunctionComponent = () => {
                             </div>
                             {<p className="text-danger">{errors.numberOfPeople?.message?.toString()}</p>}
 
-                            {/*  <h3 className={styles.h3}>Ingrédients</h3>*/}
                             <h4 className="custom-color-dore">Ingrédients</h4>
                             {ingredients.map((ingredient, index) =>
                             (
                                 <div key={index} className=" d-flex flex-row justify-content-between mb-1 mt-3">
                                     <div className="input-group w-50 me-2">
                                         <input type="text"
-                                            className="form-control" {...register(`recetteIngredients.${index}.ingredient.name`, {})}
+                                            className="form-control" {...register(`recetteIngredients.${index}.ingredient.name`)}
                                             aria-label="Dollar amount (with dot and two decimal places)"
                                             onChange={(e) => handleSearchTerm(e)}
                                             list="ingredients"
@@ -358,7 +350,6 @@ const AjoutRecettePage: FunctionComponent = () => {
                                             .filter(key => key != "map")
                                             .map(key => <option value={key}>{key}</option>)}
                                     </select>
-                                    {/*<p className="text-danger">{errors.recetteIngredients.[index].uniteMesure.message?.toString()}</p>*/}
                                 </div>
                             ))}
 
@@ -384,11 +375,11 @@ const AjoutRecettePage: FunctionComponent = () => {
                     <section className="row">
                         <div className="col-12 col-md-12 col-lg-12 ">
                             <h3 className={` ms-4 custom-color-dore mt-2`}>Préparation</h3>
-                            <div className="form-floating mx-4"  style={{boxShadow: '1px 1px 1px rgba(131,197,190,0.9)'}}>
+                            <div className="form-floating mx-4" style={{ boxShadow: '1px 1px 1px rgba(131,197,190,0.9)' }}>
                                 <textarea {...register("stepPreparation")} className={`form-control ${styles.textarea}`}
                                     placeholder="Leave a comment here"
                                     id="floatingTextarea"></textarea>
-                                   
+
                                 <label htmlFor="floatingTextarea">Aller à la ligne pour chaque étape</label>
                             </div>
                             {<p className="text-danger">{errors.stepPreparation?.message?.toString()}</p>}
