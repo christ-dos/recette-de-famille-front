@@ -182,8 +182,8 @@ const AjoutRecettePage: FunctionComponent = () => {
         <>
             <TitreH2 titre={"Ajouter une Recette"} />
             <form action="" onSubmit={handleSubmit(onSubmit)} className="border border-secundary shadow-lg">
-                <main className="container" >
-                    <div className='row mx-4 my-2 pb-3 mt-3' style={{
+                <main className="container " >
+                    <div className='row mx-4 my-2 pb-3 mt-3 ' style={{
                         border: '1px 1px solidrgba(131,197,190,0.9)', backgroundColor: 'rgba(131,197,190,0.1)',
                         boxShadow: '1px 1px 1px rgba(131,197,190,0.9)', borderRadius: ' 20px'
                     }}>
@@ -221,10 +221,10 @@ const AjoutRecettePage: FunctionComponent = () => {
                         </div>
                     </div>
                 </main>
-                <main className="container mt-4">
+                <main className="container mt-4 ">
                     <section className="row d-flex justify-content-center pt-3 px-2 mx-4 py-4 "
                         style={{ backgroundColor: 'rgba(131,197,190,0.1)', boxShadow: '1px 1px 1px rgba(131,197,190,0.9)', border: '1px 1px solid rgba(131,197,190,0.9)', borderRadius: ' 20px' }}>
-                        <div className="col-12 col-md-12 col-lg-4 form-group">
+                        <div className="col-12 col-md-12 col-lg-4 form-group ">
                             <h4 className="custom-color-dore">Infos clés</h4>
                             <select {...register('difficultyLevel')} className="form-select form-select-lg mb-3 w-50"
                                 aria-label=".form-select-lg example">
@@ -311,15 +311,15 @@ const AjoutRecettePage: FunctionComponent = () => {
                             {ingredients.map((ingredient, index) =>
                             (
                                 <div key={index} className=" d-flex flex-row justify-content-between mb-1 mt-3">
-                                    <div className="input-group w-50 me-2">
-                                        <input type="text"
+                                    <div className=" w-50 me-2">
+                                        <input type="text" placeholder='oeufs'
                                             className="form-control" {...register(`recetteIngredients.${index}.ingredient.name`)}
                                             aria-label="Dollar amount (with dot and two decimal places)"
                                             onChange={(e) => handleSearchTerm(e)}
                                             list="ingredients"
                                             required
                                         />
-                                        <span className="input-group-text ">Ingrédient</span>
+                                      
                                         <datalist id="ingredients">
                                             {allIngredients
                                                 .filter(ingredient => ingredient.name.includes(searchTerm))
@@ -330,20 +330,20 @@ const AjoutRecettePage: FunctionComponent = () => {
                                         {<p className="text-danger">{errors.ingredient?.message?.toString()}</p>}
                                     </div>
 
-                                    <div className="input-group w-50 ">
-                                        <input type="number" step={1} min={0}
+                                    <div className=" w-50 ">
+                                        <input type="number" step={1} min={0} placeholder='quantité'
                                             className="form-control" {...register(`recetteIngredients.${index}.quantite`)}
                                             aria-label="Dollar amount (with dot and two decimal places)"
-                                            onChange={(e) => console.log(e.target.value)}
+                                            onChange={(e) => console.log(e.target.value)} 
                                             required
                                         />
-                                        <span className="input-group-text">Quantité</span>
+                                      
                                         {<p className="text-danger">{errors.quantity?.message?.toString()}</p>}
                                     </div>
 
                                     <select {...register(`recetteIngredients.${index}.uniteMesure`)}
-                                        className="form-select form-select-lg mb-3 w-50 ms-2"
-                                        required
+                                        className="form-select form-select mb-3 w-50 ms-2"
+                                        required 
                                         aria-label=".form-select-lg example">
                                         <option selected>Mesure</option>
                                         {Object.keys(UniteMesureEnum)
