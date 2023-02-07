@@ -253,9 +253,10 @@ const AjoutRecettePage: FunctionComponent = () => {
                                         <input {...register("totalTimePreparation")} type="text" className="form-control"
                                             aria-label="Dollar amount (with dot and two decimal places)" />
                                         <span className="input-group-text">Minutes</span>
+                                        {<p className="text-danger">{errors.totalTimePreparation?.message?.toString()}</p>}
                                     </div>
                                 </div>
-                                {<p className="text-danger">{errors.totalTimePreparation?.message?.toString()}</p>}
+                                
                             </div>
 
                             <div className={styles.duree}>

@@ -1,13 +1,13 @@
 import { ChangeEvent, FunctionComponent, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import { TitreH2 } from "../components/children";
 import styles from '../css/ajout-recette-page.module.css';
 import { Ingredient } from "../models/Ingredient";
 import { Recette } from "../models/recette";
 import { recettesIngredients, UniteMesureEnum } from "../models/RecetteIngredient";
 import { getCategorieById } from "../services/CategorieService";
 import { getAllIngredient } from "../services/IngredientService";
-import { TitreH2 } from "../components/children";
 
 
 type Props = {
@@ -53,7 +53,7 @@ type Form = {
 
 const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
 
-  const [recettesIngredients, setRecettesIngredients] = useState([{ ingredient: { name: '', urlPicture: ''}, uniteMesure: typeof UniteMesureEnum, quantity: 0 }]);
+  const [recettesIngredients, setRecettesIngredients] = useState<any>([{ ingredient: { name: '', urlPicture: ''}, uniteMesure: typeof UniteMesureEnum, quantity: 0 }]);
   const [allIngredients, setAllIngredients] = useState<Ingredient[]>([]);
   const [count, setCount] = useState(0);
   const [selectedFile, setSelectedFile] = useState<any>()
@@ -99,13 +99,27 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
     getCategorieSelect()
     getDifficultySelect(recette);
 
-    displayIngredients(recette)
+   // recette.recettesIngredients.map((recetteIngredient) => {
+     recette.recettesIngredients.forEach(element => {
+      let newLine = {
+        ingredient: { name: element.ingredient.name},
+        uniteMesure: element.uniteMesure,
+        quantity: element.quantite
+      }
+     
+     });
+      
+    
+
+  //  })
 
   }, []);
 
+  
 
   useEffect(() => {
     if (!selectedFile) {
+
       setPreview(undefined)
       return
     }
@@ -114,6 +128,11 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
     // free memory when ever this component is unmounted
     return () => URL.revokeObjectURL(objectUrl)
   }, [selectedFile])
+
+  useEffect(() => {
+    console.log("*********************************",recettesIngredients)
+    console.log(recettesIngredients.length)
+  }, [recettesIngredients]);
 
   function hasUniteMesure(uniteMesure: string):boolean{
 
@@ -157,23 +176,30 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
   }
 
   function displayIngredients(recette: Recette) {
-
+console.log ("(((((",recette.recettesIngredients)
     recette.recettesIngredients.map(recetteIngredient => {
-      addNewLineIngredientFilled(recetteIngredient);
+     // addNewLineIngredientFilled(recetteIngredient);
+     console.log ("++++",recetteIngredient)
+     const newLine = {
+      ingredient: { name: recetteIngredient.ingredient.name, urlPicture: ''},
+      uniteMesure: typeof recetteIngredient.uniteMesure,
+      quantity: recetteIngredient.quantite
+    }
+    console.log("newLine: ", newLine)
+    setRecettesIngredients([...recettesIngredients, newLine])
     })
-    console.log(recettesIngredients.length)
+   // console.log("///////",recettesIngredients)
   }
 
   function addNewLine() {
     const newLine = { ingredient: {name: '', urlPicture: ''}, uniteMesure: typeof UniteMesureEnum, quantity: 0 }
     setRecettesIngredients([...recettesIngredients, newLine])
-    console.log(recettesIngredients.length)
     setCount(count + 1);
   }
 
-  function addNewLineIngredientFilled(recetteIngredient: recettesIngredients) {
+  /*function addNewLineIngredientFilled(recetteIngredient: recettesIngredients) {
     // console.log(recetteIngredient.uniteMesure);
-    //console.log(recetteIngredient.ingredient.name);
+    console.log("------------------",recetteIngredient.ingredient);
 
   
     const newLine = {
@@ -185,7 +211,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
     setCount(count + 1);
     console.log(recettesIngredients)
 
-  }
+  }*/
 
   function deleteLine() {
     if (recettesIngredients.length > 1) {
@@ -240,18 +266,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
     }
 
     const recettesIngredients = [];
-    for (let i = 0; i <= count; i++) {
-      // const ingredient = getIngedientByName(data[`ingredient-${i}`].toLowerCase());
-
-      /* recettesIngredients.push({
-         quantite: data[`quantity-${i}`],
-         uniteMesure: data[`uniteMesure-${i}`],
-         ingredient: { id: ingredient?.id, name: data[`ingredient-${i}`].toLowerCase(), urlPicture: 'https://previews.123rf.com/images/karandaev/karandaev1506/karandaev150600338/41087901-italienne-ingr%C3%A9dients-de-cuisine-alimentaire-p%C3%A2tes-l%C3%A9gumes-%C3%A9pices-vue-de-dessus.jpg' }
-       });
-       delete data[`ingredient-${i}`];
-       delete data[`quantity-${i}`];
-       delete data[`uniteMesure-${i}`];*/
-    }
+    
     const resultCategorie = await getCategorieById(data.categorie);
     data.categorie = { id: resultCategorie.id, name: resultCategorie.name, urlPicture: resultCategorie.urlPicture }
 
@@ -298,6 +313,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                 />
               </div>
               {<p className="text-danger d-flex justify-content-center">{errors.urlPicture?.message?.toString()}</p>}
+
               <div className=" d-flex justify-content-center mt-5">
                 <figure >
                   <img className={styles.mystere}
@@ -312,7 +328,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
         <main className="container mt-4">
           <section className="row d-flex justify-content-center pt-3 px-2 mx-4 py-4 "
             style={{ backgroundColor: 'rgba(131,197,190,0.1)', boxShadow: '1px 1px 1px rgba(131,197,190,0.9)', border: '1px 1px solid rgba(131,197,190,0.9)', borderRadius: ' 20px' }}>
-            <div className="col-12 col-md-12 col-lg-4 form-group">
+            <div className="col-12 col-md-12 col-lg-4 form-group d-flex flex-column justify-content-center ">
               <h4 className="custom-color-dore">Infos clés</h4>
               <select {...register('difficultyLevel')} className="form-select form-select-lg mb-3 w-50"
                 aria-label=".form-select-lg example"
@@ -322,7 +338,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                 <option value="intermédiaire">Intermédiaire</option>
                 <option value="difficile">Difficile</option>
               </select>
-              {<p className="text-dange">{errors.difficultyLevel?.message?.toString()}</p>}
+              {<p className="text-danger">{errors.difficultyLevel?.message?.toString()}</p>}
 
               <select {...register('categorie')}
                 className="form-select form-select-lg mb-3 w-50 "
@@ -344,12 +360,13 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                     <input {...register("totalTimePreparation")} type="text"
                       className="form-control"
                       aria-label="Dollar amount (with dot and two decimal places)"
-                      value={form.totalTimePreparation.value}
+                      defaultValue={form.totalTimePreparation.value}
                     />
                     <span className="input-group-text">Minutes</span>
                   </div>
+                  {<p className="text-danger">{errors.totalTimePreparation?.message?.toString()}</p>}
                 </div>
-                {<p className="text-danger">{errors.totalTimePreparation?.message?.toString()}</p>}
+              
               </div>
 
               <div className={styles.duree}>
@@ -359,7 +376,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                     <input {...register("timePreparation")} type="text"
                       className="form-control "
                       aria-label="Dollar amount (with dot and two decimal places)"
-                      value={form.timePreparation.value}
+                      defaultValue={form.timePreparation.value}
                     />
                     <span className="input-group-text">Minutes</span>
                   </div>
@@ -374,7 +391,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                     <input {...register("cookingTime")} type="text"
                       className="form-control"
                       aria-label="Dollar amount (with dot and two decimal places)"
-                      value={form.cookingTime.value}
+                      defaultValue={form.cookingTime.value}
                     />
                     <span className="input-group-text">Minutes</span>
                   </div>
@@ -389,7 +406,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                     <input {...register('restTime')} type="text"
                       className="form-control"
                       aria-label="Dollar amount (with dot and two decimal places)"
-                      value={form.restTime.value} />
+                      defaultValue={form.restTime.value} />
                     <span className="input-group-text">Minutes</span>
                   </div>
                 </div>
@@ -404,7 +421,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                   <input {...register("numberOfPeople")} type="text"
                     className="form-control "
                     aria-label="Dollar amount (with dot and two decimal places)"
-                    value={form.numberOfPeople.value} />
+                    defaultValue={form.numberOfPeople.value} />
                   <span className="input-group-text ">personnes</span>
                 </div>
               </div>
@@ -413,7 +430,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
 
               <h4 className="custom-color-dore">Ingrédients</h4>
             
-              {recettesIngredients.map((recetteIngredient, index) =>
+              {recettesIngredients.map((recetteIngredient: any, index: string | number) =>
              
               (
                 <div className=" d-flex flex-row justify-content-between mb-1 mt-3">
@@ -425,7 +442,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                       onChange={(e) => handleSearchTerm(e)}
                       list="ingredients"
                       required
-                      value= {`recettesIngredients.${index}.ingredient.name`}
+                      defaultValue= {recettesIngredients[index].ingredient.name}
                     />
                     <span className="input-group-text ">Ingrédient</span>
                     <datalist id="ingredients">
@@ -443,11 +460,11 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                       className="form-control" {...register(`recettesIngredients.${index}.quantite`)}
                       aria-label="Dollar amount (with dot and two decimal places)"
                       onChange={(e) => console.log(e.target.value)}
-                      value={recetteIngredient.quantity}
+                      defaultValue={recettesIngredients[index].quantity}
                       required
                     />
                     <span className="input-group-text">Quantité</span>
-                    {<p className="text-danger">{errors.quantity?.message?.toString()}</p>}
+                    {<p className="text-danger">{errors.recette?.toString()}</p>}
                   </div>
 
                   <select {...register(`recettesIngredients.${index}.uniteMesure`)}
