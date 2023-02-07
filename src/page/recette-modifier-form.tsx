@@ -7,7 +7,7 @@ import { Recette } from "../models/recette";
 import { recettesIngredients, UniteMesureEnum } from "../models/RecetteIngredient";
 import { getCategorieById } from "../services/CategorieService";
 import { getAllIngredient } from "../services/IngredientService";
-import { TitreH2 } from "./children";
+import { TitreH2 } from "../components/children";
 
 
 type Props = {
