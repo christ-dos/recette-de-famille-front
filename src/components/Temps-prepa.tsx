@@ -11,16 +11,16 @@ const TempsPrepa: FunctionComponent<Props> = ({recette}) => {
     <div className="mb-5">
         <ul className="nav justify-content-center">
             <li className="nav-item">
-                <a className="nav-link disabled text-dark">Temps de préparation total : {recette.totalTimePreparation}</a>
+                <a className="nav-link disabled text-dark">Temps de préparation total : {recette.totalTimePreparation} min</a>
             </li>
             <li className="nav-item">
-                <a className="nav-link disabled text-dark">Préparation : {recette.timePreparation}</a>
+                <a className="nav-link disabled text-dark">Préparation : {recette.timePreparation} min</a>
             </li>
             <li className="nav-item">
-                <a className="nav-link disabled text-dark">Repos : {recette.restTime}</a>
+                <a className="nav-link disabled text-dark">Repos : {recette.restTime} min</a>
             </li>
             <li className="nav-item">
-                <a className="nav-link disabled text-dark">Cuisson : {recette.cookingTime}</a>
+                <a className="nav-link disabled text-dark">Cuisson : {recette.cookingTime} min</a>
             </li>
         </ul>
     </div>

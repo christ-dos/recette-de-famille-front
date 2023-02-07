@@ -14,7 +14,7 @@ const BarreVerte : FunctionComponent<Props> = ({recette}) => {
                 <a className="nav-link disabled taillePolice text-light">{recette.difficultyLevel}</a>
             </li>
             <li className="nav-item">
-                <a className="nav-link disabled taillePolice text-light">{recette.totalTimePreparation}</a>
+                <a className="nav-link disabled taillePolice text-light">{recette.totalTimePreparation}min</a>
             </li>
             <li className="nav-item">
                 <a className="nav-link disabled taillePolice text-light">{recette.numberOfPeople} personne(s)</a>
