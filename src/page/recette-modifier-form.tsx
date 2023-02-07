@@ -175,43 +175,14 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
     optionCategorie?.setAttribute('selected', 'selected');
   }
 
-  /* function displayIngredients(recette: Recette) {
-     recette.recettesIngredients.map(recetteIngredient => {
-      // addNewLineIngredientFilled(recetteIngredient);
-      console.log ("++++",recetteIngredient)
-      const newLine = {
-       ingredient: { name: recetteIngredient.ingredient.name, urlPicture: ''},
-       uniteMesure:  recetteIngredient.uniteMesure,
-       quantite: recetteIngredient.quantite
-     }
-     console.log("newLine: ", newLine)
-     setRecettesIngredients([...recettesIngredients, newLine])
-     })
-    console.log("///////",recettesIngredients)
-   }*/
-
+ 
   function addNewLine() {
     const newLine = { ingredient: { name: '', urlPicture: '' }, uniteMesure: '', quantite: 0 }
     //setRecettesIngredients([...recettesIngredients, newLine])
     setCount(count + 1);
   }
 
-  /*function addNewLineIngredientFilled(recetteIngredient: recettesIngredients) {
-    // console.log(recetteIngredient.uniteMesure);
-    console.log("------------------",recetteIngredient.ingredient);
-
   
-    const newLine = {
-      ingredient: { name: recetteIngredient.ingredient.name, urlPicture: ''},
-      uniteMesure: typeof recetteIngredient.uniteMesure,
-      quantity: recetteIngredient.quantite
-    }
-    setRecettesIngredients([...recettesIngredients, newLine])
-    setCount(count + 1);
-    console.log(recettesIngredients)
-
-  }*/
-
   function deleteLine() {
     if (recettesIngredients.length > 1) {
       recettesIngredients.pop()
@@ -334,7 +305,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                 id="difficultyLevel">
                 <option selected defaultValue={'Facile'}>Difficultés</option>
                 <option value="facile">Facile</option>
-                <option value="intermédiaire">Intermédiaire</option>
+                <option value="intermediaire">Intermédiaire</option>
                 <option value="difficile">Difficile</option>
               </select>
               {<p className="text-danger">{errors.difficultyLevel?.message?.toString()}</p>}
@@ -432,7 +403,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
               {recette.recettesIngredients.map(ingredient => (
                 <>
                   <div className=" d-flex flex-row justify-content-between mb-1 mt-3">
-                    <div className="input-group w-50 me-2">
+                    <div className="me-2">
                       <input type="text"
                         className="form-control"
                         aria-label="Dollar amount (with dot and two decimal places)"
@@ -440,24 +411,28 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                         list="ingredients"
                         required
                         defaultValue={ingredient.ingredient.name} />
-                      <span className="input-group-text ">Ingrédient</span>
+                    <datalist id="ingredients">
+                      {allIngredients
+                        .filter(ingredient => ingredient.name.includes(searchTerm))
+                        .map(ingredient =>
+                          <option value={ingredient.name} />
+                        )}
+                    </datalist>
                     </div>
 
-                    <div className="input-group w-50 ">
+                    <div>
                       <input type="number" step={1} min={0}
                         className="form-control"
                         aria-label="Dollar amount (with dot and two decimal places)"
                         onChange={(e) => console.log(e.target.value)}
                         defaultValue={ingredient.quantite}
                         required />
-                      <span className="input-group-text">Quantité</span>
-
                     </div>
 
                     <select
-                      className="form-select form-select-lg mb-3 w-50 ms-2"
+                      className="form-select form-select mb-3 w-50 ms-2"
                       required
-                      aria-label=".form-select-lg example">
+                      aria-label=".form-select example">
                       <option selected>Mesure</option>
                       {Object.keys(UniteMesureEnum)
                         .filter(key => isNaN(Number(key)))

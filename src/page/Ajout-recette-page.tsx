@@ -61,11 +61,10 @@ const schema = yup.object({
 
 }).required();
 
-//  type FormData = yup.InferType<typeof schema>;   
 
 const AjoutRecettePage: FunctionComponent = () => {
 
-    const [ingredients, setIngredients] = useState([{ name: '', quantity: '', uniteMesure: 'PIECE' }]);
+    const [ingredients, setIngredients] = useState([{ingredient: { name: ''}, quantite: '', uniteMesure: 'PIECE' }]);
     const [allIngredients, setAllIngredients] = useState<Ingredient[]>([]);
     const [count, setCount] = useState(0);
     const [selectedFile, setSelectedFile] = useState<any>()
@@ -99,7 +98,7 @@ const AjoutRecettePage: FunctionComponent = () => {
 
 
     function addNewLine() {
-        const newLine = { name: '', uniteMesure: 'PIECE', quantity: '' }
+        const newLine = {ingredient: { name: ''}, uniteMesure: '', quantite: '' }
         setIngredients([...ingredients, newLine])
         setCount(count + 1);
     }
@@ -120,12 +119,12 @@ const AjoutRecettePage: FunctionComponent = () => {
             .catch((error) => console.log(error));
     };
 
-    /* function getIngedientByName(name: string): Ingredient | undefined {
+     function getIngedientByName(name: string): Ingredient | undefined {
           const result = allIngredients.filter(x => x.name.toLowerCase() === name.toLowerCase())
           if (result) {
               return result[0];
           }
-      }*/
+      }
 
     const onSelectFile = (e: ChangeEvent<HTMLInputElement>) => {
         console.log(e.target.files)
@@ -162,10 +161,22 @@ const AjoutRecettePage: FunctionComponent = () => {
             data.urlPicture = '/images/mystere.jpg';
         }
 
-        const recettesIngredients = [];
+       // const recettesIngredients = [];
 
         const resultCategorie = await getCategorieById(data.categorie);
         data.categorie = { id: resultCategorie.id, name: resultCategorie.name, urlPicture: resultCategorie.urlPicture }
+
+        data.recettesIngredients.map((recIng: any) => console.log(recIng.ingredient.name));
+        data.recettesIngredients.map((recIng: any) => {
+            const ingredient = getIngedientByName(recIng.ingredient.name)
+            recIng.ingredient = ingredient;
+            console.log(recIng.ingredient);
+        });
+            
+
+      //  (data.recettesIngredients.ingredient.name)
+
+       // console.log(ingredient)
 
         createRecipe(data).then((response) => {
             if (response.error) {
@@ -230,7 +241,7 @@ const AjoutRecettePage: FunctionComponent = () => {
                                 aria-label=".form-select-lg example">
                                 <option selected defaultValue={'Facile'}>Difficultés</option>
                                 <option value="Facile">Facile</option>
-                                <option value="Intermédiaire">Intermédiaire</option>
+                                <option value="Intermediaire">Intermédiaire</option>
                                 <option value="Difficile">Difficile</option>
                             </select>
                             {<p className="text-dange">{errors.difficultyLevel?.message?.toString()}</p>}
@@ -246,7 +257,6 @@ const AjoutRecettePage: FunctionComponent = () => {
                             {<p className="text-danger">{errors.categorie?.message?.toString()}</p>}
 
                             <div className={styles.duree}>
-                                {/* <h3 className={styles.h3}>Temps</h3>*/}
                                 <h4 className="custom-color-dore">Temps total</h4>
                                 <div className=" d-flex flex-row justify-content-between">
                                     <div className="input-group w-50">
@@ -313,13 +323,12 @@ const AjoutRecettePage: FunctionComponent = () => {
                                 <div key={index} className=" d-flex flex-row justify-content-between mb-1 mt-3">
                                     <div className=" w-50 me-2">
                                         <input type="text" placeholder='oeufs'
-                                            className="form-control" {...register(`recetteIngredients.${index}.ingredient.name`)}
+                                            className="form-control" {...register(`recettesIngredients.${index}.ingredient.name`)}
                                             aria-label="Dollar amount (with dot and two decimal places)"
                                             onChange={(e) => handleSearchTerm(e)}
                                             list="ingredients"
                                             required
                                         />
-                                      
                                         <datalist id="ingredients">
                                             {allIngredients
                                                 .filter(ingredient => ingredient.name.includes(searchTerm))
@@ -332,7 +341,7 @@ const AjoutRecettePage: FunctionComponent = () => {
 
                                     <div className=" w-50 ">
                                         <input type="number" step={1} min={0} placeholder='quantité'
-                                            className="form-control" {...register(`recetteIngredients.${index}.quantite`)}
+                                            className="form-control" {...register(`recettesIngredients.${index}.quantite`)}
                                             aria-label="Dollar amount (with dot and two decimal places)"
                                             onChange={(e) => console.log(e.target.value)} 
                                             required
@@ -341,7 +350,7 @@ const AjoutRecettePage: FunctionComponent = () => {
                                         {<p className="text-danger">{errors.quantity?.message?.toString()}</p>}
                                     </div>
 
-                                    <select {...register(`recetteIngredients.${index}.uniteMesure`)}
+                                    <select {...register(`recettesIngredients.${index}.uniteMesure`)}
                                         className="form-select form-select mb-3 w-50 ms-2"
                                         required 
                                         aria-label=".form-select-lg example">
