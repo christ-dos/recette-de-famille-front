@@ -195,8 +195,8 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
   }
 
   const createRecipe = (data: any) => {
-    return fetch('http://localhost:8082/recette/add', {
-      method: 'POST',
+    return fetch('http://localhost:8082/recette/update', {
+      method: 'UPDATE',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     }).then((response) => response.json())
