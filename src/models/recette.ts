@@ -1,5 +1,5 @@
 import { Categorie } from "./Categorie";
-import { recettesIngredients } from "./RecetteIngredient";
+import { RecettesIngredients } from "./RecetteIngredient";
 
    export interface Recette{
 
@@ -14,5 +14,5 @@ import { recettesIngredients } from "./RecetteIngredient";
     stepPreparation:string,
     difficultyLevel:string,
     numberOfPeople:string,
-    recettesIngredients: recettesIngredients[]
+    recettesIngredients: RecettesIngredients[]
 }

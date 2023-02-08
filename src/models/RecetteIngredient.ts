@@ -22,7 +22,7 @@ type RecetteIngredientId  = {
 }
 
 
-export interface recettesIngredients{
+export interface RecettesIngredients{
     id?:RecetteIngredientId,
     quantite: number,
     uniteMesure: UniteMesureEnum,

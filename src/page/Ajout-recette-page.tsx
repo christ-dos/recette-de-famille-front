@@ -64,7 +64,8 @@ const schema = yup.object({
 
 const AjoutRecettePage: FunctionComponent = () => {
 
-    const [ingredients, setIngredients] = useState([{ingredient: { name: ''}, quantite: '', uniteMesure: 'PIECE' }]);
+    const [ingredients, setIngredients] = useState([{ingredient: { name: '',
+     urlPicture: '/https://st.depositphotos.com/1001069/4731/i/950/depositphotos_47311605-stock-photo-fresh-ingredients-for-cooking.jpg'}, quantite: '', uniteMesure: 'PIECE' }]);
     const [allIngredients, setAllIngredients] = useState<Ingredient[]>([]);
     const [count, setCount] = useState(0);
     const [selectedFile, setSelectedFile] = useState<any>()
@@ -98,7 +99,7 @@ const AjoutRecettePage: FunctionComponent = () => {
 
 
     function addNewLine() {
-        const newLine = {ingredient: { name: ''}, uniteMesure: '', quantite: '' }
+        const newLine = {ingredient: { name: '', urlPicture:''}, uniteMesure: '', quantite: '' }
         setIngredients([...ingredients, newLine])
         setCount(count + 1);
     }
@@ -161,22 +162,17 @@ const AjoutRecettePage: FunctionComponent = () => {
             data.urlPicture = '/images/mystere.jpg';
         }
 
-       // const recettesIngredients = [];
-
         const resultCategorie = await getCategorieById(data.categorie);
         data.categorie = { id: resultCategorie.id, name: resultCategorie.name, urlPicture: resultCategorie.urlPicture }
 
-        data.recettesIngredients.map((recIng: any) => console.log(recIng.ingredient.name));
         data.recettesIngredients.map((recIng: any) => {
             const ingredient = getIngedientByName(recIng.ingredient.name)
-            recIng.ingredient = ingredient;
+            if(ingredient){
+                recIng.ingredient = ingredient;
+            }
+           
         });
             
-
-      //  (data.recettesIngredients.ingredient.name)
-
-       // console.log(ingredient)
-
         createRecipe(data).then((response) => {
             if (response.error) {
                 console.log(response.error);
