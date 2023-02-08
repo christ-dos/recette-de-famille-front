@@ -36,7 +36,7 @@ const RecetteCard: FunctionComponent<Props> = ({ recette, click }) => {
                 <blockquote>
                   <p className="card-text overflow-elipsis">{recette.difficultyLevel}</p>
                   <p className="card-text overflow-elipsis">{recette.numberOfPeople} parts</p>
-                  <p className="card-text overflow-elipsis">{recette.totalTimePreparation}</p>
+                  <p className="card-text overflow-elipsis">{recette.totalTimePreparation} min</p>
                 </blockquote>
               </div>
             </div>
