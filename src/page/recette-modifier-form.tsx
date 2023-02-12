@@ -87,7 +87,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
 
   const { register, handleSubmit, formState: { errors }, formState } = useForm<any>({
     mode: 'onChange',
-    // resolver: yupResolver(schema)
   });
 
   const { isSubmitted, isSubmitSuccessful } = formState
@@ -453,6 +452,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
 
                   </div></>
               ))}
+
 
               <Button className="mt-3 me-1"
                 variant="secondary"
