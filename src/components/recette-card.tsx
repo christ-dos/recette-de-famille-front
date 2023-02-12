@@ -16,7 +16,7 @@ type Props = {
 };
 
 const RecetteCard: FunctionComponent<Props> = ({ recette, click }) => {
-  
+
   return (
 
     <div id="recetteCard" className=" col-12 col-md-6 col-lg-4" >
@@ -24,10 +24,10 @@ const RecetteCard: FunctionComponent<Props> = ({ recette, click }) => {
         <NavLink to={'/recettes/' + recette.id} style={{ textDecoration: 'none' }}>
           <div className="row g-0">
             <div className=" col-12 col-sm-6 image">
-              <img src={recette.urlPicture} 
-              className="img-fluid rounded-start " 
-              alt="image de la recette" 
-              style={{objectFit: 'scale-down'}} />
+              <img src={recette.urlPicture}
+                className="img-fluid rounded-start "
+                alt="image de la recette"
+                style={{ objectFit: 'scale-down' }} />
             </div>
             <div className=" col-12 col-sm-6">
               <div className="card-body text-light">
