@@ -2,6 +2,7 @@ import { faTrashAlt, IconDefinition } from '@fortawesome/free-regular-svg-icons'
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FunctionComponent, MouseEventHandler } from 'react';
+import { Link } from 'react-router-dom';
 import '../css/bouton.css';
 import '../css/common.css';
 
@@ -11,10 +12,10 @@ export const BoutonAdd: FunctionComponent = () => {
 
   return (
     <div id="btn_add">
-      <a type="button"
-        className="btn  btn-circle btn-xl right custom-bg-vert" href={'/recette/add'}>
+      <Link 
+        className="btn  btn-circle btn-xl right custom-bg-vert" to={'/recette/add'}>
         <i className="material-icons Large">add</i>
-      </a>
+      </Link>
     </div>
 
   );

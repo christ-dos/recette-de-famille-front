@@ -12,7 +12,7 @@ const EtapesPrepa: FunctionComponent<Props> = ({recette}) => {
         <main>
             <div className="container d-flex justify-content-center  ">
             <div className="card col-10 p-4 ">
-            <textarea value={recette.stepPreparation} cols={100} rows={20} style={{width: '100%'}}> </textarea>
+            <textarea className="border-0" value={recette.stepPreparation} cols={100} rows={20} style={{width: '100%'}}> </textarea>
 
             </div>
            

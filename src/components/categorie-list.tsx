@@ -1,7 +1,5 @@
-import React from "react";
 import { FunctionComponent, useEffect, useState } from "react";
 import { Categorie } from "../models/Categorie";
-import CATEGORIES from "../models/mock-categories";
 import { getAllCategorie } from "../services/CategorieService";
 import CategorieCard from "./categorie-card";
 
