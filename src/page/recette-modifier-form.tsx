@@ -14,11 +14,11 @@ type Props = {
   recette: Recette
 };
 
-type Option = {
+/*pe Option = {
   label: string,
   value: string,
   selected: boolean
-}
+}*/
 
 type Field = {
   value: any,
@@ -32,7 +32,7 @@ type Form = {
 
   title: Field,
 
-  urlPicture: Field
+  urlPicture: Field,
 
   totalTimePreparation: Field,
 
@@ -60,11 +60,11 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
   const [allIngredients, setAllIngredients] = useState<Ingredient[]>([]);
   const [count, setCount] = useState(0);
   const [selectedFile, setSelectedFile] = useState<any>()
-  const [selectedDifficultyLevel, setSelectedDifficultyLevel] = useState<Option[]>([]);
+  // const [selectedDifficultyLevel, setSelectedDifficultyLevel] = useState<Option[]>([]);
   const [preview, setPreview] = useState<string | undefined>()
   const [searchTerm, setSearchTerm] = useState("")
   // const [categorie, setCategorie] = useState("")
-  const [difficultyLevel, setDifficultyLevel] = useState<Option | undefined>({ label: "Difficultés", value: "none", selected: false });
+  // const [difficultyLevel, setDifficultyLevel] = useState<Option | undefined>({ label: "Difficultés", value: "none", selected: false });
   const [form, setForm] = useState<Form>({
 
     id: { value: recette.id, isValid: true },
@@ -115,13 +115,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
   useEffect(() => {
     getAllIngredient().then(allIngredients => setAllIngredients(allIngredients));
 
-    // getCategorieSelect();
-    //getDifficultySelect(recette);
-    getUniteMesureSelect();
-
   }, []);
-
-
 
   useEffect(() => {
     if (!selectedFile) {
@@ -136,77 +130,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
     return () => URL.revokeObjectURL(objectUrl)
   }, [selectedFile])
 
-  useEffect(() => {
-
-
-    //setDifficultyLevel();
-    console.log("recette:" + recette.difficultyLevel);
-    const elementSelected = selectedDifficultyLevel.find(element => element.value.toLowerCase() === recette.difficultyLevel.toLowerCase());
-    if (elementSelected) {
-      elementSelected.selected = true;
-      setDifficultyLevel(elementSelected);
-    }
-
-    console.log("el selected:" + elementSelected);
-
-    // elementSelected? (elementSelected[0].selected = true) : (console.log("el n'existe pas"));
-    // elementSelected[0].selected = true;
-    console.log("recette:" + recette.difficultyLevel);
-    //setSelectedDifficultyLevel(listOptions);
-
-    console.log(difficultyLevel);
-
-  }, []);
-
-
-  console.log(selectedDifficultyLevel);
-  console.log(difficultyLevel);
-
-
-
-  /*function getDifficultySelect(recette: Recette) {
-    let choix: number = 0
-
-    switch (recette.difficultyLevel.toLowerCase()) {
-      case "facile":
-        choix = 1;
-        break;
-
-      case "intermédiaire":
-        choix = 2;
-        break;
-
-      case "difficile":
-        choix = 3;
-        break;
-
-      default: ;
-        console.log("choix impossible")
-        break;
-    }
-    const selectDifficulte = document.getElementById('difficultyLevel')
-    const optionDifficulte = selectDifficulte?.getElementsByTagName('option')[choix]
-    console.log(optionDifficulte);
-    optionDifficulte?.setAttribute('selected', 'selected');
-    // optionDifficulte?.setAttribute('defaultValue', recette.difficultyLevel.toLowerCase());
-    // console.log(optionDifficulte?.getAttribute('defaultValue'));
-  }*/
-
-  function getUniteMesureSelect() {
-
-    const selectUniteMesure = document.getElementById('uniteMesure')
-    console.log(selectUniteMesure)
-    const optionUniteMesure = selectUniteMesure?.getElementsByTagName('option').namedItem('KILOGRAMME')
-    console.log(optionUniteMesure?.getAttribute('defaultValue'))
-    optionUniteMesure?.setAttribute('selected', 'selected');
-  }
-
-  /*function getCategorieSelect() {
-
-    const selectCategorie = document.getElementById('categorie')
-    const optionCategorie = selectCategorie?.getElementsByTagName('option')[form.categorie.value.id]
-    optionCategorie?.setAttribute('selected', 'selected');
-  }*/
 
   function addNewLine() {
     const newLine = { ingredient: { name: '', urlPicture: '' }, uniteMesure: '', quantite: 0 }
@@ -279,7 +202,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
     }
 
     //const recettesIngredients = [];
-    console.log("cate: ", data.categorie);
+    // console.log("cate: ", data.categorie);
     const resultCategorie = await getCategorieById(data.categorie);
     data.categorie = { id: resultCategorie.id, name: resultCategorie.name, urlPicture: resultCategorie.urlPicture }
 
@@ -394,7 +317,8 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                 className="form-select form-select-lg mb-3 w-50 "
                 aria-label=".form-select-lg example"
                 id="categorie"
-                defaultValue="0">
+                defaultValue={recette.categorie.id}
+              >
                 {categoriesOptions.map(categorie => (
                   <option key={categorie.value} value={categorie.value}>{categorie.label}</option>
                 ))}
@@ -518,12 +442,14 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                       {...register(`recettesIngredients.${index}.uniteMesure`)}
                       required
                       aria-label=".form-select example"
-                      id="uniteMesure">
-                      <option selected>Mesure</option>
+                      id="uniteMesure"
+                      defaultValue={ingredient.uniteMesure}
+                    >
+                      <option >Mesure</option>
                       {Object.keys(UniteMesureEnum)
                         .filter(key => isNaN(Number(key)))
                         .filter(key => key != "map")
-                        .map(key => <option key={key} defaultValue={key}>{key}</option>)}
+                        .map(key => <option key={key} defaultValue={key.toLowerCase()}>{key}</option>)}
                     </select>
 
                   </div></>
