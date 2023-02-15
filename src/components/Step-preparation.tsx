@@ -3,12 +3,13 @@ import { RecettesIngredients } from "../models/RecetteIngredient";
 import styles from '../css/ajout-recette-page.module.css';
 import { Form } from "./forms/form-recette";
 import { required } from "yargs";
+import { FieldErrors } from "react-hook-form";
 
 type Props = {
     register: any,
     name: string,
     form: Form,
-    errors: any
+    errors: FieldErrors
 }
 
 const StepPreparation: FunctionComponent<Props> = ({ form, errors, register, name, ...rest }) => {
@@ -31,4 +32,4 @@ const StepPreparation: FunctionComponent<Props> = ({ form, errors, register, nam
     )
 }
 
-export default StepPreparation
+export default StepPreparation;

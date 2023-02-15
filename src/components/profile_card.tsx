@@ -1,22 +1,30 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import { FunctionComponent } from "react";
+import { useForm } from "react-hook-form";
 import { BoutonClassique } from "./Bouton";
-import { FormGroupInput } from "./children";
+import { FormGroupInput } from "./forms/InputsForm";
+import Schema from "../components/forms/Schema-yup";
 
 
 
 
 type UserProps = {
     user: {
-        id: 1,
-        nom: 'Machin',
-        prenom: 'Bidule',
-        email: 'b.machin@email.fr',
-        password: '123456',
-        confirmPassword: '123456'
+        id: number,
+        nom: string
+        prenom: string,
+        email: string,
+        password: string,
+        confirmPassword: string
     }
 };
 
 const ProfileCard: FunctionComponent<UserProps> = ({ user }) => {
+
+    const { register, handleSubmit, formState: { errors }, formState } = useForm<any>({
+        mode: 'onChange',
+        resolver: yupResolver(Schema)
+    });
 
     return (
 
@@ -25,17 +33,18 @@ const ProfileCard: FunctionComponent<UserProps> = ({ user }) => {
                 {/* <!-- form user info --> */}
                 <div className="card  border border-dark border-2 custom-bg-vert custom-shadow-card py-3" >
                     <div className="card-body">
-                        <h3 className="mb-0 text-center" 
-                        style={{
-                            fontFamily: 'Shintia Script',
-                            fontSize:'250%'}}>
-                                Profile Utilisateur
+                        <h3 className="mb-0 text-center"
+                            style={{
+                                fontFamily: 'Shintia Script',
+                                fontSize: '250%'
+                            }}>
+                            Profile Utilisateur
                         </h3>
-                        <form className="form p-2" 
-                            action="#" 
+                        <form className="form p-2"
+                            action="#"
                             role="form"
-                            autoComplete="off" 
-                            method="post"
+                            autoComplete="off"
+                            method=""
                         >
                             <p className="alert alert-secondary bold my-2 fs-6">
                                 message alert confirmation enregistrement
@@ -43,22 +52,26 @@ const ProfileCard: FunctionComponent<UserProps> = ({ user }) => {
                             {/*<!--***************************** Nom **********************************->*/}
                             <FormGroupInput
                                 type={"text"}
-                                nom={"nom"}
+                                name={"nom"}
                                 id={"nom"}
                                 valeur={user.nom}
                                 placeHolder={"Doe"}
                                 label={"Nom"}
-                            />
+                                register={register}
+                                defaultValue={undefined}
+                                errors={errors.nom?.message?.toString} />
 
                             { /*<!--***************************** Prenom **********************************-->*/}
                             <FormGroupInput
                                 type={"text"}
-                                nom={"prenom"}
+                                name={"prenom"}
                                 id={"prenom"}
                                 valeur={user.prenom}
                                 placeHolder={"Jane"}
                                 label={"Prénom"}
-                            />
+                                register={register}
+                                defaultValue={undefined}
+                                errors={undefined} />
 
                             { /* <!--***************************** Email **********************************-->*/}
                             <div className="form-group row">
@@ -71,26 +84,28 @@ const ProfileCard: FunctionComponent<UserProps> = ({ user }) => {
                             { /* <!--***************************** Password *********************************-->*/}
                             <FormGroupInput
                                 type={"password"}
-                                nom={"password"}
+                                name={"password"}
                                 id={"password"}
                                 valeur={user.password}
                                 placeHolder={"123456"}
                                 label={"Mot de Passe"}
-                            />
+                                register={register}
+                                errors={undefined} />
 
                             { /* <!--***************************** ConfirmPassword **********************************-->*/}
                             <FormGroupInput
                                 type={"password"}
-                                nom={"confirmPassword"}
+                                name={"confirmPassword"}
                                 id={"confirmPassword"}
                                 valeur={user.confirmPassword}
                                 placeHolder={"123456"}
                                 label={"Confirme"}
-                            />
+                                register={register}
+                                errors={undefined} />
 
                             { /*  <!--***************************** Button save Changes **********************************-->*/}
                             <div className="row col-12 col-md-6 col-lg-3 my-4 mx-auto">
-                                <BoutonClassique value={"Enregistrer"} id={"btnEnreg"} type={"submit"} name="btnEnreg"/>
+                                <BoutonClassique value={"Enregistrer"} id={"btnEnreg"} type={"submit"} name="btnEnreg" />
                             </div>
                         </form>
                     </div>

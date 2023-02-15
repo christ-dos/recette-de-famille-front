@@ -63,27 +63,6 @@ export const TitreH5: FunctionComponent<PropsTitreH5> = ({ titre, className }) =
 };
 
 
-/****************** Composant Form Group Input************************/
-type AttributsInputProps = {
-  id?: string,
-  nom?: string,
-  valeur?: string,
-  type: string,
-  placeHolder?: string,
-  label?: string,
-  error?: string
-}
-export const FormGroupInput: FunctionComponent<AttributsInputProps> = ({ id, nom, valeur, type, placeHolder, label, error }) => {
 
-  return (
-    <div className="form-group row ">
-      <label htmlFor={id} className="col-md-2 col-lg-3 col-form-label form-control-label">{label}</label>
-      <div className="col-lg-9 py-1">
-        <input id={id} name={nom} className="form-control " style={{ width: '100%' }} type={type} value={valeur} placeholder={placeHolder} />
-        <p className="m-1">{error}</p>
-      </div>
-    </div>
-  );
-};
 
 

@@ -1,6 +1,5 @@
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import { log } from "console";
 import { ChangeEvent, FunctionComponent, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
@@ -12,8 +11,9 @@ import { Ingredient } from "../models/Ingredient";
 import { UniteMesureEnum } from '../models/RecetteIngredient';
 import { getCategorieById } from "../services/CategorieService";
 import { getAllIngredient } from "../services/IngredientService";
+import Schema from "../components/forms/Schema-yup";
 
-const schema = yup.object({
+/*const schema = yup.object({
     title: yup.string()
         .required("Ce champs est requis")
         .min(3, "Entrer au min 3 caracteres ")
@@ -48,25 +48,27 @@ const schema = yup.object({
         .matches(/^[0-9]*$/, "Uniquement les nombres sont acceptés"),
 
     categorie: yup.string()
-        .required("Ce champs est requis")
+        .required("Ce champs est requis")*/
 
-    /* quantity: yup.number()
-     .required("Ce champs est requis"),
+/* quantity: yup.number()
+ .required("Ce champs est requis"),
  
-     ingredient: yup.string()
-     .required("Ce champs est requis"),
+ ingredient: yup.string()
+ .required("Ce champs est requis"),
  
-     uniteMesure: yup.string()
-     .uppercase("Ce champs doit être en majuscule")
-     .required("Ce champs est requis")*/
+ uniteMesure: yup.string()
+ .required("Ce champs est requis")
 
-}).required();
-
+}).required();*/
 
 const AjoutRecettePage: FunctionComponent = () => {
 
-    const [ingredients, setIngredients] = useState([{ingredient: { name: '',
-     urlPicture: '/https://st.depositphotos.com/1001069/4731/i/950/depositphotos_47311605-stock-photo-fresh-ingredients-for-cooking.jpg'}, quantite: '', uniteMesure: 'PIECE' }]);
+    const [ingredients, setIngredients] = useState([{
+        ingredient: {
+            name: '',
+            urlPicture: '/https://st.depositphotos.com/1001069/4731/i/950/depositphotos_47311605-stock-photo-fresh-ingredients-for-cooking.jpg'
+        }, quantite: '', uniteMesure: 'PIECE'
+    }]);
     const [allIngredients, setAllIngredients] = useState<Ingredient[]>([]);
     const [count, setCount] = useState(0);
     const [selectedFile, setSelectedFile] = useState<any>()
@@ -76,7 +78,7 @@ const AjoutRecettePage: FunctionComponent = () => {
 
     const { register, handleSubmit, formState: { errors }, formState } = useForm<any>({
         mode: 'onChange',
-        resolver: yupResolver(schema)
+        resolver: yupResolver(Schema)
     });
 
     const { isSubmitted, isSubmitSuccessful } = formState
@@ -100,7 +102,7 @@ const AjoutRecettePage: FunctionComponent = () => {
 
 
     function addNewLine() {
-        const newLine = {ingredient: { name: '', urlPicture:''}, uniteMesure: '', quantite: '' }
+        const newLine = { ingredient: { name: '', urlPicture: '' }, uniteMesure: '', quantite: '' }
         setIngredients([...ingredients, newLine])
         setCount(count + 1);
     }
@@ -121,12 +123,12 @@ const AjoutRecettePage: FunctionComponent = () => {
             .catch((error) => console.log(error));
     };
 
-     function getIngedientByName(name: string): Ingredient | undefined {
-          const result = allIngredients.filter(x => x.name.toLowerCase() === name.toLowerCase())
-          if (result) {
-              return result[0];
-          }
-      }
+    function getIngedientByName(name: string): Ingredient | undefined {
+        const result = allIngredients.filter(x => x.name.toLowerCase() === name.toLowerCase())
+        if (result) {
+            return result[0];
+        }
+    }
 
     const onSelectFile = (e: ChangeEvent<HTMLInputElement>) => {
         console.log(e.target.files)
@@ -144,7 +146,7 @@ const AjoutRecettePage: FunctionComponent = () => {
         let value = e.target.value;
         console.log(value)
         setSearchTerm(value)
-       
+
     }
 
     async function onSubmit(data: any) {
@@ -168,12 +170,12 @@ const AjoutRecettePage: FunctionComponent = () => {
 
         data.recettesIngredients.map((recIng: any) => {
             const ingredient = getIngedientByName(recIng.ingredient.name)
-            if(ingredient){
+            if (ingredient) {
                 recIng.ingredient = ingredient;
             }
-           
+
         });
-            
+
         createRecipe(data).then((response) => {
             if (response.error) {
                 console.log(response.error);
@@ -263,7 +265,7 @@ const AjoutRecettePage: FunctionComponent = () => {
                                         {<p className="text-danger">{errors.totalTimePreparation?.message?.toString()}</p>}
                                     </div>
                                 </div>
-                                
+
                             </div>
 
                             <div className={styles.duree}>
@@ -330,7 +332,7 @@ const AjoutRecettePage: FunctionComponent = () => {
                                             {allIngredients
                                                 .filter(ingredient => ingredient.name.includes(searchTerm))
                                                 .map(ingredient =>
-                                                    <option value={ingredient.name} />
+                                                    <option key={ingredient.id} value={ingredient.name} />
                                                 )}
                                         </datalist>
                                         {<p className="text-danger">{errors.ingredient?.message?.toString()}</p>}
@@ -340,18 +342,18 @@ const AjoutRecettePage: FunctionComponent = () => {
                                         <input type="number" step={1} min={0} placeholder='quantité'
                                             className="form-control" {...register(`recettesIngredients.${index}.quantite`)}
                                             aria-label="Dollar amount (with dot and two decimal places)"
-                                            onChange={(e) => console.log(e.target.value)} 
+                                            onChange={(e) => console.log(e.target.value)}
                                             required
                                         />
-                                      
+
                                         {<p className="text-danger">{errors.quantity?.message?.toString()}</p>}
                                     </div>
 
                                     <select {...register(`recettesIngredients.${index}.uniteMesure`)}
                                         className="form-select form-select mb-3 w-50 ms-2"
-                                        required 
+                                        required
                                         aria-label=".form-select-lg example">
-                                        <option selected>Mesure</option>
+                                        <option key={ingredient.uniteMesure} selected>Mesure</option>
                                         {Object.keys(UniteMesureEnum)
                                             .filter(key => isNaN(Number(key)))
                                             .filter(key => key != "map")
