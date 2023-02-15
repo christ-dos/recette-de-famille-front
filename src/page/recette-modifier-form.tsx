@@ -17,6 +17,7 @@ import { getCategorieById } from "../services/CategorieService";
 import { getAllIngredient } from "../services/IngredientService";
 import { updateRecipe } from "../services/RecetteService";
 import { difficultyOptions, categoriesOptions } from "../components/forms/InputsForm";
+import { addNewLine, handleSearchTerm } from "../utils/fonctiosn-utils";
 
 
 type Props = {
@@ -41,25 +42,10 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
 
   const { isSubmitted, isSubmitSuccessful } = formState
 
-  /*const difficultyOptions = [
-    { label: "Difficultés", value: "none" },
-    { label: "Facile", value: "facile" },
-    { label: "Intermédaire", value: "intermediaire" },
-    { label: "Difficile", value: "difficile" }]
-
-  const categoriesOptions = [
-    { label: "Catégories", value: "none" },
-    { label: "Plats", value: "1" },
-    { label: "Entrées", value: "2" },
-    { label: "Desserts", value: "3" },
-    { label: "Apéritfs", value: "4" }]*/
 
   useEffect(() => {
     getAllIngredient().then(allIngredients => setAllIngredients(allIngredients));
     setRecettesIngredients(recette.recettesIngredients)
-
-    // console.log(recette.recettesIngredients);
-    // console.table(form)
 
   }, [recettesIngredients]);
 
@@ -75,18 +61,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
     return () => URL.revokeObjectURL(objectUrl)
   }, [selectedFile])
 
-
-  function addNewLine() {
-    const newLine = {
-      id: { recetteId: 0, ingredientId: 0 },
-      quantite: 0,
-      uniteMesure: UniteMesureEnum.map,
-      ingredient: { id: 0, name: '' },
-    }
-    recettesIngredients.push(newLine);
-    setRecettesIngredients([...recettesIngredients])
-    setCount(count + 1);
-  }
 
   function deleteLine(recetteIngredientId: RecetteIngredientId | undefined) {
     if (recettesIngredients.length > 1) {
@@ -118,23 +92,16 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
     }
     setSelectedFile(e.target.files[0])
     setPreview(selectedFile)
-    console.log(preview);
   }
 
-  const handleSearchTerm = (e: ChangeEvent<HTMLInputElement>) => {
+  /*const handleSearchTerm = (e: ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
-    console.log("value:" + value)
-    // setSearchTerm(value)
-
     value.length > 2 ? (setSearchTerm(value)) : (setSearchTerm(""))
-    console.log("ds la methode:" + searchTerm)
-
-  }
+  }*/
 
 
   async function onSubmit(data: any) {
     console.log("datas:", data)
-    //console.log("***categorie before: " + data.categorie);
 
     if (selectedFile) {
       let blob = selectedFile.slice();
@@ -149,12 +116,8 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
       data.urlPicture = form.urlPicture.value;
     }
 
-    //const recettesIngredients = [];
-    // console.log("cate: ", data.categorie);
     const resultCategorie = await getCategorieById(data.categorie);
     data.categorie = { id: resultCategorie.id, name: resultCategorie.name, urlPicture: resultCategorie.urlPicture }
-    // console.log("cate after: ", data.categorie);
-
 
     data.recettesIngredients.map((recIng: any) => {
       console.log(recIng.ingredient.name.toLowerCase())
@@ -216,15 +179,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                   accept="image/png, image/jpeg"
                   onChange={onSelectFile}
                 />
-                {/*  <label htmlFor="avatar">Choisir une image: </label>
-                <input
-                  {...register("urlPicture")}
-                  type="file"
-                  id="avatar"
-                  accept="image/png, image/jpeg"
-                  onChange={onSelectFile}
-                />
-                */}
               </div>
               {<p className="text-danger d-flex justify-content-center">{errors.urlPicture?.message?.toString()}</p>}
 
@@ -245,7 +199,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
             <div className="col-12 col-md-12 col-lg-4 form-group d-flex flex-column justify-content-center ">
 
               {/************************** Infos Clefs (Selecteurs) ********************************/}
-              {/* <h4 className="custom-color-dore">Infos clés</h4>*/}
               <TitreH5
                 titre={"Infos clés"}
                 className={"custom-color-dore mb-3 ms-2"}
@@ -271,31 +224,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                 defaultValue={recette.categorie.id}
                 array={categoriesOptions}
               />
-
-
-              {/*  <select {...register('difficultyLevel')} className="form-select form-select-lg mb-3 w-50"
-                aria-label=".form-select-lg example"
-                id="difficultyLevel"
-                defaultValue={recette.difficultyLevel.toLowerCase()}
-              >
-                {difficultyOptions.map(option => (
-                  <option key={option.value} value={option.value}>{option.label}</option>
-                ))}
-              </select>
-              {<p className="text-danger">{errors.difficultyLevel?.message?.toString()}</p>}
-
-              <select {...register('categorie')}
-                className="form-select form-select-lg mb-3 w-50 "
-                aria-label=".form-select-lg example"
-                id="categorie"
-                defaultValue={recette.categorie.id}
-              >
-                {categoriesOptions.map(categorie => (
-                  <option key={categorie.value} value={categorie.value}>{categorie.label}</option>
-                ))}
-              </select>
-              {<p className="text-danger">{errors.categorie?.message?.toString()}</p>}
-              */}
               {/*************************** Les Durées *********************************/}
               <div className={styles.duree}>
                 <TitreH5
@@ -310,18 +238,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                   defaultValue={form.totalTimePreparation.value}
                   type="text"
                 />
-
-                {/*} <div className=" d-flex flex-row justify-content-between">
-                  <div className="input-group w-50">
-                    <input {...register("totalTimePreparation")} type="text"
-                      className="form-control"
-                      defaultValue={form.totalTimePreparation.value}
-                    />
-                    <span className="input-group-text">Minutes</span>
-                  </div>
-                  {<p className="text-danger">{errors.totalTimePreparation?.message?.toString()}</p>}
-                </div>
-            */}
               </div>
 
               <div className={styles.duree}>
@@ -337,19 +253,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                   defaultValue={form.timePreparation.value}
                   type="text"
                 />
-
-                {/* <div className=" d-flex flex-row justify-content-between">
-                  <div className="input-group w-50">
-                    <input {...register("timePreparation")} type="text"
-                      className="form-control "
-                      aria-label="Dollar amount (with dot and two decimal places)"
-                      defaultValue={form.timePreparation.value}
-                    />
-                    <span className="input-group-text">Minutes</span>
-                  </div>
-                </div>
-                {<p className="text-danger">{errors.timePreparation?.message?.toString()}</p>}
-             */}
               </div>
 
               <div className={styles.duree}>
@@ -365,18 +268,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                   defaultValue={form.cookingTime.value}
                   type="text"
                 />
-                {/*   <div className=" d-flex flex-row justify-content-between">
-                  <div className="input-group w-50">
-                    <input {...register("cookingTime")} type="text"
-                      className="form-control"
-                      aria-label="Dollar amount (with dot and two decimal places)"
-                      defaultValue={form.cookingTime.value}
-                    />
-                    <span className="input-group-text">Minutes</span>
-                  </div>
-                </div>
-                {<p className="text-danger">{errors.cookingTime?.message?.toString()}</p>}
-            */}
               </div>
 
               <div className={styles.duree}>
@@ -392,17 +283,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                   defaultValue={form.restTime.value}
                   type="text"
                 />
-                {/*  <div className=" d-flex flex-row justify-content-between">
-                  <div className="input-group w-50">
-                    <input {...register('restTime')} type="text"
-                      className="form-control"
-                      aria-label="Dollar amount (with dot and two decimal places)"
-                      defaultValue={form.restTime.value} />
-                    <span className="input-group-text">Minutes</span>
-                  </div>
-                </div>
-                {<p className="text-danger">{errors.restTime?.message?.toString()}</p>}
-          */}
               </div>
 
             </div>
@@ -420,19 +300,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                 defaultValue={form.numberOfPeople.value}
                 type="text"
               />
-
-              {/* <div className=" d-flex flex-row justify-content-between">
-                <div className="input-group w-50 mb-3 ">
-                  <input {...register("numberOfPeople")} type="text"
-                    className="form-control "
-                    aria-label="Dollar amount (with dot and two decimal places)"
-                    defaultValue={form.numberOfPeople.value} />
-                  <span className="input-group-text ">personnes</span>
-                </div>
-              </div>
-              {<p className="text-danger">{errors.numberOfPeople?.message?.toString()}</p>}
-            */}
-
               {/*************************** Les ingredients *********************************/}
               <TitreH5
                 titre={"Ingrédients"}
@@ -440,7 +307,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
               />
               {recette.recettesIngredients.map((recettesIngredients, index) => (
                 <IngredientLine
-                  key={recettesIngredients.ingredient.id}
+                  key={index}
                   name={'recettesIngredients'}
                   recettesIngredients={recettesIngredients}
                   click={() => deleteLine(recettesIngredients?.id)}
@@ -449,67 +316,13 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                   errors={errors}
                   searchTerm={searchTerm}
                   allIngredients={allIngredients}
-                  handleSearchTerm={(e) => handleSearchTerm(e)} />
+                  handleSearchTerm={(e) => handleSearchTerm(e, setSearchTerm)} />
               ))}
-
-
-              {/*  {recette.recettesIngredients.map((ingredient, index) => (
-                <>
-                  <div className=" d-flex flex-row justify-content-between mb-1 mt-3">
-                    <div className="me-2">
-                      <input type="text"
-                        {...register(`recettesIngredients.${index}.ingredient.name`)}
-                        className="form-control"
-                        aria-label="Dollar amount (with dot and two decimal places)"
-                        onChange={(e) => handleSearchTerm(e)}
-                        list="ingredients"
-                        required
-                        defaultValue={ingredient.ingredient.name} />
-                      <datalist id="ingredients">
-                        {allIngredients
-                          .filter(ingredient => ingredient.name.includes(searchTerm))
-                          .map(ingredientName =>
-                            <option key={ingredientName.id} defaultValue={ingredientName.name} />
-                          )}
-                      </datalist>
-                    </div>
-
-                    <div>
-                      <input type="number"
-                        {...register(`recettesIngredients.${index}.quantite`)}
-                        step={1}
-                        min={0}
-                        className="form-control"
-                        aria-label="Dollar amount (with dot and two decimal places)"
-                        onChange={(e) => console.log(e.target.value)}
-                        defaultValue={ingredient.quantite}
-                        required />
-                    </div>
-
-                    <select
-                      className="form-select form-select mb-3 w-50 ms-2"
-                      {...register(`recettesIngredients.${index}.uniteMesure`)}
-                      required
-                      aria-label=".form-select example"
-                      id="uniteMesure"
-                      defaultValue={ingredient.uniteMesure}
-                    >
-                      <option key={"none"}>Mesure</option>
-                      {Object.keys(UniteMesureEnum)
-                        .filter(key => isNaN(Number(key)))
-                        .filter(key => key != "map")
-                        .map(key => <option key={key} defaultValue={key.toLowerCase()}>{key}</option>)}
-                    </select>
-
-                  </div>
-                  </>
-              ))}
- */}
 
               <Button className="mt-3 me-1"
                 variant="secondary"
                 type={"button"}
-                onClick={addNewLine}>
+                onClick={() => addNewLine(recettesIngredients, setRecettesIngredients)}>
                 +
               </Button>
 
@@ -521,28 +334,11 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
           {/*************************** Les étapes de préparations *********************************/}
           <section className="row">
             <StepPreparation register={register} name={"stepPreparation"} form={form} errors={errors} />
-
-            {/* <div className="col-12 col-md-12 col-lg-12 ">
-              <h3 className={` ms-4 custom-color-dore mt-2`}>Préparation</h3>
-              <div className="form-floating mx-4" style={{ boxShadow: '1px 1px 1px rgba(131,197,190,0.9)' }}>
-                <textarea {...register("stepPreparation")} className={`form-control ${styles.textarea}`}
-                  placeholder="Leave a comment here"
-                  id="floatingTextarea"
-                  defaultValue={form.stepPreparation.value}
-                >
-                </textarea>
-
-                <label htmlFor="floatingTextarea">Aller à la ligne pour chaque étape</label>
-              </div>
-              {<p className="text-danger">{errors.stepPreparation?.message?.toString()}</p>}
-            </div>  */}
-
           </section>
         </main>
         <div className="d-flex justify-content-center mb-3">
           <Button className="mt-3 " variant="secondary" type={"submit"}>Valider</Button>
         </div>
-
       </form>
 
     </>

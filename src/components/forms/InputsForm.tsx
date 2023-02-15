@@ -79,6 +79,7 @@ export const FormGroupInputLabel: FunctionComponent<Props> = ({ id, name, valeur
                 className="col 12 col-md-6 col-lg-3 col-form-label form-control-label">{label}</label>
             <div className="col-12 col-md-6 col-lg-9 py-1 d-flex justify-content-center">
                 <input
+                    {...register(name)}
                     id={id}
                     name={name}
                     className="form-control "
@@ -87,7 +88,7 @@ export const FormGroupInputLabel: FunctionComponent<Props> = ({ id, name, valeur
                     placeholder={placeHolder}
                     accept={accept}
                     onChange={onChange} />
-                {<p className="m-1 text-danger">{errors?.urlPicture?.message?.toString}</p>}
+                {<p className="m-1 text-danger">{errors?.name?.message?.value.toString}</p>}
             </div>
         </div>
     );
@@ -102,14 +103,15 @@ export const FormGroupInputSpan: FunctionComponent<Props> = ({ id, name, valeur,
     return (
         <div className=" d-flex flex-row justify-content-between">
             <div className="input-group w-50 mb-1">
-                <input {...register(name)} type={type}
+                <input {...register(name)}
+                    type={type}
                     className="form-control"
                     defaultValue={defaultValue}
                     id={id}
                 />
                 <span className="input-group-text" >{valeur}</span>
             </div>
-            {<p className="text-danger">{errors.totalTimePreparation?.message?.toString()}</p>}
+            {<p className="text-danger">{errors.name?.message?.toString()}</p>}
         </div>
     );
 }

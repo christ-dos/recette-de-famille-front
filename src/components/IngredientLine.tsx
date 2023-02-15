@@ -24,14 +24,13 @@ const IngredientLine: FunctionComponent<Props> = ({ recettesIngredients,
 
         <>
             <div className=" d-flex flex-row justify-content-between mb-1 mt-3">
-                <div className="me-2 w-25">
+                <div className="me-2 w-25" hidden>
                     <input type="text"
                         {...register(`${name}.${index}.ingredient.id`)}
                         className="form-control"
                         defaultValue={recettesIngredients.ingredient.id}
                         onChange={(e) => handleSearchTerm}
                     />
-
                 </div>
 
                 <div className="me-2">
