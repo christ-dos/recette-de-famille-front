@@ -1,5 +1,5 @@
 import { faTrashAlt, IconDefinition } from '@fortawesome/free-regular-svg-icons';
-import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FunctionComponent, MouseEventHandler } from 'react';
 import { Link } from 'react-router-dom';
@@ -84,3 +84,20 @@ export const Boutons2: FunctionComponent = () => {
       </main >
   )
 }
+
+/********************************* Fléche de retour ********************* */
+export const Retour: FunctionComponent = () => {
+
+  return (
+      <main>
+           <div className="container  mt-5 ">
+              <div className="me-4" >
+                  <button type="button" className="btn custom-vert  ">
+                      <FontAwesomeIcon icon={faArrowLeft} style={{fontSize:'30', color:'#83C5BE'}}/>
+                  </button>
+              </div>
+           </div>
+      </main>
+  )
+}
+

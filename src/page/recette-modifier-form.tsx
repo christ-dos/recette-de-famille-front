@@ -3,9 +3,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { ChangeEvent, FunctionComponent, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { TitreH2 } from "../components/children";
+import { TitreH2, TitreH5 } from "../components/children";
 import { Form, Formulaire } from "../components/forms/form-recette";
-import { FormGroupInputSpan, InputSelect } from "../components/forms/InputsForm";
+import { FormGroupInputLabel, FormGroupInputSpan, InputSelect } from "../components/forms/InputsForm";
 import Schema from "../components/forms/Schema-yup";
 import IngredientLine from "../components/IngredientLine";
 import StepPreparation from "../components/Step-preparation";
@@ -146,7 +146,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
         data.urlPicture = reader.result;
       }
     } else {
-      data.urlPicture = '/images/mystere.jpg';
+      data.urlPicture = form.urlPicture.value;
     }
 
     //const recettesIngredients = [];
@@ -205,23 +205,34 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
             </div>
             {<p className="text-danger d-flex justify-content-center">{errors.title?.message?.toString()}</p>}
             {/*************************** Choisir une image *********************************/}
-            <div className="d-flex flex-column ">
-              <div className=" d-flex justify-content-center mt-5" >
-                <label htmlFor="avatar">Choisir une image:</label>
-                <input  {...register("urlPicture")}
+            <div className="">
+              <div className=" d-flex justify-content-center mt-3 mb-3" >
+                <FormGroupInputLabel
+                  register={register}
+                  errors={errors}
+                  type={"file"}
+                  name={"urlPicture"}
+                  id={"avatar"}
+                  accept="image/png, image/jpeg"
+                  onChange={onSelectFile}
+                />
+                {/*  <label htmlFor="avatar">Choisir une image: </label>
+                <input
+                  {...register("urlPicture")}
                   type="file"
                   id="avatar"
                   accept="image/png, image/jpeg"
                   onChange={onSelectFile}
                 />
+                */}
               </div>
               {<p className="text-danger d-flex justify-content-center">{errors.urlPicture?.message?.toString()}</p>}
 
-              <div className=" d-flex justify-content-center mt-5">
+              <div className=" d-flex justify-content-center mt-2">
                 <figure >
                   <img className={styles.mystere}
                     src={selectedFile ? (preview) : (form.urlPicture.value)}
-                    id="imgRecette" alt="point d'interrogation"
+                    id="imgRecette" alt="image de la recette"
                     style={{ objectFit: 'cover' }} />
                 </figure>
               </div>
@@ -234,7 +245,11 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
             <div className="col-12 col-md-12 col-lg-4 form-group d-flex flex-column justify-content-center ">
 
               {/************************** Infos Clefs (Selecteurs) ********************************/}
-              <h4 className="custom-color-dore">Infos clés</h4>
+              {/* <h4 className="custom-color-dore">Infos clés</h4>*/}
+              <TitreH5
+                titre={"Infos clés"}
+                className={"custom-color-dore mb-3 ms-2"}
+              />
               <InputSelect
                 register={register}
                 name={"difficultyLevel"}
@@ -283,7 +298,10 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
               */}
               {/*************************** Les Durées *********************************/}
               <div className={styles.duree}>
-                <h4 className="custom-color-dore">Temps total</h4>
+                <TitreH5
+                  titre={"Temps total"}
+                  className={"custom-color-dore mb-3 ms-1"}
+                />
                 <FormGroupInputSpan
                   register={register}
                   errors={errors}
@@ -307,7 +325,10 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
               </div>
 
               <div className={styles.duree}>
-                <h4 className="custom-color-dore">Temps de préparation</h4>
+                <TitreH5
+                  titre={"Temps de Préparation"}
+                  className={"custom-color-dore mb-3 ms-1"}
+                />
                 <FormGroupInputSpan
                   register={register}
                   errors={errors}
@@ -332,7 +353,10 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
               </div>
 
               <div className={styles.duree}>
-                <h4 className="custom-color-dore">Temps de cuisson</h4>
+                <TitreH5
+                  titre={"Temps de cuisson"}
+                  className={"custom-color-dore mb-3 ms-1"}
+                />
                 <FormGroupInputSpan
                   register={register}
                   errors={errors}
@@ -356,7 +380,10 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
               </div>
 
               <div className={styles.duree}>
-                <h4 className="custom-color-dore">Temps de repos</h4>
+                <TitreH5
+                  titre={"Temps de repos"}
+                  className={"custom-color-dore mb-3 ms-1"}
+                />
                 <FormGroupInputSpan
                   register={register}
                   errors={errors}
@@ -381,7 +408,10 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
             </div>
             {/*************************** Le nombre de parts *********************************/}
             <div className="col-12 col-md-12 col-lg-7 ">
-              <h4 className="mb-3  custom-color-dore">Nombre de personnes</h4>
+              <TitreH5
+                titre={"Nombre de personnes"}
+                className={"custom-color-dore mb-3 ms-1"}
+              />
               <FormGroupInputSpan
                 register={register}
                 errors={errors}
@@ -404,7 +434,10 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
             */}
 
               {/*************************** Les ingredients *********************************/}
-              <h4 className="custom-color-dore mt-3">Ingrédients</h4>
+              <TitreH5
+                titre={"Ingrédients"}
+                className={"custom-color-dore mt-4 ms-1"}
+              />
               {recette.recettesIngredients.map((recettesIngredients, index) => (
                 <IngredientLine
                   key={recettesIngredients.ingredient.id}

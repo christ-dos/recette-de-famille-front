@@ -15,7 +15,9 @@ type Props = {
     placeHolder?: string,
     label?: string,
     defaultValue?: any,
-    array?: { label: string, value: string }[]
+    array?: { label: string, value: string }[],
+    onChange?: any,
+    accept?: string
 }
 
 /********************** Les constante pour remplir les Selects *****************************/
@@ -68,14 +70,24 @@ export const InputSelect: FunctionComponent<Props> = ({ array,
     errors?: string
 }*/
 export const FormGroupInputLabel: FunctionComponent<Props> = ({ id, name, valeur,
-    type, placeHolder, label, errors, register, ...rest }) => {
+    type, placeHolder, label, errors, register, accept, onChange, ...rest }) => {
 
     return (
-        <div className="form-group row ">
-            <label htmlFor={id} className="col-md-2 col-lg-3 col-form-label form-control-label">{label}</label>
-            <div className="col-lg-9 py-1">
-                <input id={id} name={name} className="form-control " style={{ width: '100%' }} type={type} value={valeur} placeholder={placeHolder} />
-                <p className="m-1 text-danger">{errors}</p>
+        <div className="form-group d-flex pe-5 ">
+            <label
+                htmlFor={id}
+                className="col 12 col-md-6 col-lg-3 col-form-label form-control-label">{label}</label>
+            <div className="col-12 col-md-6 col-lg-9 py-1 d-flex justify-content-center">
+                <input
+                    id={id}
+                    name={name}
+                    className="form-control "
+                    style={{ width: '100%' }}
+                    type={type} value={valeur}
+                    placeholder={placeHolder}
+                    accept={accept}
+                    onChange={onChange} />
+                {<p className="m-1 text-danger">{errors?.urlPicture?.message?.toString}</p>}
             </div>
         </div>
     );
