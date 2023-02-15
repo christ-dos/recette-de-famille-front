@@ -16,17 +16,9 @@ const ExempleRecetteCard: FunctionComponent = () => {
                                 <TitreH5 titre="Calamars à la romaine" className="card-title overflow-elipsis" />
                             </div>
                         </div>
-
                     </div>
-
-
-
                 </div>
             </div>
-
-
-          
-
         </main >
     )
 

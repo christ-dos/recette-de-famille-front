@@ -1,11 +1,13 @@
+import { data } from "dom7";
 import { ChangeEvent, FunctionComponent, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { TitreH2 } from "../components/children";
+import IngredientLine from "../components/IngredientLine";
 import styles from '../css/ajout-recette-page.module.css';
 import { Ingredient } from "../models/Ingredient";
 import { Recette } from "../models/recette";
-import { UniteMesureEnum } from "../models/RecetteIngredient";
+import { RecetteIngredientId, RecettesIngredients, UniteMesureEnum } from "../models/RecetteIngredient";
 import { getCategorieById } from "../services/CategorieService";
 import { getAllIngredient } from "../services/IngredientService";
 
@@ -56,7 +58,7 @@ type Form = {
 
 const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
 
-  const [recettesIngredients, setRecettesIngredients] = useState<any>([{ ingredient: { name: '', urlPicture: '' }, uniteMesure: UniteMesureEnum, quantity: 0 }]);
+  const [recettesIngredients, setRecettesIngredients] = useState<RecettesIngredients[]>([]);
   const [allIngredients, setAllIngredients] = useState<Ingredient[]>([]);
   const [count, setCount] = useState(0);
   const [selectedFile, setSelectedFile] = useState<any>()
@@ -114,12 +116,14 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
 
   useEffect(() => {
     getAllIngredient().then(allIngredients => setAllIngredients(allIngredients));
+    setRecettesIngredients(recette.recettesIngredients)
 
-  }, []);
+    console.log(recette.recettesIngredients);
+
+  }, [recettesIngredients]);
 
   useEffect(() => {
     if (!selectedFile) {
-
       setPreview(undefined)
       return
     }
@@ -132,16 +136,30 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
 
 
   function addNewLine() {
-    const newLine = { ingredient: { name: '', urlPicture: '' }, uniteMesure: '', quantite: 0 }
-    setRecettesIngredients([...recettesIngredients, newLine])
+    const newLine = {
+      id: { recetteId: 0, ingredientId: 0 },
+      quantite: 0,
+      uniteMesure: UniteMesureEnum.map,
+      ingredient: { id: 0, name: '' },
+    }
+    recettesIngredients.push(newLine);
+    setRecettesIngredients([...recettesIngredients])
     setCount(count + 1);
   }
 
-  function deleteLine() {
+  function deleteLine(recetteIngredientId: RecetteIngredientId | undefined) {
     if (recettesIngredients.length > 1) {
+      console.log("taille:" + recettesIngredients.length)
+
+      const test = recettesIngredients.filter(recetteIngredient => (recetteIngredient.id?.ingredientId !== recetteIngredientId?.ingredientId)
+        || recetteIngredient.id?.recetteId !== recetteIngredientId?.recetteId);
+      console.table(test.map(ingredient => ingredient.ingredient));
       recettesIngredients.pop()
       setRecettesIngredients([...recettesIngredients])
+
     }
+    console.log("id a supprimer", recetteIngredientId);
+    console.log("click sur delete")
   }
 
   const updateRecipe = (data: any) => {
@@ -165,7 +183,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
       setSelectedFile(undefined)
       return
     }
-    // I've kept this example simple by using the first image instead of multiple
     setSelectedFile(e.target.files[0])
     setPreview(selectedFile)
     console.log(preview);
@@ -180,13 +197,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
 
   async function onSubmit(data: any) {
     console.log("datas:", data)
-    console.log("***categorie: " + data.categorie);
-    console.log('form.cate: ' + form.categorie.value.name);
-    console.log('form.difficulty: ' + form.difficultyLevel.value);
-
-
-    console.log("picture:", data.urlPicture)
-    console.log("id: " + data.id)
+    //console.log("***categorie before: " + data.categorie);
 
     if (selectedFile) {
       let blob = selectedFile.slice();
@@ -205,19 +216,21 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
     // console.log("cate: ", data.categorie);
     const resultCategorie = await getCategorieById(data.categorie);
     data.categorie = { id: resultCategorie.id, name: resultCategorie.name, urlPicture: resultCategorie.urlPicture }
+    // console.log("cate after: ", data.categorie);
 
 
     data.recettesIngredients.map((recIng: any) => {
-      const ingredient = getIngedientByName(recIng.ingredient.name)
-      recIng.ingredient = ingredient;
-      const recetteIngredientId = { recetteId: data.id, ingredientId: ingredient?.id };
-      console.log(recetteIngredientId);
-      recIng.id = recetteIngredientId;
+      console.log(recIng.ingredient.name.toLowerCase())
+      const ingredient = allIngredients.find(element => element.name === recIng.ingredient.name);
+      if (ingredient) {
+        const recetteIngredientId = { recetteId: data.id, ingredientId: ingredient?.id };
+        recIng.ingredient = ingredient;
+        recIng.id = recetteIngredientId;
+      } else {
+        const recetteIngredientId = { recetteId: data.id, ingredientId: 0 };
+        recIng.id = recetteIngredientId;
+      }
     });
-
-    data.recettesIngredients.map((recIng: any) => console.log(recIng.ingredient.id));
-
-    //  data.recettesIngredients = recettesIngredients
 
     updateRecipe(data).then((response) => {
       if (response.error) {
@@ -231,7 +244,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
   return (
     <>
       <TitreH2 titre={"Editer une Recette"} />
-      {isSubmitSuccessful && <div className="alert alert-success mt-4">Recette mise à  avec succés</div>}
+      {isSubmitSuccessful && <div className="alert alert-success mt-4">Recette mise à jour avec succés</div>}
       <form action="" onSubmit={handleSubmit(onSubmit)} className="border border-secundary shadow-lg">
 
         <main className="container" >
@@ -262,7 +275,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                   id="avatar"
                   accept="image/png, image/jpeg"
                   onChange={onSelectFile}
-
                 />
               </div>
               {<p className="text-danger d-flex justify-content-center">{errors.urlPicture?.message?.toString()}</p>}
@@ -283,14 +295,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
             style={{ backgroundColor: 'rgba(131,197,190,0.1)', boxShadow: '1px 1px 1px rgba(131,197,190,0.9)', border: '1px 1px solid rgba(131,197,190,0.9)', borderRadius: ' 20px' }}>
             <div className="col-12 col-md-12 col-lg-4 form-group d-flex flex-column justify-content-center ">
               <h4 className="custom-color-dore">Infos clés</h4>
-              {/* <select {...register('difficultyLevel')} className="form-select form-select-lg mb-3 w-50"
-                aria-label=".form-select-lg example"
-                id="difficultyLevel">
-                <option selected defaultChecked={form.difficultyLevel.value}>Difficultés</option>
-                <option value="facile">Facile</option>
-                <option value="intermediaire">Intermédiaire</option>
-                <option value="difficile">Difficile</option>
-              </select> */}
+
               <select {...register('difficultyLevel')} className="form-select form-select-lg mb-3 w-50"
                 aria-label=".form-select-lg example"
                 id="difficultyLevel"
@@ -300,19 +305,8 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                   <option key={option.value} value={option.value}>{option.label}</option>
                 ))}
               </select>
-
               {<p className="text-danger">{errors.difficultyLevel?.message?.toString()}</p>}
 
-              {/*<select {...register('categorie')}
-                className="form-select form-select-lg mb-3 w-50 "
-                aria-label=".form-select-lg example"
-                id="categorie">
-                <option selected defaultValue="0" defaultChecked={form.categorie.value}>Catégories</option>
-                <option value="1">Plat</option>
-                <option value="2">Entrees</option>
-                <option value="3">Desserts</option>
-                <option value="4">Apéritifs</option>
-              </select> */}
               <select {...register('categorie')}
                 className="form-select form-select-lg mb-3 w-50 "
                 aria-label=".form-select-lg example"
@@ -322,12 +316,10 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                 {categoriesOptions.map(categorie => (
                   <option key={categorie.value} value={categorie.value}>{categorie.label}</option>
                 ))}
-
               </select>
               {<p className="text-danger">{errors.categorie?.message?.toString()}</p>}
 
               <div className={styles.duree}>
-
                 <h4 className="custom-color-dore">Temps total</h4>
                 <div className=" d-flex flex-row justify-content-between">
                   <div className="input-group w-50">
@@ -403,8 +395,17 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
 
 
               <h4 className="custom-color-dore">Ingrédients</h4>
+              {recette.recettesIngredients.map((recettesIngredients, index) => (
+                <IngredientLine
+                  name={'recettesIngredients'}
+                  recettesIngredients={recettesIngredients}
+                  click={() => deleteLine(recettesIngredients?.id)}
+                  register={register}
+                  index={index} />
+              ))}
 
-              {recette.recettesIngredients.map((ingredient, index) => (
+
+              {/*  {recette.recettesIngredients.map((ingredient, index) => (
                 <>
                   <div className=" d-flex flex-row justify-content-between mb-1 mt-3">
                     <div className="me-2">
@@ -419,8 +420,8 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                       <datalist id="ingredients">
                         {allIngredients
                           .filter(ingredient => ingredient.name.includes(searchTerm))
-                          .map(ingredient =>
-                            <option key={ingredient.id} defaultValue={ingredient.name} />
+                          .map(ingredientName =>
+                            <option key={ingredientName.id} defaultValue={ingredientName.name} />
                           )}
                       </datalist>
                     </div>
@@ -445,16 +446,17 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                       id="uniteMesure"
                       defaultValue={ingredient.uniteMesure}
                     >
-                      <option >Mesure</option>
+                      <option key={"none"}>Mesure</option>
                       {Object.keys(UniteMesureEnum)
                         .filter(key => isNaN(Number(key)))
                         .filter(key => key != "map")
                         .map(key => <option key={key} defaultValue={key.toLowerCase()}>{key}</option>)}
                     </select>
 
-                  </div></>
+                  </div>
+                  </>
               ))}
-
+ */}
 
               <Button className="mt-3 me-1"
                 variant="secondary"
@@ -462,14 +464,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                 onClick={addNewLine}>
                 +
               </Button>
-              <Button className="mt-3"
-                variant="danger"
-                type={"button"}
-                onClick={deleteLine}
-                id="deleteIngredient"
-              >
-                X
-              </Button>
+
             </div>
 
           </section>

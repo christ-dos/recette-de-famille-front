@@ -15,17 +15,17 @@ export enum UniteMesureEnum {
     map
 }
 
-type RecetteIngredientId  = {
+export type RecetteIngredientId = {
     recetteId: number,
     ingredientId: number
 
 }
 
 
-export interface RecettesIngredients{
-    id?:RecetteIngredientId,
+export interface RecettesIngredients {
+    id?: RecetteIngredientId,
     quantite: number,
     uniteMesure: UniteMesureEnum,
     ingredient: Ingredient,
-    
+
 }
