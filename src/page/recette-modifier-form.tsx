@@ -5,7 +5,7 @@ import { Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { TitreH2 } from "../components/children";
 import { Form, Formulaire } from "../components/forms/form-recette";
-import { InputSelect } from "../components/forms/InputsForm";
+import { FormGroupInputSpan, InputSelect } from "../components/forms/InputsForm";
 import Schema from "../components/forms/Schema-yup";
 import IngredientLine from "../components/IngredientLine";
 import StepPreparation from "../components/Step-preparation";
@@ -29,11 +29,8 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
   const [allIngredients, setAllIngredients] = useState<Ingredient[]>([]);
   const [count, setCount] = useState(0);
   const [selectedFile, setSelectedFile] = useState<any>()
-  // const [selectedDifficultyLevel, setSelectedDifficultyLevel] = useState<Option[]>([]);
   const [preview, setPreview] = useState<string | undefined>()
   const [searchTerm, setSearchTerm] = useState("")
-  // const [categorie, setCategorie] = useState("")
-  // const [difficultyLevel, setDifficultyLevel] = useState<Option | undefined>({ label: "Difficultés", value: "none", selected: false });
   const [form, setForm] = useState<Form>(Formulaire(recette));
 
 
@@ -247,7 +244,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                 id={"difficultyLevel"}
                 defaultValue={recette.difficultyLevel.toLowerCase()}
                 array={difficultyOptions}
-                type={""} />
+              />
 
               <InputSelect
                 register={register}
@@ -258,7 +255,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                 id={"categorie"}
                 defaultValue={recette.categorie.id}
                 array={categoriesOptions}
-                type={""} />
+              />
 
 
               {/*  <select {...register('difficultyLevel')} className="form-select form-select-lg mb-3 w-50"
@@ -284,11 +281,19 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
               </select>
               {<p className="text-danger">{errors.categorie?.message?.toString()}</p>}
               */}
-
+              {/*************************** Les Durées *********************************/}
               <div className={styles.duree}>
-                {/*************************** Les Durées *********************************/}
                 <h4 className="custom-color-dore">Temps total</h4>
-                <div className=" d-flex flex-row justify-content-between">
+                <FormGroupInputSpan
+                  register={register}
+                  errors={errors}
+                  name={"totalTimePreparation"}
+                  valeur={"Minutes"}
+                  defaultValue={form.totalTimePreparation.value}
+                  type="text"
+                />
+
+                {/*} <div className=" d-flex flex-row justify-content-between">
                   <div className="input-group w-50">
                     <input {...register("totalTimePreparation")} type="text"
                       className="form-control"
@@ -298,12 +303,21 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                   </div>
                   {<p className="text-danger">{errors.totalTimePreparation?.message?.toString()}</p>}
                 </div>
-
+            */}
               </div>
 
               <div className={styles.duree}>
                 <h4 className="custom-color-dore">Temps de préparation</h4>
-                <div className=" d-flex flex-row justify-content-between">
+                <FormGroupInputSpan
+                  register={register}
+                  errors={errors}
+                  name={"timePreparation"}
+                  valeur={"Minutes"}
+                  defaultValue={form.timePreparation.value}
+                  type="text"
+                />
+
+                {/* <div className=" d-flex flex-row justify-content-between">
                   <div className="input-group w-50">
                     <input {...register("timePreparation")} type="text"
                       className="form-control "
@@ -314,11 +328,20 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                   </div>
                 </div>
                 {<p className="text-danger">{errors.timePreparation?.message?.toString()}</p>}
+             */}
               </div>
 
               <div className={styles.duree}>
                 <h4 className="custom-color-dore">Temps de cuisson</h4>
-                <div className=" d-flex flex-row justify-content-between">
+                <FormGroupInputSpan
+                  register={register}
+                  errors={errors}
+                  name={"cookingTime"}
+                  valeur={"Minutes"}
+                  defaultValue={form.cookingTime.value}
+                  type="text"
+                />
+                {/*   <div className=" d-flex flex-row justify-content-between">
                   <div className="input-group w-50">
                     <input {...register("cookingTime")} type="text"
                       className="form-control"
@@ -329,11 +352,20 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                   </div>
                 </div>
                 {<p className="text-danger">{errors.cookingTime?.message?.toString()}</p>}
+            */}
               </div>
 
               <div className={styles.duree}>
                 <h4 className="custom-color-dore">Temps de repos</h4>
-                <div className=" d-flex flex-row justify-content-between">
+                <FormGroupInputSpan
+                  register={register}
+                  errors={errors}
+                  name={"restTime"}
+                  valeur={"Minutes"}
+                  defaultValue={form.restTime.value}
+                  type="text"
+                />
+                {/*  <div className=" d-flex flex-row justify-content-between">
                   <div className="input-group w-50">
                     <input {...register('restTime')} type="text"
                       className="form-control"
@@ -342,13 +374,24 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                     <span className="input-group-text">Minutes</span>
                   </div>
                 </div>
+                {<p className="text-danger">{errors.restTime?.message?.toString()}</p>}
+          */}
               </div>
-              {<p className="text-danger">{errors.restTime?.message?.toString()}</p>}
-            </div>
 
+            </div>
+            {/*************************** Le nombre de parts *********************************/}
             <div className="col-12 col-md-12 col-lg-7 ">
-              <h4 className="mb-3 mt-3 custom-color-dore">Nombre de personnes</h4>
-              <div className=" d-flex flex-row justify-content-between">
+              <h4 className="mb-3  custom-color-dore">Nombre de personnes</h4>
+              <FormGroupInputSpan
+                register={register}
+                errors={errors}
+                name={"numberOfPeople"}
+                valeur={"Personne(s)"}
+                defaultValue={form.numberOfPeople.value}
+                type="text"
+              />
+
+              {/* <div className=" d-flex flex-row justify-content-between">
                 <div className="input-group w-50 mb-3 ">
                   <input {...register("numberOfPeople")} type="text"
                     className="form-control "
@@ -358,9 +401,10 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                 </div>
               </div>
               {<p className="text-danger">{errors.numberOfPeople?.message?.toString()}</p>}
+            */}
 
               {/*************************** Les ingredients *********************************/}
-              <h4 className="custom-color-dore">Ingrédients</h4>
+              <h4 className="custom-color-dore mt-3">Ingrédients</h4>
               {recette.recettesIngredients.map((recettesIngredients, index) => (
                 <IngredientLine
                   key={recettesIngredients.ingredient.id}
@@ -441,8 +485,8 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
           </section>
         </main>
         <main className="container">
+          {/*************************** Les étapes de préparations *********************************/}
           <section className="row">
-            {/*************************** Les étapes de préparations *********************************/}
             <StepPreparation register={register} name={"stepPreparation"} form={form} errors={errors} />
 
             {/* <div className="col-12 col-md-12 col-lg-12 ">

@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { FunctionComponent } from "react";
 import { useForm } from "react-hook-form";
 import { BoutonClassique } from "./Bouton";
-import { FormGroupInput } from "./forms/InputsForm";
+import { FormGroupInputLabel } from "./forms/InputsForm";
 import Schema from "../components/forms/Schema-yup";
 
 
@@ -50,7 +50,7 @@ const ProfileCard: FunctionComponent<UserProps> = ({ user }) => {
                                 message alert confirmation enregistrement
                             </p>
                             {/*<!--***************************** Nom **********************************->*/}
-                            <FormGroupInput
+                            <FormGroupInputLabel
                                 type={"text"}
                                 name={"nom"}
                                 id={"nom"}
@@ -62,7 +62,7 @@ const ProfileCard: FunctionComponent<UserProps> = ({ user }) => {
                                 errors={errors.nom?.message?.toString} />
 
                             { /*<!--***************************** Prenom **********************************-->*/}
-                            <FormGroupInput
+                            <FormGroupInputLabel
                                 type={"text"}
                                 name={"prenom"}
                                 id={"prenom"}
@@ -82,7 +82,7 @@ const ProfileCard: FunctionComponent<UserProps> = ({ user }) => {
                             </div>
 
                             { /* <!--***************************** Password *********************************-->*/}
-                            <FormGroupInput
+                            <FormGroupInputLabel
                                 type={"password"}
                                 name={"password"}
                                 id={"password"}
@@ -93,7 +93,7 @@ const ProfileCard: FunctionComponent<UserProps> = ({ user }) => {
                                 errors={undefined} />
 
                             { /* <!--***************************** ConfirmPassword **********************************-->*/}
-                            <FormGroupInput
+                            <FormGroupInputLabel
                                 type={"password"}
                                 name={"confirmPassword"}
                                 id={"confirmPassword"}

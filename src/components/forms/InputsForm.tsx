@@ -9,9 +9,9 @@ type Props = {
     form?: Form,
     errors: any,
     className?: string,
-    id: string,
+    id?: string,
     valeur?: string,
-    type: string,
+    type?: string,
     placeHolder?: string,
     label?: string,
     defaultValue?: any,
@@ -36,7 +36,7 @@ export const categoriesOptions = [
 ]
 
 /********************** Composant Input Select *****************************/
-export const InputSelect: FunctionComponent<Props> = ({ array, form,
+export const InputSelect: FunctionComponent<Props> = ({ array,
     errors, register, name, className, id, defaultValue, ...rest }) => {
 
     return (
@@ -57,8 +57,8 @@ export const InputSelect: FunctionComponent<Props> = ({ array, form,
 }
 
 
-/****************** Composant Form Group Input************************/
-type AttributsInputProps = {
+/****************** Composant Form Group Input/Label************************/
+/*ype AttributsInputProps = {
     id?: string,
     nom?: string,
     valeur?: string,
@@ -66,8 +66,9 @@ type AttributsInputProps = {
     placeHolder?: string,
     label?: string,
     errors?: string
-}
-export const FormGroupInput: FunctionComponent<Props> = ({ id, name, valeur, type, placeHolder, label, errors }) => {
+}*/
+export const FormGroupInputLabel: FunctionComponent<Props> = ({ id, name, valeur,
+    type, placeHolder, label, errors, register, ...rest }) => {
 
     return (
         <div className="form-group row ">
@@ -80,7 +81,23 @@ export const FormGroupInput: FunctionComponent<Props> = ({ id, name, valeur, typ
     );
 }
 
-/****************** Composant Form Group Input************************/
+/****************** Composant Form Group Input/Span************************/
+
+export const FormGroupInputSpan: FunctionComponent<Props> = ({ id, name, valeur,
+    type, errors, register, form, defaultValue, ...rest }) => {
 
 
-
+    return (
+        <div className=" d-flex flex-row justify-content-between">
+            <div className="input-group w-50 mb-1">
+                <input {...register(name)} type={type}
+                    className="form-control"
+                    defaultValue={defaultValue}
+                    id={id}
+                />
+                <span className="input-group-text" >{valeur}</span>
+            </div>
+            {<p className="text-danger">{errors.totalTimePreparation?.message?.toString()}</p>}
+        </div>
+    );
+}
