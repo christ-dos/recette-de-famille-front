@@ -1,8 +1,9 @@
-import { data } from "dom7";
+
 import { ChangeEvent, FunctionComponent, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { TitreH2 } from "../components/children";
+import { Form } from "../components/forms/form-recette";
 import IngredientLine from "../components/IngredientLine";
 import styles from '../css/ajout-recette-page.module.css';
 import { Ingredient } from "../models/Ingredient";
@@ -10,6 +11,7 @@ import { Recette } from "../models/recette";
 import { RecetteIngredientId, RecettesIngredients, UniteMesureEnum } from "../models/RecetteIngredient";
 import { getCategorieById } from "../services/CategorieService";
 import { getAllIngredient } from "../services/IngredientService";
+import { Formulaire } from '../components/forms/form-recette'
 
 
 type Props = {
@@ -22,7 +24,7 @@ type Props = {
   selected: boolean
 }*/
 
-type Field = {
+/*  type Field = {
   value: any,
   error?: string,
   isValid?: boolean
@@ -54,7 +56,7 @@ type Form = {
 
   recettesIngredients: Field
 
-}
+}*/
 
 const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
 
@@ -67,33 +69,8 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
   const [searchTerm, setSearchTerm] = useState("")
   // const [categorie, setCategorie] = useState("")
   // const [difficultyLevel, setDifficultyLevel] = useState<Option | undefined>({ label: "Difficultés", value: "none", selected: false });
-  const [form, setForm] = useState<Form>({
+  const [form, setForm] = useState<any>(Formulaire(recette));
 
-    id: { value: recette.id, isValid: true },
-
-    title: { value: recette.title, isValid: true },
-
-    urlPicture: { value: recette.urlPicture, isValid: true },
-
-    totalTimePreparation: { value: recette.totalTimePreparation, isValid: true },
-
-    timePreparation: { value: recette.timePreparation, isValid: true },
-
-    cookingTime: { value: recette.cookingTime, isValid: true },
-
-    restTime: { value: recette.restTime, isValid: true },
-
-    stepPreparation: { value: recette.stepPreparation, isValid: true },
-
-    difficultyLevel: { value: recette.difficultyLevel, isValid: true },
-
-    numberOfPeople: { value: recette.numberOfPeople, isValid: true },
-
-    categorie: { value: recette.categorie, isValid: true },
-
-    recettesIngredients: { value: recette.recettesIngredients, isValid: true }
-
-  });
 
   const { register, handleSubmit, formState: { errors }, formState } = useForm<any>({
     mode: 'onChange',
@@ -119,6 +96,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
     setRecettesIngredients(recette.recettesIngredients)
 
     console.log(recette.recettesIngredients);
+    console.table(form)
 
   }, [recettesIngredients]);
 
@@ -194,6 +172,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
     setSearchTerm(value)
     //value.length > 2 ? (setSearchTerm(value)) : (setSearchTerm(""))
   }
+
 
   async function onSubmit(data: any) {
     console.log("datas:", data)
