@@ -12,51 +12,16 @@ import { RecetteIngredientId, RecettesIngredients, UniteMesureEnum } from "../mo
 import { getCategorieById } from "../services/CategorieService";
 import { getAllIngredient } from "../services/IngredientService";
 import { Formulaire } from '../components/forms/form-recette'
+import { updateRecipe } from "../services/RecetteService";
+import StepPreparation from "../components/Step-preparation";
+import schema from "yup/lib/schema";
+import { yupResolver } from "@hookform/resolvers/yup";
+import Schema from "../components/forms/Schema-yup";
 
 
 type Props = {
   recette: Recette
 };
-
-/*pe Option = {
-  label: string,
-  value: string,
-  selected: boolean
-}*/
-
-/*  type Field = {
-  value: any,
-  error?: string,
-  isValid?: boolean
-}
-
-
-type Form = {
-  id: Field,
-
-  title: Field,
-
-  urlPicture: Field,
-
-  totalTimePreparation: Field,
-
-  timePreparation: Field,
-
-  cookingTime: Field,
-
-  restTime: Field,
-
-  stepPreparation: Field,
-
-  difficultyLevel: Field,
-
-  numberOfPeople: Field,
-
-  categorie: Field,
-
-  recettesIngredients: Field
-
-}*/
 
 const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
 
@@ -69,11 +34,12 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
   const [searchTerm, setSearchTerm] = useState("")
   // const [categorie, setCategorie] = useState("")
   // const [difficultyLevel, setDifficultyLevel] = useState<Option | undefined>({ label: "Difficultés", value: "none", selected: false });
-  const [form, setForm] = useState<any>(Formulaire(recette));
+  const [form, setForm] = useState<Form>(Formulaire(recette));
 
 
   const { register, handleSubmit, formState: { errors }, formState } = useForm<any>({
     mode: 'onChange',
+    resolver: yupResolver(Schema)
   });
 
   const { isSubmitted, isSubmitSuccessful } = formState
@@ -140,21 +106,13 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
     console.log("click sur delete")
   }
 
-  const updateRecipe = (data: any) => {
-    return fetch('http://localhost:8082/recette/update', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    }).then((response) => response.json())
-      .catch((error) => console.log(error));
-  };
 
-  function getIngedientByName(name: string): Ingredient | undefined {
+  /*function getIngedientByName(name: string): Ingredient | undefined {
     const result = allIngredients.filter(x => x.name.toLowerCase() === name.toLowerCase())
     if (result) {
       return result[0];
     }
-  }
+  }*/
 
   const onSelectFile = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) {
@@ -450,7 +408,8 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
         </main>
         <main className="container">
           <section className="row">
-            <div className="col-12 col-md-12 col-lg-12 ">
+            <StepPreparation register={register} name={"stepPreparation"} form={form} errors={errors} />
+            {/* <div className="col-12 col-md-12 col-lg-12 ">
               <h3 className={` ms-4 custom-color-dore mt-2`}>Préparation</h3>
               <div className="form-floating mx-4" style={{ boxShadow: '1px 1px 1px rgba(131,197,190,0.9)' }}>
                 <textarea {...register("stepPreparation")} className={`form-control ${styles.textarea}`}
@@ -463,7 +422,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                 <label htmlFor="floatingTextarea">Aller à la ligne pour chaque étape</label>
               </div>
               {<p className="text-danger">{errors.stepPreparation?.message?.toString()}</p>}
-            </div>
+            </div>  */}
 
           </section>
         </main>

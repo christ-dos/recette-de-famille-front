@@ -11,8 +11,6 @@ type Props = {
     register: any,
     name: string,
     index: number
-
-
 }
 
 const IngredientLine: FunctionComponent<Props> = ({ recettesIngredients, click, register, name, index, ...rest }) => {
