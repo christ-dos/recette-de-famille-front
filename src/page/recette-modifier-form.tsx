@@ -115,6 +115,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
     } else {
       data.urlPicture = form.urlPicture.value;
     }
+    data.id = +data.id;
 
     const resultCategorie = await getCategorieById(data.categorie);
     data.categorie = { id: resultCategorie.id, name: resultCategorie.name, urlPicture: resultCategorie.urlPicture }
@@ -123,11 +124,12 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
       console.log(recIng.ingredient.name.toLowerCase())
       const ingredient = allIngredients.find(element => element.name === recIng.ingredient.name);
       if (ingredient) {
-        const recetteIngredientId = { recetteId: data.id, ingredientId: ingredient?.id };
+        const recetteIngredientId = { recetteId: +data.id, ingredientId: ingredient?.id };
         recIng.ingredient = ingredient;
         recIng.id = recetteIngredientId;
       } else {
-        const recetteIngredientId = { recetteId: data.id, ingredientId: 0 };
+        const recetteIngredientId = { recetteId: +data.id, ingredientId: 0 };
+        recIng.ingredient.id = 0;
         recIng.id = recetteIngredientId;
       }
     });
