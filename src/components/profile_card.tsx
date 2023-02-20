@@ -58,7 +58,6 @@ const ProfileCard: FunctionComponent<UserProps> = ({ user }) => {
                                 placeHolder={"Doe"}
                                 label={"Nom"}
                                 register={register}
-                                defaultValue={undefined}
                                 errors={errors.nom?.message?.toString} />
 
                             { /*<!--***************************** Prenom **********************************-->*/}
@@ -70,7 +69,6 @@ const ProfileCard: FunctionComponent<UserProps> = ({ user }) => {
                                 placeHolder={"Jane"}
                                 label={"Prénom"}
                                 register={register}
-                                defaultValue={undefined}
                                 errors={undefined} />
 
                             { /* <!--***************************** Email **********************************-->*/}

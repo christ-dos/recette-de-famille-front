@@ -3,20 +3,20 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { ChangeEvent, FunctionComponent, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import { isEmptyStatement } from "typescript";
 import { TitreH2, TitreH5 } from "../components/children";
 import { Form, Formulaire } from "../components/forms/form-recette";
-import { FormGroupInputLabel, FormGroupInputSpan, InputSelect } from "../components/forms/InputsForm";
+import { categoriesOptions, difficultyOptions, FormGroupInputLabel, FormGroupInputSpan, InputSelect } from "../components/forms/InputsForm";
 import Schema from "../components/forms/Schema-yup";
 import IngredientLine from "../components/IngredientLine";
 import StepPreparation from "../components/Step-preparation";
 import styles from '../css/ajout-recette-page.module.css';
 import { Ingredient } from "../models/Ingredient";
 import { Recette } from "../models/recette";
-import { RecetteIngredientId, RecettesIngredients, UniteMesureEnum } from "../models/RecetteIngredient";
+import { RecetteIngredientId, RecettesIngredients } from "../models/RecetteIngredient";
 import { getCategorieById } from "../services/CategorieService";
 import { getAllIngredient } from "../services/IngredientService";
 import { updateRecipe } from "../services/RecetteService";
-import { difficultyOptions, categoriesOptions } from "../components/forms/InputsForm";
 import { addNewLine, handleSearchTerm } from "../utils/fonctiosn-utils";
 
 
@@ -29,14 +29,16 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
   const [recettesIngredients, setRecettesIngredients] = useState<RecettesIngredients[]>([]);
   const [allIngredients, setAllIngredients] = useState<Ingredient[]>([]);
   const [count, setCount] = useState(0);
-  const [selectedFile, setSelectedFile] = useState<any>()
-  const [preview, setPreview] = useState<string | undefined>()
-  const [searchTerm, setSearchTerm] = useState("")
+  const [selectedFile, setSelectedFile] = useState<any>();
+  const [preview, setPreview] = useState<string | undefined>();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isClicked, setIsClicked] = useState<boolean>(false);
   const [form, setForm] = useState<Form>(Formulaire(recette));
 
 
-  const { register, handleSubmit, formState: { errors }, formState } = useForm<Recette>({
+  const { register, handleSubmit, setValue, formState: { errors }, formState } = useForm<Recette>({
     mode: 'onChange',
+    defaultValues: recette,
     resolver: yupResolver(Schema)
   });
 
@@ -46,8 +48,13 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
   useEffect(() => {
     getAllIngredient().then(allIngredients => setAllIngredients(allIngredients));
     setRecettesIngredients(recette.recettesIngredients)
+  }, []);
 
+  useEffect(() => {
+    console.table(recettesIngredients)
   }, [recettesIngredients]);
+
+
 
   useEffect(() => {
     if (!selectedFile) {
@@ -63,18 +70,33 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
 
 
   function deleteLine(recetteIngredientId: RecetteIngredientId | undefined) {
+    let index: number = 0;
+    let newRecetteIngredient: RecettesIngredients[] = []
     if (recettesIngredients.length > 1) {
       console.log("taille:" + recettesIngredients.length)
 
-      const test = recettesIngredients.filter(recetteIngredient => (recetteIngredient.id?.ingredientId !== recetteIngredientId?.ingredientId)
-        || recetteIngredient.id?.recetteId !== recetteIngredientId?.recetteId);
-      console.table(test.map(ingredient => ingredient.ingredient));
-      recettesIngredients.pop()
-      setRecettesIngredients([...recettesIngredients])
+      /*   const test = recettesIngredients.filter(recetteIngredient => (recetteIngredient.id?.ingredientId === recetteIngredientId?.ingredientId)
+          || recetteIngredient.id?.recetteId === recetteIngredientId?.recetteId);
+        console.table(test.map(ingredient => ingredient.ingredient));
+        recettesIngredients.pop() */
+      /*   index = recettesIngredients.findIndex((recetteIngredient) => recetteIngredient.id === recetteIngredientId)
+        console.log("position: " + index);
+        const eleSupp = recettesIngredients.splice(index, 1); */
+      //console.table(eleSupp)
+      newRecetteIngredient = recettesIngredients.filter(x => x.id !== recetteIngredientId)
+      console.table(newRecetteIngredient);
+      setRecettesIngredients(newRecetteIngredient)
+      recette.recettesIngredients = newRecetteIngredient;
 
     }
+    recette.recettesIngredients = newRecetteIngredient;
     console.log("id a supprimer", recetteIngredientId);
     console.log("click sur delete")
+
+
+
+
+
   }
 
 
@@ -102,6 +124,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
 
   async function onSubmit(data: any) {
     console.log("datas:", data)
+    console.table(data.recettesIngredients);
 
     if (selectedFile) {
       let blob = selectedFile.slice();
@@ -121,6 +144,10 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
     data.categorie = { id: resultCategorie.id, name: resultCategorie.name, urlPicture: resultCategorie.urlPicture }
 
     data.recettesIngredients.map((recIng: any) => {
+      /*  if (recIng === undefined) {
+         const index: number = data.recettesIngredients.findIndex((recetteIngredient: null) => recetteIngredient === undefined)
+         recettesIngredients.splice(index, 1);
+       } */
       console.log(recIng.ingredient.name.toLowerCase())
       const ingredient = allIngredients.find(element => element.name === recIng.ingredient.name);
       if (ingredient) {
@@ -164,7 +191,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                   className="form-control"
                   aria-label="Sizing example input"
                   aria-describedby="inputGroup-sizing-default"
-                  defaultValue={form.title.value}
                   id="title" />
               </div>
             </div>
@@ -212,18 +238,16 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                 errors={errors?.difficultyLevel?.message?.toString}
                 className={"form-select form-select-lg mb-3 w-50"}
                 id={"difficultyLevel"}
-                defaultValue={recette.difficultyLevel.toLowerCase()}
                 array={difficultyOptions}
               />
 
               <InputSelect
                 register={register}
-                name={"categorie"}
+                name={"categorie.id"}
                 form={form}
                 errors={errors?.categorie?.message?.toString}
                 className={"form-select form-select-lg mb-3 w-50"}
                 id={"categorie"}
-                defaultValue={recette.categorie.id}
                 array={categoriesOptions}
               />
               {/*************************** Les Durées *********************************/}
@@ -237,7 +261,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                   errors={errors}
                   name={"totalTimePreparation"}
                   valeur={"Minutes"}
-                  defaultValue={form.totalTimePreparation.value}
                   type="text"
                 />
               </div>
@@ -252,7 +275,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                   errors={errors}
                   name={"timePreparation"}
                   valeur={"Minutes"}
-                  defaultValue={form.timePreparation.value}
                   type="text"
                 />
               </div>
@@ -267,7 +289,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                   errors={errors}
                   name={"cookingTime"}
                   valeur={"Minutes"}
-                  defaultValue={form.cookingTime.value}
                   type="text"
                 />
               </div>
@@ -282,7 +303,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                   errors={errors}
                   name={"restTime"}
                   valeur={"Minutes"}
-                  defaultValue={form.restTime.value}
                   type="text"
                 />
               </div>
@@ -299,7 +319,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                 errors={errors}
                 name={"numberOfPeople"}
                 valeur={"Personne(s)"}
-                defaultValue={form.numberOfPeople.value}
                 type="text"
               />
               {/*************************** Les ingredients *********************************/}
@@ -307,18 +326,19 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                 titre={"Ingrédients"}
                 className={"custom-color-dore mt-4 ms-1"}
               />
-              {recette.recettesIngredients.map((recettesIngredients, index) => (
+              {recettesIngredients.map((recetteIngredient, index) => (
                 <IngredientLine
                   key={index}
-                  name={'recettesIngredients'}
-                  recettesIngredients={recettesIngredients}
-                  click={() => deleteLine(recettesIngredients?.id)}
+                  defaultValues={recette}
+                  click={() => { deleteLine(recetteIngredient?.id); setIsClicked(true); }}
                   register={register}
-                  index={index}
                   errors={errors}
                   searchTerm={searchTerm}
                   allIngredients={allIngredients}
-                  handleSearchTerm={(e) => handleSearchTerm(e, setSearchTerm)} />
+                  handleSearchTerm={(e) => handleSearchTerm(e, setSearchTerm)}
+                  isClicked={isClicked}
+                  setValue={setValue}
+                  index={index} />
               ))}
 
               <Button className="mt-3 me-1"

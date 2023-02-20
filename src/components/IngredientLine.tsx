@@ -1,44 +1,73 @@
 
-import { ChangeEvent, FunctionComponent, MouseEventHandler } from "react";
+import { useEffect } from "react";
+import { ChangeEvent, FunctionComponent, MouseEventHandler, useState } from "react";
 import { Button } from "react-bootstrap";
-import { FieldErrors } from "react-hook-form";
+import { FieldErrors, useForm } from "react-hook-form";
 import { Ingredient } from "../models/Ingredient";
+import { Recette } from "../models/recette";
 import { RecettesIngredients, UniteMesureEnum } from "../models/RecetteIngredient";
 
 type Props = {
-    recettesIngredients: RecettesIngredients,
     click?: MouseEventHandler,
     register: any,
-    name: string,
+    setValue: any,
     index: number,
     errors: FieldErrors,
     searchTerm: string,
     allIngredients: Ingredient[],
+    isClicked: boolean,
+    defaultValues: Recette,
     handleSearchTerm(e: ChangeEvent<HTMLInputElement>): any
 }
 
-const IngredientLine: FunctionComponent<Props> = ({ recettesIngredients,
-    allIngredients, errors, searchTerm, handleSearchTerm, click, register, name, index, ...rest }) => {
+const IngredientLine: FunctionComponent<Props> = ({
+    allIngredients, errors, searchTerm, handleSearchTerm, click, isClicked, register, setValue, defaultValues, index, ...rest }) => {
+    // console.log(recettesIngredients);
+    //const [index, setIndex] = useState<number>(indice);
+    //const { resetField } = useForm<any>();
+    //const [isClicked, setIsClicked] = useState<boolean>(false);
+
+    /* useEffect(() => {
+        setIndex(indice);
+        console.log("indice:" + indice);
+    }, [isClicked]); */
+
+    const clickDelete = () => {
+        //click;
+
+        //resetField(`${name}.${index}.ingredient.name`)
+        return click
+
+
+    }
+
+    const handleClear = () => {
+        //recettesIngredients.ingredient.name = 'PIECE';
+    }
+
 
     return (
 
         <>
+
             <div className=" d-flex flex-row justify-content-between mb-1 mt-3">
                 <div className="me-2 w-25" hidden>
                     <input type="text"
-                        {...register(`${name}.${index}.ingredient.id`)}
+                        {...register(`recettesIngredients.${index}.ingredient.id`, {
+                            shouldUnregister: true,
+                        })}
                         className="form-control"
-                        defaultValue={recettesIngredients.ingredient.id}
-                        onChange={(e) => handleSearchTerm}
+
                     />
                 </div>
 
                 <div className="me-2">
                     <input type="text"
-                        {...register(`${name}.${index}.ingredient.name`)}
+                        {...register(`recettesIngredients.${index}.ingredient.name`, {
+                            shouldUnregister: true,
+                        })}
                         className="form-control"
                         required
-                        defaultValue={recettesIngredients.ingredient.name}
                         onChange={handleSearchTerm}
                     />
                     {/* liste qui propose des ingredients*/}
@@ -58,12 +87,13 @@ const IngredientLine: FunctionComponent<Props> = ({ recettesIngredients,
 
                 <div className="w-25">
                     <input type="number"
-                        {...register(`${name}.${index}.quantite`)}
+                        {...register(`recettesIngredients.${index}.quantite`, {
+                            shouldUnregister: true,
+                        })}
                         step={1}
                         min={0}
                         className="form-control"
                         onChange={(e) => console.log(e.target.value)}
-                        defaultValue={recettesIngredients.quantite}
                         required
                     />
                     {<p className="text-danger">{errors.quantity?.message?.toString()}</p>}
@@ -71,12 +101,16 @@ const IngredientLine: FunctionComponent<Props> = ({ recettesIngredients,
                 </div>
 
                 <select
-                    {...register(`${name}.${index}.uniteMesure`)}
+                    {...register(`recettesIngredients.${index}.uniteMesure`, {
+                        shouldUnregister: true,
+                    })}
                     className="form-select form-select mb-3 w-50 ms-2"
                     required
                     aria-label=".form-select example"
                     id="uniteMesure"
-                    defaultValue={recettesIngredients.uniteMesure}
+                    onFocus={handleClear()}
+
+
                 >
                     <option key={"none"}>Mesure</option>
                     {Object.keys(UniteMesureEnum)
@@ -91,7 +125,7 @@ const IngredientLine: FunctionComponent<Props> = ({ recettesIngredients,
                 <Button className="mb-3 ms-1"
                     variant="danger"
                     type={"button"}
-                    onClick={click}
+                    onClick={clickDelete()}
                     id="deleteIngredient"
                 >
                     X
@@ -105,4 +139,6 @@ const IngredientLine: FunctionComponent<Props> = ({ recettesIngredients,
 }
 
 export default IngredientLine;
+
+
 

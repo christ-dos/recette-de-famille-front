@@ -15,7 +15,7 @@ export function addNewLine(recettesIngredients: RecettesIngredients[], setRecett
     id: { recetteId: 0, ingredientId: 0 },
     quantite: 0,
     uniteMesure: UniteMesureEnum.map,
-    ingredient: { id: 0, name: '' },
+    ingredient: { id: 0, name: 'new ingredient' },
   }
   recettesIngredients.push(newLine);
   setRecettesIngredients([...recettesIngredients])

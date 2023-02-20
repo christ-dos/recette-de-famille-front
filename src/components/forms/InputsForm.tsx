@@ -7,14 +7,13 @@ type Props = {
     register: any,
     name?: string,
     form?: Form,
-    errors: any,
+    errors?: any,
     className?: string,
     id?: string,
     valeur?: string,
     type?: string,
     placeHolder?: string,
     label?: string,
-    defaultValue?: any,
     array?: { label: string, value: string }[],
     onChange?: any,
     accept?: string
@@ -39,13 +38,12 @@ export const categoriesOptions = [
 
 /********************** Composant Input Select *****************************/
 export const InputSelect: FunctionComponent<Props> = ({ array,
-    errors, register, name, className, id, defaultValue, ...rest }) => {
+    errors, register, name, className, id, ...rest }) => {
 
     return (
         <>
             <select {...register(name)} className={className}
                 id={id}
-                defaultValue={defaultValue}
             >
                 {array?.map(element => (
                     <option key={element.value} value={element.value}>{element.label}</option>
@@ -97,7 +95,7 @@ export const FormGroupInputLabel: FunctionComponent<Props> = ({ id, name, valeur
 /****************** Composant Form Group Input/Span************************/
 
 export const FormGroupInputSpan: FunctionComponent<Props> = ({ id, name, valeur,
-    type, errors, register, form, defaultValue, ...rest }) => {
+    type, errors, register, form, ...rest }) => {
 
 
     return (
@@ -106,7 +104,6 @@ export const FormGroupInputSpan: FunctionComponent<Props> = ({ id, name, valeur,
                 <input {...register(name)}
                     type={type}
                     className="form-control"
-                    defaultValue={defaultValue}
                     id={id}
                 />
                 <span className="input-group-text" >{valeur}</span>

@@ -12,26 +12,26 @@ type Props = {
 
 }
 
-const DeleteModal: FunctionComponent<Props> = ({id, click}) => {
+const DeleteModal: FunctionComponent<Props> = ({ id, click }) => {
     const [show, setShow] = useState(false);
     const [isClicked, setIsClicked] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    
+
 
     return (
         <>
             <div>
-                <BoutonLiens href={'#'} icon={faTrash} onClick={handleShow}/>
+                <BoutonLiens href={'#'} icon={faTrash} onClick={handleShow} />
             </div>
-           
+
             <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton  className='custom-bg-vert'>
+                <Modal.Header closeButton className='custom-bg-vert'>
                     <Modal.Title>Supprimer Recette</Modal.Title>
                 </Modal.Header>
-                <Modal.Body style={{fontSize: '1.2rem'}} ><FontAwesomeIcon icon={faTriangleExclamation} style={{color: 'red', fontSize: '1.5rem'}}/>  Souhaitez vous vraiment supprimer cette recette?</Modal.Body>
+                <Modal.Body style={{ fontSize: '1.2rem' }} ><FontAwesomeIcon icon={faTriangleExclamation} style={{ color: 'red', fontSize: '1.5rem' }} />  Souhaitez vous vraiment supprimer cette recette?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Fermer
@@ -47,8 +47,8 @@ const DeleteModal: FunctionComponent<Props> = ({id, click}) => {
 }
 export default DeleteModal;
 
-function getId(id:number){
-  
+function getId(id: number) {
+
 }
 
 
