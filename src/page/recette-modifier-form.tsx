@@ -17,7 +17,6 @@ import { getCategorieById } from "../services/CategorieService";
 import { getAllIngredient } from "../services/IngredientService";
 import { updateRecipe } from "../services/RecetteService";
 
-
 type Props = {
   recipe: Recette
 };
@@ -51,8 +50,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
         recettesIngredients: form.recettesIngredients.value
       },
       resolver: yupResolver(Schema)
-
-
     });
 
   const { isSubmitted, isSubmitSuccessful } = formState
@@ -65,7 +62,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
 
   useEffect(() => {
     getAllIngredient().then(allIngredients => setAllIngredients(allIngredients));
-
   }, []);
 
   useEffect(() => {
@@ -80,14 +76,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
     return () => URL.revokeObjectURL(objectUrl)
   }, [selectedFile])
 
-
-  /*function getIngedientByName(name: string): Ingredient | undefined {
-    const result = allIngredients.filter(x => x.name.toLowerCase() === name.toLowerCase())
-    if (result) {
-      return result[0];
-    }
-  }*/
-
   const onSelectFile = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) {
       setSelectedFile(undefined)
@@ -101,7 +89,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
     if (fields.length > 1) {
       remove(index);
     }
-
   }
 
   const handleSearchTerm = (e: ChangeEvent<HTMLInputElement>, setSearchTerm: any) => {
@@ -113,7 +100,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
     console.log("datas:", data)
 
     data.id = +data.id;
-
+    /*gestion de l'image: Cnversion du blob en url pour sauvegarde en BDD*/
     if (selectedFile) {
       let blob = selectedFile.slice();
 
@@ -127,9 +114,11 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
       data.urlPicture = form.urlPicture.value;
     }
 
+    /*récupération de la catégorie en base*/
     const resultCategorie = await getCategorieById(data.categorie);
     data.categorie = { id: resultCategorie.id, name: resultCategorie.name, urlPicture: resultCategorie.urlPicture }
 
+    /*On recherche les ingredients par leur nom et on remplit le recetteIngredient id avec les respectifs ids*/
     data.recettesIngredients.map((recetteIngredient: RecettesIngredients) => {
 
       const ingredient = allIngredients.find(element => element.name === recetteIngredient.ingredient.name);
@@ -160,13 +149,10 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
       <TitreH2 titre={"Editer une Recette"} />
       {isSubmitSuccessful && <div className="alert alert-success mt-4">Recette mise à jour avec succés</div>}
 
-      <form action="" onSubmit={handleSubmit(onSubmit)} className="border border-secundary shadow-lg">
-        <main className="container" >
-          <div className='row mx-4 my-2 pb-3 mt-3'
-            style={{
-              border: '1px 1px solid rgba(131,197,190,0.9)', backgroundColor: 'rgba(131,197,190,0.1)',
-              boxShadow: '1px 1px 1px rgba(131,197,190,0.9)', borderRadius: '20px'
-            }}>
+      <form id="recette-modifier-form" action="" onSubmit={handleSubmit(onSubmit)} className="border border-secundary shadow-lg">
+        <main className="container " >
+          <div className={`${styles.my_style_row} row mx-4 my-2 pb-3 mt-3`}
+          >
             {/*************************** Titre *********************************/}
             <div className="d-flex justify-content-center">
               <div className="input-group-text  mt-5 w-50 ">
@@ -176,7 +162,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
                 <span className="input-group-text me-1" id="inputGroup-sizing-default">Titre</span>
                 <input type="text"
                   {...register("title")}
-
                   onChange={(e) => console.log(e.target.value)
                   }
                   className="form-control"
@@ -187,6 +172,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
               </div>
             </div>
             {<p className="text-danger d-flex justify-content-center">{errors.title?.message?.toString()}</p>}
+           
             {/*************************** Choisir une image *********************************/}
             <div className="">
               <div className=" d-flex justify-content-center mt-3 mb-3" >
@@ -214,7 +200,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
           </div>
         </main>
         <main className="container mt-4">
-          <section className="row d-flex justify-content-center pt-3 px-2 mx-4 py-4 "
+          <section className={`${styles.my_style_row} row d-flex justify-content-center pt-3 px-2 mx-4 py-4 `}
             style={{ backgroundColor: 'rgba(131,197,190,0.1)', boxShadow: '1px 1px 1px rgba(131,197,190,0.9)', border: '1px 1px solid rgba(131,197,190,0.9)', borderRadius: ' 20px' }}>
             <div className="col-12 col-md-12 col-lg-4 form-group d-flex flex-column justify-content-center ">
 
@@ -357,11 +343,21 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
         <main className="container">
           {/*************************** Les étapes de préparations *********************************/}
           <section className="row">
-            <StepPreparation register={register} name={"stepPreparation"} form={form} errors={errors} />
+            <StepPreparation 
+              register={register} 
+              name={"stepPreparation"} 
+              form={form} 
+              errors={errors} />
           </section>
         </main>
         <div className="d-flex justify-content-center mb-3">
-          <Button className="mt-3 " variant="secondary" type={"submit"} onClick={(e) => console.log(e)} name={"updateSubmit"}>Valider</Button>
+          <Button 
+          className="mt-3 " 
+          variant="secondary" 
+          type={"submit"} 
+          name={"updateSubmit"}
+          >Valider
+          </Button>
         </div>
       </form>
 
