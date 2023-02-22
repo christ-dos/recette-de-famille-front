@@ -10,65 +10,50 @@ import { RecettesIngredients, UniteMesureEnum } from "../models/RecetteIngredien
 type Props = {
     click?: MouseEventHandler,
     register: any,
-    setValue: any,
     index: number,
     errors: FieldErrors,
     searchTerm: string,
     allIngredients: Ingredient[],
     isClicked: boolean,
-    defaultValues: Recette,
+    defaultValues: RecettesIngredients[],
     handleSearchTerm(e: ChangeEvent<HTMLInputElement>): any
 }
 
 const IngredientLine: FunctionComponent<Props> = ({
-    allIngredients, errors, searchTerm, handleSearchTerm, click, isClicked, register, setValue, defaultValues, index, ...rest }) => {
+    allIngredients, errors, searchTerm, handleSearchTerm, click, isClicked,
+    register, defaultValues, index, ...rest }) => {
     // console.log(recettesIngredients);
     //const [index, setIndex] = useState<number>(indice);
-    //const { resetField } = useForm<any>();
-    //const [isClicked, setIsClicked] = useState<boolean>(false);
+    const { resetField } = useForm<any>();
+    // const [isClicked, setIsClicked] = useState<boolean>(false);
 
     /* useEffect(() => {
         setIndex(indice);
         console.log("indice:" + indice);
     }, [isClicked]); */
 
-    const clickDelete = () => {
-        //click;
-
-        //resetField(`${name}.${index}.ingredient.name`)
-        return click
-
-
-    }
-
-    const handleClear = () => {
-        //recettesIngredients.ingredient.name = 'PIECE';
-    }
-
 
     return (
 
         <>
 
-            <div className=" d-flex flex-row justify-content-between mb-1 mt-3">
+            <div key={index} className=" d-flex flex-row justify-content-between mb-1 mt-3">
                 <div className="me-2 w-25" hidden>
                     <input type="text"
-                        {...register(`recettesIngredients.${index}.ingredient.id`, {
-                            shouldUnregister: true,
-                        })}
+                        {...register(`recettesIngredients.${index}.ingredient.id`)}
                         className="form-control"
-
+                        key={defaultValues[index].ingredient.id}
                     />
                 </div>
 
                 <div className="me-2">
                     <input type="text"
-                        {...register(`recettesIngredients.${index}.ingredient.name`, {
-                            shouldUnregister: true,
-                        })}
+                        {...register(`recettesIngredients.${index}.ingredient.name`)}
                         className="form-control"
                         required
                         onChange={handleSearchTerm}
+                        key={defaultValues[index].ingredient.name}
+                        onFocus={(e) => e.target.value = ""}
                     />
                     {/* liste qui propose des ingredients*/}
                     <datalist id="ingredientUpdate">
@@ -87,30 +72,26 @@ const IngredientLine: FunctionComponent<Props> = ({
 
                 <div className="w-25">
                     <input type="number"
-                        {...register(`recettesIngredients.${index}.quantite`, {
-                            shouldUnregister: true,
-                        })}
+                        {...register(`recettesIngredients.${index}.quantite`)}
                         step={1}
                         min={0}
                         className="form-control"
                         onChange={(e) => console.log(e.target.value)}
                         required
+                        key={defaultValues[index].quantite}
+                        onFocus={(e) => e.target.value = ""}
                     />
                     {<p className="text-danger">{errors.quantity?.message?.toString()}</p>}
 
                 </div>
 
                 <select
-                    {...register(`recettesIngredients.${index}.uniteMesure`, {
-                        shouldUnregister: true,
-                    })}
+                    {...register(`recettesIngredients.${index}.uniteMesure`)}
                     className="form-select form-select mb-3 w-50 ms-2"
                     required
                     aria-label=".form-select example"
                     id="uniteMesure"
-                    onFocus={handleClear()}
-
-
+                    key={defaultValues[index].uniteMesure}
                 >
                     <option key={"none"}>Mesure</option>
                     {Object.keys(UniteMesureEnum)
@@ -125,7 +106,7 @@ const IngredientLine: FunctionComponent<Props> = ({
                 <Button className="mb-3 ms-1"
                     variant="danger"
                     type={"button"}
-                    onClick={clickDelete()}
+                    onClick={click}
                     id="deleteIngredient"
                 >
                     X

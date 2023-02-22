@@ -2,8 +2,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ChangeEvent, FunctionComponent, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import { useForm } from "react-hook-form";
-import { isEmptyStatement } from "typescript";
+import { useFieldArray, useForm } from "react-hook-form";
 import { TitreH2, TitreH5 } from "../components/children";
 import { Form, Formulaire } from "../components/forms/form-recette";
 import { categoriesOptions, difficultyOptions, FormGroupInputLabel, FormGroupInputSpan, InputSelect } from "../components/forms/InputsForm";
@@ -13,48 +12,61 @@ import StepPreparation from "../components/Step-preparation";
 import styles from '../css/ajout-recette-page.module.css';
 import { Ingredient } from "../models/Ingredient";
 import { Recette } from "../models/recette";
-import { RecetteIngredientId, RecettesIngredients } from "../models/RecetteIngredient";
+import { RecettesIngredients, UniteMesureEnum } from "../models/RecetteIngredient";
 import { getCategorieById } from "../services/CategorieService";
 import { getAllIngredient } from "../services/IngredientService";
 import { updateRecipe } from "../services/RecetteService";
-import { addNewLine, handleSearchTerm } from "../utils/fonctiosn-utils";
 
 
 type Props = {
-  recette: Recette
+  recipe: Recette
 };
 
-const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
+const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
 
-  const [recettesIngredients, setRecettesIngredients] = useState<RecettesIngredients[]>([]);
   const [allIngredients, setAllIngredients] = useState<Ingredient[]>([]);
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
   const [selectedFile, setSelectedFile] = useState<any>();
   const [preview, setPreview] = useState<string | undefined>();
   const [searchTerm, setSearchTerm] = useState("");
   const [isClicked, setIsClicked] = useState<boolean>(false);
-  const [form, setForm] = useState<Form>(Formulaire(recette));
+  const [form, setForm] = useState<Form>(Formulaire(recipe));
+
+  const { register, handleSubmit, formState,
+    formState: { errors }, control } = useForm<Recette>({
+      mode: 'onChange',
+
+      defaultValues: {
+        id: form.id.value,
+        title: form.title.value,
+        urlPicture: form.urlPicture.value,
+        difficultyLevel: form.difficultyLevel.value,
+        categorie: form.categorie.value,
+        totalTimePreparation: form.totalTimePreparation.value,
+        timePreparation: form.timePreparation.value,
+        cookingTime: form.timePreparation.value,
+        restTime: form.restTime.value,
+        numberOfPeople: form.numberOfPeople.value,
+        stepPreparation: form.stepPreparation.value,
+        recettesIngredients: form.recettesIngredients.value
+      },
+      resolver: yupResolver(Schema)
 
 
-  const { register, handleSubmit, setValue, formState: { errors }, formState } = useForm<Recette>({
-    mode: 'onChange',
-    defaultValues: recette,
-    resolver: yupResolver(Schema)
-  });
+    });
 
   const { isSubmitted, isSubmitSuccessful } = formState
+
+  const { fields, append, remove } = useFieldArray({
+    name: 'recettesIngredients',
+    control,
+  })
 
 
   useEffect(() => {
     getAllIngredient().then(allIngredients => setAllIngredients(allIngredients));
-    setRecettesIngredients(recette.recettesIngredients)
+
   }, []);
-
-  useEffect(() => {
-    console.table(recettesIngredients)
-  }, [recettesIngredients]);
-
-
 
   useEffect(() => {
     if (!selectedFile) {
@@ -67,37 +79,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
     // free memory when ever this component is unmounted
     return () => URL.revokeObjectURL(objectUrl)
   }, [selectedFile])
-
-
-  function deleteLine(recetteIngredientId: RecetteIngredientId | undefined) {
-    let index: number = 0;
-    let newRecetteIngredient: RecettesIngredients[] = []
-    if (recettesIngredients.length > 1) {
-      console.log("taille:" + recettesIngredients.length)
-
-      /*   const test = recettesIngredients.filter(recetteIngredient => (recetteIngredient.id?.ingredientId === recetteIngredientId?.ingredientId)
-          || recetteIngredient.id?.recetteId === recetteIngredientId?.recetteId);
-        console.table(test.map(ingredient => ingredient.ingredient));
-        recettesIngredients.pop() */
-      /*   index = recettesIngredients.findIndex((recetteIngredient) => recetteIngredient.id === recetteIngredientId)
-        console.log("position: " + index);
-        const eleSupp = recettesIngredients.splice(index, 1); */
-      //console.table(eleSupp)
-      newRecetteIngredient = recettesIngredients.filter(x => x.id !== recetteIngredientId)
-      console.table(newRecetteIngredient);
-      setRecettesIngredients(newRecetteIngredient)
-      recette.recettesIngredients = newRecetteIngredient;
-
-    }
-    recette.recettesIngredients = newRecetteIngredient;
-    console.log("id a supprimer", recetteIngredientId);
-    console.log("click sur delete")
-
-
-
-
-
-  }
 
 
   /*function getIngedientByName(name: string): Ingredient | undefined {
@@ -116,15 +97,22 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
     setPreview(selectedFile)
   }
 
-  /*const handleSearchTerm = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleRemove = (index: number) => {
+    if (fields.length > 1) {
+      remove(index);
+    }
+
+  }
+
+  const handleSearchTerm = (e: ChangeEvent<HTMLInputElement>, setSearchTerm: any) => {
     let value = e.target.value;
     value.length > 2 ? (setSearchTerm(value)) : (setSearchTerm(""))
-  }*/
-
+  }
 
   async function onSubmit(data: any) {
     console.log("datas:", data)
-    console.table(data.recettesIngredients);
+
+    data.id = +data.id;
 
     if (selectedFile) {
       let blob = selectedFile.slice();
@@ -138,30 +126,27 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
     } else {
       data.urlPicture = form.urlPicture.value;
     }
-    data.id = +data.id;
 
     const resultCategorie = await getCategorieById(data.categorie);
     data.categorie = { id: resultCategorie.id, name: resultCategorie.name, urlPicture: resultCategorie.urlPicture }
 
-    data.recettesIngredients.map((recIng: any) => {
-      /*  if (recIng === undefined) {
-         const index: number = data.recettesIngredients.findIndex((recetteIngredient: null) => recetteIngredient === undefined)
-         recettesIngredients.splice(index, 1);
-       } */
-      console.log(recIng.ingredient.name.toLowerCase())
-      const ingredient = allIngredients.find(element => element.name === recIng.ingredient.name);
+    data.recettesIngredients.map((recetteIngredient: RecettesIngredients) => {
+
+      const ingredient = allIngredients.find(element => element.name === recetteIngredient.ingredient.name);
       if (ingredient) {
-        const recetteIngredientId = { recetteId: +data.id, ingredientId: ingredient?.id };
-        recIng.ingredient = ingredient;
-        recIng.id = recetteIngredientId;
+        const recetteIngredientId = { recetteId: +data.id, ingredientId: ingredient.id };
+        recetteIngredient.ingredient = ingredient;
+        recetteIngredient.id = recetteIngredientId;
       } else {
         const recetteIngredientId = { recetteId: +data.id, ingredientId: 0 };
-        recIng.ingredient.id = 0;
-        recIng.id = recetteIngredientId;
+        recetteIngredient.ingredient.id = 0;
+        recetteIngredient.id = recetteIngredientId;
       }
     });
 
     updateRecipe(data).then((response) => {
+      console.log("je suis dans update recipe");
+
       if (response.error) {
         console.log(response.error);
       } else {
@@ -174,24 +159,31 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
     <>
       <TitreH2 titre={"Editer une Recette"} />
       {isSubmitSuccessful && <div className="alert alert-success mt-4">Recette mise à jour avec succés</div>}
-      <form action="" onSubmit={handleSubmit(onSubmit)} className="border border-secundary shadow-lg">
 
+      <form action="" onSubmit={handleSubmit(onSubmit)} className="border border-secundary shadow-lg">
         <main className="container" >
-          <div className='row mx-4 my-2 pb-3 mt-3' style={{
-            border: '1px 1px solidrgba(131,197,190,0.9)', backgroundColor: 'rgba(131,197,190,0.1)',
-            boxShadow: '1px 1px 1px rgba(131,197,190,0.9)', borderRadius: '20px'
-          }}>
+          <div className='row mx-4 my-2 pb-3 mt-3'
+            style={{
+              border: '1px 1px solid rgba(131,197,190,0.9)', backgroundColor: 'rgba(131,197,190,0.1)',
+              boxShadow: '1px 1px 1px rgba(131,197,190,0.9)', borderRadius: '20px'
+            }}>
             {/*************************** Titre *********************************/}
             <div className="d-flex justify-content-center">
               <div className="input-group-text  mt-5 w-50 ">
-                <input type="text" hidden value={form.id.value} {...register("id")} />
+                <input type="text"
+                  hidden
+                  {...register("id")} />
                 <span className="input-group-text me-1" id="inputGroup-sizing-default">Titre</span>
                 <input type="text"
                   {...register("title")}
+
+                  onChange={(e) => console.log(e.target.value)
+                  }
                   className="form-control"
                   aria-label="Sizing example input"
                   aria-describedby="inputGroup-sizing-default"
-                  id="title" />
+                  id="title"
+                />
               </div>
             </div>
             {<p className="text-danger d-flex justify-content-center">{errors.title?.message?.toString()}</p>}
@@ -243,11 +235,11 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
 
               <InputSelect
                 register={register}
-                name={"categorie.id"}
+                name={"categorie"}
                 form={form}
                 errors={errors?.categorie?.message?.toString}
                 className={"form-select form-select-lg mb-3 w-50"}
-                id={"categorie"}
+                id={"categorieId"}
                 array={categoriesOptions}
               />
               {/*************************** Les Durées *********************************/}
@@ -326,25 +318,35 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
                 titre={"Ingrédients"}
                 className={"custom-color-dore mt-4 ms-1"}
               />
-              {recettesIngredients.map((recetteIngredient, index) => (
+              {fields.map((field: RecettesIngredients, index: number) => (
+
                 <IngredientLine
                   key={index}
-                  defaultValues={recette}
-                  click={() => { deleteLine(recetteIngredient?.id); setIsClicked(true); }}
+                  defaultValues={fields}
+                  click={() => {
+                    handleRemove(index)
+                  }}
                   register={register}
                   errors={errors}
                   searchTerm={searchTerm}
                   allIngredients={allIngredients}
                   handleSearchTerm={(e) => handleSearchTerm(e, setSearchTerm)}
                   isClicked={isClicked}
-                  setValue={setValue}
                   index={index} />
               ))}
 
               <Button className="mt-3 me-1"
                 variant="secondary"
                 type={"button"}
-                onClick={() => addNewLine(recettesIngredients, setRecettesIngredients)}>
+                onClick={() => {
+                  append({
+                    id: { recetteId: 0, ingredientId: 0 },
+                    quantite: 0,
+                    uniteMesure: UniteMesureEnum.PIECE,
+                    ingredient: { id: 0, name: `ingredient ${count}` }
+                  }); setCount(count + 1)
+                }}
+              >
                 +
               </Button>
 
@@ -359,7 +361,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recette }) => {
           </section>
         </main>
         <div className="d-flex justify-content-center mb-3">
-          <Button className="mt-3 " variant="secondary" type={"submit"}>Valider</Button>
+          <Button className="mt-3 " variant="secondary" type={"submit"} onClick={(e) => console.log(e)} name={"updateSubmit"}>Valider</Button>
         </div>
       </form>
 

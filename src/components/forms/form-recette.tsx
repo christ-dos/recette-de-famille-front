@@ -2,43 +2,44 @@
 import { Recette } from "../../models/recette";
 
 export type Field = {
-    value: any,
-    error?: string,
-    isValid?: boolean
-  }
+  value: any,
+  error?: string,
+  isValid?: boolean
+}
 
 export type Form = {
-    id: Field,
-  
-    title: Field,
-  
-    urlPicture: Field,
-  
-    totalTimePreparation: Field,
-  
-    timePreparation: Field,
-  
-    cookingTime: Field,
-  
-    restTime: Field,
-  
-    stepPreparation: Field,
-  
-    difficultyLevel: Field,
-  
-    numberOfPeople: Field,
-  
-    categorie: Field,
-  
-    recettesIngredients: Field
-  
-  }
- 
+  id: Field,
 
-  export function Formulaire (recette: Recette): Form{
+  title: Field,
 
-    const form = 
-    { id: { value: recette.id, isValid: true  },
+  urlPicture: Field,
+
+  totalTimePreparation: Field,
+
+  timePreparation: Field,
+
+  cookingTime: Field,
+
+  restTime: Field,
+
+  stepPreparation: Field,
+
+  difficultyLevel: Field,
+
+  numberOfPeople: Field,
+
+  categorie: Field,
+
+  recettesIngredients: Field
+
+}
+
+
+export function Formulaire(recette: Recette): Form {
+
+  const form =
+  {
+    id: { value: recette.id, isValid: true },
 
     title: { value: recette.title, isValid: true },
 
@@ -58,12 +59,11 @@ export type Form = {
 
     numberOfPeople: { value: recette.numberOfPeople, isValid: true },
 
-    categorie: { value: recette.categorie, isValid: true },
+    categorie: { value: recette.categorie.id, isValid: true },
 
     recettesIngredients: { value: recette.recettesIngredients, isValid: true }
   }
   return form;
-    
-  }
-  
-  
+
+}
+

@@ -38,7 +38,7 @@ export const categoriesOptions = [
 
 /********************** Composant Input Select *****************************/
 export const InputSelect: FunctionComponent<Props> = ({ array,
-    errors, register, name, className, id, ...rest }) => {
+    errors, register, name,form,  className, id, ...rest }) => {
 
     return (
         <>
@@ -49,7 +49,7 @@ export const InputSelect: FunctionComponent<Props> = ({ array,
                     <option key={element.value} value={element.value}>{element.label}</option>
                 ))}
             </select>
-            {<p className="text-danger">{errors}</p>}
+            <p className="text-danger"></p>
 
         </>
 
@@ -108,7 +108,7 @@ export const FormGroupInputSpan: FunctionComponent<Props> = ({ id, name, valeur,
                 />
                 <span className="input-group-text" >{valeur}</span>
             </div>
-            {<p className="text-danger">{errors.name?.message?.toString()}</p>}
+            <p className="text-danger">{errors.name?.message?.toString()}</p>
         </div>
     );
 }

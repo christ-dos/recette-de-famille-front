@@ -21,7 +21,6 @@ export type RecetteIngredientId = {
 
 }
 
-
 export interface RecettesIngredients {
     id?: RecetteIngredientId,
     quantite: number,

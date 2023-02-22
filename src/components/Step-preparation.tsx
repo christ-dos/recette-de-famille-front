@@ -21,7 +21,6 @@ const StepPreparation: FunctionComponent<Props> = ({ form, errors, register, nam
                 <textarea {...register(name)} className={`form-control ${styles.textarea}`}
                     placeholder="Leave a comment here"
                     id="floatingTextarea"
-                    defaultValue={form.stepPreparation.value}
                 >
                 </textarea>
                 <label htmlFor="floatingTextarea">Aller à la ligne pour chaque étape</label>

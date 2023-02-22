@@ -2,24 +2,24 @@ import { FunctionComponent, useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import RecetteEditForm from './recette-modifier-form';
 import RecetteForm from './recette-modifier-form';
-import {Recette} from '../models/recette';
+import { Recette } from '../models/recette';
 import { getRecetteById } from '../services/RecetteService';
 
 type Params = { id: string };
-  
-const RecetteEdit: FunctionComponent<RouteComponentProps<Params>> = ({ match }) => {
-    const [recette, setRecette] = useState<Recette | null>(null);
-  
-    useEffect(() => {
-      getRecetteById(+match.params.id).then(recette=>setRecette(recette))
-    }, [match.params.id]);
 
-  
+const RecetteEdit: FunctionComponent<RouteComponentProps<Params>> = ({ match }) => {
+  const [recette, setRecette] = useState<Recette | null>(null);
+
+  useEffect(() => {
+    getRecetteById(+match.params.id).then(recette => setRecette(recette))
+  }, [match.params.id]);
+
+
   return (
     <div>
-      { recette ? (
+      {recette ? (
         <div className="row">
-             <RecetteEditForm recette={recette}></RecetteEditForm>
+          <RecetteEditForm recipe={recette}></RecetteEditForm>
         </div>
       ) : (
         <h4 className="center">Aucun Recette à afficher !</h4>
@@ -27,7 +27,7 @@ const RecetteEdit: FunctionComponent<RouteComponentProps<Params>> = ({ match }) 
     </div>
   );
 }
-  
+
 export default RecetteEdit;
 
 
