@@ -17,10 +17,7 @@ const RecetteList: FunctionComponent = () => {
 
 
   useEffect(() => {
-    // getAllRecette().then(recettes=> setRecettes(recettes))
-
     getAllRecettePagine(page, items).then(recettes => setRecettes(recettes.data.content));
-
   }, [page, items]);
 
   async function deleteById(id: number) {
@@ -52,9 +49,9 @@ const RecetteList: FunctionComponent = () => {
       }
 
     } else if (nombre === -2) {
-      if(recettes.length > 0){
+      if (recettes.length > 0) {
         setPage((page + 1));
-      }else{
+      } else {
         setPage(0);
       }
     } else {
@@ -108,10 +105,10 @@ const RecetteList: FunctionComponent = () => {
             .filter((recette) =>
               recette.title.toLowerCase().includes(searchTerm.toLowerCase()))
             .map(recette => (
-              <RecetteCard key={recette.id} 
-              recette={recette} 
-              click={() => deleteById(recette.id)}
-               />
+              <RecetteCard key={recette.id}
+                recette={recette}
+                click={() => deleteById(recette.id)}
+              />
             ))
         }
         <h4
@@ -121,7 +118,7 @@ const RecetteList: FunctionComponent = () => {
           <FontAwesomeIcon icon={faExclamation} style={{ color: 'rgb(106,53,53)', fontSize: '1.5rem' }} />
           &nbsp; Aucune recette ne correspond à la recherche
         </h4>
-        <PaginationComposant click={handleClickPagination}/>
+        <PaginationComposant click={handleClickPagination} />
 
       </div>
     </>

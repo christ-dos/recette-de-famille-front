@@ -1,4 +1,5 @@
 import * as yup from "yup";
+import { UniteMesureEnum } from "../../models/RecetteIngredient";
 
 
 const Schema = yup.object({
@@ -30,23 +31,46 @@ const Schema = yup.object({
     stepPreparation: yup.string()
         .required("Ce champs est requis"),
 
-    difficultyLevel: yup.string(),
+    difficultyLevel: yup.mixed()
+        .oneOf(["facile", "intermediaire", "difficile"], "Choisir une option")
+        .required("Ce champs est requis"),
 
     numberOfPeople: yup.string()
-        .matches(/^[0-9]*$/, "Uniquement les nombres sont acceptés"),
+        .matches(/^[0-9]*$/, "Uniquement les nombres sont acceptés")
+        .max(3, "3 caractères maximum"),
 
-    categorie: yup.string()
-        .required("Ce champs est requis")
+    categorie: yup.mixed()
+        .oneOf(["1", "2", "3", "4"], "Choisir une catégorie")
+        .required("Ce champs est requis"),
 
-    /* quantity: yup.number()
-     .required("Ce champs est requis"),
+    recettesIngredients: yup.array()
+        .of(
+            yup.object({
+                quantite: yup.string()
+                    .required("Ce champs est requis"),
+                uniteMesure: yup.mixed()
+                    .oneOf(Object.values(UniteMesureEnum)
+                        .filter(key => isNaN(Number(key)))
+                        .filter(key => key != "map"), 'Ce champs ne peut être vide')
+                    .required("Ce champs est requis"),
+                ingredient: yup.object({
+                    name: yup.string()
+                        .required("Ce champs est requis")
+                }),
+
+            })
+        )
+        .default(() => [{ name: 'red', hexCode: '#ff0000' }]),
+
+
+    /*  quantity: yup.number()
+         .required("Ce champs est requis"),
  
-     ingredient: yup.string()
-     .required("Ce champs est requis"),
+     recettesIngredients.0.ingredient.name: yup.string()
+         .required("Ce champs est requis"),
  
      uniteMesure: yup.string()
-     .uppercase("Ce champs doit être en majuscule")
-     .required("Ce champs est requis")*/
+         .required("Ce champs est requis") */
 
 }).required();
 

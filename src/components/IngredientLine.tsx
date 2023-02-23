@@ -1,4 +1,5 @@
 
+import { ErrorMessage } from "@hookform/error-message";
 import { useEffect } from "react";
 import { ChangeEvent, FunctionComponent, MouseEventHandler, useState } from "react";
 import { Button } from "react-bootstrap";
@@ -14,33 +15,23 @@ type Props = {
     errors: FieldErrors,
     searchTerm: string,
     allIngredients: Ingredient[],
-    isClicked: boolean,
     defaultValues: RecettesIngredients[],
     handleSearchTerm(e: ChangeEvent<HTMLInputElement>): any
 }
 
 const IngredientLine: FunctionComponent<Props> = ({
-    allIngredients, errors, searchTerm, handleSearchTerm, click, isClicked,
+    allIngredients, errors, searchTerm, handleSearchTerm, click,
     register, defaultValues, index, ...rest }) => {
-    // console.log(recettesIngredients);
-    //const [index, setIndex] = useState<number>(indice);
-    const { resetField } = useForm<any>();
-    // const [isClicked, setIsClicked] = useState<boolean>(false);
 
-    /* useEffect(() => {
-        setIndex(indice);
-        console.log("indice:" + indice);
-    }, [isClicked]); */
-
+    //console.log(errors);
 
     return (
 
         <>
-
             <div key={index} className=" d-flex flex-row justify-content-between mb-1 mt-3">
                 <div className="me-2 w-25" hidden>
                     <input type="text"
-                        {...register(`recettesIngredients.${index}.ingredient.id`)}
+                        {...register(`recettesIngredients.${index}.ingredient.id` as const)}
                         className="form-control"
                         key={defaultValues[index].ingredient.id}
                     />
@@ -48,9 +39,8 @@ const IngredientLine: FunctionComponent<Props> = ({
 
                 <div className="me-2">
                     <input type="text"
-                        {...register(`recettesIngredients.${index}.ingredient.name`)}
+                        {...register(`recettesIngredients.${index}.ingredient.name` as const, { required: { value: true, message: "le champs est requissss" } })}
                         className="form-control"
-                        required
                         onChange={handleSearchTerm}
                         key={defaultValues[index].ingredient.name}
                         onFocus={(e) => e.target.value = ""}
@@ -66,56 +56,61 @@ const IngredientLine: FunctionComponent<Props> = ({
                                 />
                             )}
                     </datalist>
-                    {<p className="text-danger">{errors.ingredient?.message?.toString()}</p>}
+                    <ErrorMessage className={'text-danger mt-1 ms-1'} name={`recettesIngredients.${index}.ingredient.name`} errors={errors} as="p" />
+
+                    {/*<p className="text-danger">{errors.ingredient?.message?.toString()}</p>*/}
 
                 </div>
 
                 <div className="w-25">
                     <input type="number"
-                        {...register(`recettesIngredients.${index}.quantite`)}
+                        {...register(`recettesIngredients.${index}.quantite` as const)}
                         step={1}
                         min={0}
                         className="form-control"
                         onChange={(e) => console.log(e.target.value)}
-                        required
                         key={defaultValues[index].quantite}
                         onFocus={(e) => e.target.value = ""}
                     />
+                    <ErrorMessage className={'text-danger mt-1 ms-1'} name={`recettesIngredients.${index}.quantite`} errors={errors} as="p" />
+
                     {<p className="text-danger">{errors.quantity?.message?.toString()}</p>}
 
                 </div>
+                <div className="w-50 me-3">
+                    <select
+                        {...register(`recettesIngredients.${index}.uniteMesure` as const)}
+                        className="form-select form-select ms-2"
+                        aria-label=".form-select example"
+                        id="uniteMesure"
+                        key={defaultValues[index].uniteMesure}
+                        defaultValue={""}
+                        name={`recettesIngredients.${index}.uniteMesure`}
+                    >
+                        <option key={""} disabled>Mesure</option>
+                        {Object.keys(UniteMesureEnum)
+                            .filter(key => isNaN(Number(key)))
+                            .filter(key => key != "map")
+                            .map(key => <option key={key} defaultValue={key.toLowerCase()}>{key}
 
-                <select
-                    {...register(`recettesIngredients.${index}.uniteMesure`)}
-                    className="form-select form-select mb-3 w-50 ms-2"
-                    required
-                    aria-label=".form-select example"
-                    id="uniteMesure"
-                    key={defaultValues[index].uniteMesure}
-                >
-                    <option key={"none"}>Mesure</option>
-                    {Object.keys(UniteMesureEnum)
-                        .filter(key => isNaN(Number(key)))
-                        .filter(key => key != "map")
-                        .map(key => <option key={key} defaultValue={key.toLowerCase()}>{key}
-
-                        </option>)}
-                </select>
-                {<p className="text-danger">{errors.uniteMesure?.message?.toString()}</p>}
-
-                <Button className="mb-3 ms-1"
-                    variant="danger"
-                    type={"button"}
-                    onClick={click}
-                    id="deleteIngredient"
-                >
-                    X
-                </Button>
-
+                            </option>)}
+                    </select>
+                    <ErrorMessage className={'text-danger mt-1 ms-3'} name={`recettesIngredients.${index}.uniteMesure`} errors={errors} as="p" />
+                </div>
+                {/*<p className="text-danger">{errors.uniteMesure?.message?.toString()}</p>*/}
+                <div>
+                    <Button className="mb-3 ms-1"
+                        variant="danger"
+                        type={"button"}
+                        onClick={click}
+                        id="deleteIngredient"
+                    >
+                        X
+                    </Button>
+                </div>
             </div>
         </>
     )
-
 
 }
 

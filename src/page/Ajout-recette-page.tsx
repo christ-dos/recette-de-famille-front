@@ -235,34 +235,43 @@ const AjoutRecettePage: FunctionComponent = () => {
                     <section className="row d-flex justify-content-center pt-3 px-2 mx-4 py-4 "
                         style={{ backgroundColor: 'rgba(131,197,190,0.1)', boxShadow: '1px 1px 1px rgba(131,197,190,0.9)', border: '1px 1px solid rgba(131,197,190,0.9)', borderRadius: ' 20px' }}>
                         <div className="col-12 col-md-12 col-lg-4 form-group ">
-                            <h4 className="custom-color-dore">Infos clés</h4>
-                            <select {...register('difficultyLevel')} className="form-select form-select-lg mb-3 w-50"
-                                aria-label=".form-select-lg example">
-                                <option selected defaultValue={'Facile'}>Difficultés</option>
+                            <h4 className="custom-color-dore mb-3 ">Infos clés</h4>
+                            <select {...register('difficultyLevel')}
+                                className="form-select form-select-lg mb-1  w-75"
+                                aria-label=".form-select-lg example"
+                                name="difficultyLevel"
+                                defaultValue={""}
+                            >
+                                <option selected value="" disabled >Difficultés</option>
                                 <option value="Facile">Facile</option>
                                 <option value="Intermediaire">Intermédiaire</option>
                                 <option value="Difficile">Difficile</option>
                             </select>
-                            {<p className="text-dange">{errors.difficultyLevel?.message?.toString()}</p>}
+                            {<p className="text-danger ms-1">{errors.difficultyLevel?.message?.toString()}</p>}
 
-                            <select {...register('categorie')} className="form-select form-select-lg mb-3 w-50 "
+                            <select {...register('categorie')}
+                                className="form-select form-select-lg mb-1  w-75 "
+                                defaultValue={""}
+                                name="categorie"
                                 aria-label=".form-select-lg example">
-                                <option selected>Catégories</option>
+                                <option value="" disabled>Catégories</option>
                                 <option value="1">Plat</option>
                                 <option value="2">Entrees</option>
                                 <option value="3">Desserts</option>
                                 <option value="4">Apéritifs</option>
                             </select>
-                            {<p className="text-danger">{errors.categorie?.message?.toString()}</p>}
+                            {<p className="text-danger ms-1">{errors.categorie?.message?.toString()}</p>}
 
-                            <div className={styles.duree}>
+                            <div className={`${styles.duree} `}>
                                 <h4 className="custom-color-dore">Temps total</h4>
-                                <div className=" d-flex flex-row justify-content-between">
-                                    <div className="input-group w-50">
-                                        <input {...register("totalTimePreparation")} type="text" className="form-control"
+                                <div className=" d-flex flex-row justify-content-between  ">
+                                    <div className="input-group w-75 ">
+                                        <input {...register("totalTimePreparation")}
+                                            type="text"
+                                            className="form-control"
                                             aria-label="Dollar amount (with dot and two decimal places)" />
                                         <span className="input-group-text">Minutes</span>
-                                        {<p className="text-danger">{errors.totalTimePreparation?.message?.toString()}</p>}
+                                        {<p className="text-danger ms-1 mt-1">{errors.totalTimePreparation?.message?.toString()}</p>}
                                     </div>
                                 </div>
 
@@ -271,50 +280,52 @@ const AjoutRecettePage: FunctionComponent = () => {
                             <div className={styles.duree}>
                                 <h4 className="custom-color-dore">Temps de préparation</h4>
                                 <div className=" d-flex flex-row justify-content-between">
-                                    <div className="input-group w-50">
-                                        <input {...register("minPrep")} type="text" className="form-control "
+                                    <div className="input-group w-75">
+                                        <input {...register("timePreparation")} type="text" className="form-control "
                                             aria-label="Dollar amount (with dot and two decimal places)" />
                                         <span className="input-group-text">Minutes</span>
                                     </div>
                                 </div>
-                                {<p className="text-danger">{errors.timePreparation?.message?.toString()}</p>}
+                                {<p className="text-danger mt-1">{errors.timePreparation?.message?.toString()}</p>}
                             </div>
 
                             <div className={styles.duree}>
                                 <h4 className="custom-color-dore">Temps de cuisson</h4>
                                 <div className=" d-flex flex-row justify-content-between">
-                                    <div className="input-group w-50">
-                                        <input {...register("minCuisson")} type="text" className="form-control"
+                                    <div className="input-group w-75">
+                                        <input {...register("cookingTime")}
+                                            type="text"
+                                            className="form-control"
                                             aria-label="Dollar amount (with dot and two decimal places)" />
                                         <span className="input-group-text">Minutes</span>
                                     </div>
                                 </div>
-                                {<p className="text-danger">{errors.cookingTime?.message?.toString()}</p>}
+                                {<p className="text-danger mt-1">{errors.cookingTime?.message?.toString()}</p>}
                             </div>
 
                             <div className={styles.duree}>
                                 <h4 className="custom-color-dore">Temps de repos</h4>
                                 <div className=" d-flex flex-row justify-content-between">
-                                    <div className="input-group w-50">
-                                        <input {...register('minRepos')} type="text" className="form-control"
+                                    <div className="input-group w-75">
+                                        <input {...register('restTime')} type="text" className="form-control"
                                             aria-label="Dollar amount (with dot and two decimal places)" />
                                         <span className="input-group-text">Minutes</span>
                                     </div>
                                 </div>
                             </div>
-                            {<p className="text-danger">{errors.restTime?.message?.toString()}</p>}
+                            {<p className="text-danger mt-1">{errors.restTime?.message?.toString()}</p>}
                         </div>
 
                         <div className="col-12 col-md-12 col-lg-7 ">
-                            <h4 className="mb-3 mt-3 custom-color-dore">Nombre de personnes</h4>
+                            <h4 className="mb-3  custom-color-dore">Nombre de personnes</h4>
                             <div className=" d-flex flex-row justify-content-between">
-                                <div className="input-group w-50 mb-3 ">
-                                    <input {...register("numOfPeople")} type="text" className="form-control "
+                                <div className="input-group w-75">
+                                    <input {...register("numberOfPeople")} type="text" className="form-control "
                                         aria-label="Dollar amount (with dot and two decimal places)" />
                                     <span className="input-group-text ">personnes</span>
                                 </div>
                             </div>
-                            {<p className="text-danger">{errors.numberOfPeople?.message?.toString()}</p>}
+                            {<p className="text-danger mt-1">{errors.numberOfPeople?.message?.toString()}</p>}
 
                             <h4 className="custom-color-dore">Ingrédients</h4>
                             {ingredients.map((ingredient, index) =>
@@ -326,7 +337,7 @@ const AjoutRecettePage: FunctionComponent = () => {
                                             aria-label="Dollar amount (with dot and two decimal places)"
                                             onChange={(e) => handleSearchTerm(e)}
                                             list="ingredients"
-                                            required
+
                                         />
                                         <datalist id="ingredients">
                                             {allIngredients
@@ -338,28 +349,32 @@ const AjoutRecettePage: FunctionComponent = () => {
                                         {<p className="text-danger">{errors.ingredient?.message?.toString()}</p>}
                                     </div>
 
-                                    <div className=" w-50 ">
+                                    <div className=" w-25">
                                         <input type="number" step={1} min={0} placeholder='quantité'
                                             className="form-control" {...register(`recettesIngredients.${index}.quantite`)}
                                             aria-label="Dollar amount (with dot and two decimal places)"
                                             onChange={(e) => console.log(e.target.value)}
-                                            required
+
                                         />
 
                                         {<p className="text-danger">{errors.quantity?.message?.toString()}</p>}
                                     </div>
 
-                                    <select {...register(`recettesIngredients.${index}.uniteMesure`)}
-                                        className="form-select form-select mb-3 w-50 ms-2"
-                                        required
-                                        aria-label=".form-select-lg example">
-                                        <option key={ingredient.uniteMesure} selected>Mesure</option>
-                                        {Object.keys(UniteMesureEnum)
-                                            .filter(key => isNaN(Number(key)))
-                                            .filter(key => key != "map")
-                                            .map(key => <option value={key}>{key}</option>)}
-                                    </select>
+                                    <div>
+                                        <select {...register(`recettesIngredients.${index}.uniteMesure`, { required: true})}
+                                            className="form-select form-select mb-3 w-75 ms-2"
+                                            required
+                                            aria-label=".form-select-lg example">
+                                            <option key={ingredient.uniteMesure} selected>Mesure</option>
+                                            {Object.keys(UniteMesureEnum)
+                                                .filter(key => isNaN(Number(key)))
+                                                .filter(key => key != "map")
+                                                .map(key => <option value={key}>{key}</option>)}
+                                        </select>
+                                        {<p className="text-danger">{errors.quantity?.message?.toString()}</p>}
+                                    </div>
                                 </div>
+
                             ))}
 
                             <Button className="mt-3 me-1"
@@ -391,7 +406,7 @@ const AjoutRecettePage: FunctionComponent = () => {
 
                                 <label htmlFor="floatingTextarea">Aller à la ligne pour chaque étape</label>
                             </div>
-                            {<p className="text-danger">{errors.stepPreparation?.message?.toString()}</p>}
+                            {<p className="text-danger ms-4 mt-md-1">{errors.stepPreparation?.message?.toString()}</p>}
                         </div>
                     </section>
                 </main>

@@ -28,7 +28,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
   const [selectedFile, setSelectedFile] = useState<any>();
   const [preview, setPreview] = useState<string | undefined>();
   const [searchTerm, setSearchTerm] = useState("");
-  const [isClicked, setIsClicked] = useState<boolean>(false);
   const [form, setForm] = useState<Form>(Formulaire(recipe));
 
   const { register, handleSubmit, formState,
@@ -121,7 +120,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
     /*On recherche les ingredients par leur nom et on remplit le recetteIngredient id avec les respectifs ids*/
     data.recettesIngredients.map((recetteIngredient: RecettesIngredients) => {
 
-      const ingredient = allIngredients.find(element => element.name === recetteIngredient.ingredient.name);
+      const ingredient = allIngredients.find(ingredient => ingredient.name === recetteIngredient.ingredient.name);
       if (ingredient) {
         const recetteIngredientId = { recetteId: +data.id, ingredientId: ingredient.id };
         recetteIngredient.ingredient = ingredient;
@@ -129,6 +128,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
       } else {
         const recetteIngredientId = { recetteId: +data.id, ingredientId: 0 };
         recetteIngredient.ingredient.id = 0;
+        recetteIngredient.ingredient.urlPicture = 'https://previews.123rf.com/images/kerdkanno/kerdkanno1701/kerdkanno170100010/68705276-divers-de-la-cuisine-tha%C3%AFlandaise-ingr%C3%A9dients-de-cuisine-pour-%C3%A9pices-curry-rouge-p%C3%A2te-ingr%C3%A9dient-de-.jpg'
         recetteIngredient.id = recetteIngredientId;
       }
     });
@@ -172,7 +172,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
               </div>
             </div>
             {<p className="text-danger d-flex justify-content-center">{errors.title?.message?.toString()}</p>}
-           
+
             {/*************************** Choisir une image *********************************/}
             <div className="">
               <div className=" d-flex justify-content-center mt-3 mb-3" >
@@ -213,8 +213,8 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
                 register={register}
                 name={"difficultyLevel"}
                 form={form}
-                errors={errors?.difficultyLevel?.message?.toString}
-                className={"form-select form-select-lg mb-3 w-50"}
+                errors={errors}
+                className={"form-select form-select-lg w-50"}
                 id={"difficultyLevel"}
                 array={difficultyOptions}
               />
@@ -223,8 +223,8 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
                 register={register}
                 name={"categorie"}
                 form={form}
-                errors={errors?.categorie?.message?.toString}
-                className={"form-select form-select-lg mb-3 w-50"}
+                errors={errors}
+                className={"form-select form-select-lg mt-3 w-50"}
                 id={"categorieId"}
                 array={categoriesOptions}
               />
@@ -236,10 +236,10 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
                 />
                 <FormGroupInputSpan
                   register={register}
-                  errors={errors}
                   name={"totalTimePreparation"}
                   valeur={"Minutes"}
                   type="text"
+                  errors={errors}
                 />
               </div>
 
@@ -317,7 +317,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
                   searchTerm={searchTerm}
                   allIngredients={allIngredients}
                   handleSearchTerm={(e) => handleSearchTerm(e, setSearchTerm)}
-                  isClicked={isClicked}
                   index={index} />
               ))}
 
@@ -328,7 +327,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
                   append({
                     id: { recetteId: 0, ingredientId: 0 },
                     quantite: 0,
-                    uniteMesure: UniteMesureEnum.PIECE,
+                    uniteMesure: UniteMesureEnum.map,
                     ingredient: { id: 0, name: `ingredient ${count}` }
                   }); setCount(count + 1)
                 }}
@@ -343,19 +342,19 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
         <main className="container">
           {/*************************** Les étapes de préparations *********************************/}
           <section className="row">
-            <StepPreparation 
-              register={register} 
-              name={"stepPreparation"} 
-              form={form} 
+            <StepPreparation
+              register={register}
+              name={"stepPreparation"}
+              form={form}
               errors={errors} />
           </section>
         </main>
         <div className="d-flex justify-content-center mb-3">
-          <Button 
-          className="mt-3 " 
-          variant="secondary" 
-          type={"submit"} 
-          name={"updateSubmit"}
+          <Button
+            className="mt-3 "
+            variant="secondary"
+            type={"submit"}
+            name={"updateSubmit"}
           >Valider
           </Button>
         </div>

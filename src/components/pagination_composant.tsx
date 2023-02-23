@@ -21,8 +21,6 @@ const PaginationComposant: FunctionComponent<Props> = ({ click }) => {
 
     let items = [];
 
-
-
     for (let page = -1; page <= pagesTotal; page++) {
         if (page === pagesTotal) {
             items.push(<Pagination.Next key={-2} active={page === currentPage} onClick={() => { click(-2); setCurrentPage(pagesTotal) }} />)
@@ -41,13 +39,14 @@ const PaginationComposant: FunctionComponent<Props> = ({ click }) => {
     }
 
     return (
-
         <>
-            <Pagination size="lg" className="d-flex justify-content-center mt-5" >{items}</Pagination>
+            <Pagination
+                size="lg"
+                className="d-flex justify-content-center mt-5"
+            >{items}
+            </Pagination>
         </>
-
     )
-
 }
 
 export default PaginationComposant;
