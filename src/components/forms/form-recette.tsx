@@ -59,7 +59,7 @@ export function Formulaire(recette: Recette): Form {
 
     numberOfPeople: { value: recette.numberOfPeople, isValid: true },
 
-    categorie: { value: recette.categorie.id, isValid: true },
+    categorie: { value: recette.categorie.id.toString(), isValid: true },
 
     recettesIngredients: { value: recette.recettesIngredients, isValid: true }
   }

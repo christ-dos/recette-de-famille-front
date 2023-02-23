@@ -20,18 +20,18 @@ type Props = {
 
 /********************** Les constante pour remplir les Selects *****************************/
 export const difficultyOptions = [
-    { label: "Difficultés", value: ""},
+    { label: "Difficultés", value: "" },
     { label: "Facile", value: "facile" },
-    { label: "Intermédaire", value: "intermediaire"},
-    { label: "Difficile", value: "difficile"}
+    { label: "Intermédaire", value: "intermediaire" },
+    { label: "Difficile", value: "difficile" }
 ]
 
 
 export const categoriesOptions = [
     { label: "Catégories", value: "" },
     { label: "Plats", value: "1" },
-    { label: "Entrées", value: "2"},
-    { label: "Desserts", value: "3"},
+    { label: "Entrées", value: "2" },
+    { label: "Desserts", value: "3" },
     { label: "Apéritfs", value: "4" }
 ]
 
@@ -48,6 +48,7 @@ export const InputSelect: FunctionComponent<Props> = ({ array,
                 name={name}
                 defaultValue={""}
                 form={form}
+                onChange={(e) => console.log(e.target.value)}
             >
                 {array?.map(element => (
                     <option

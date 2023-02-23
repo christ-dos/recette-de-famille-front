@@ -7,6 +7,7 @@ import { FieldErrors, useForm } from "react-hook-form";
 import { Ingredient } from "../models/Ingredient";
 import { Recette } from "../models/recette";
 import { RecettesIngredients, UniteMesureEnum } from "../models/RecetteIngredient";
+import { getAllIngredient } from "../services/IngredientService";
 
 type Props = {
     click?: MouseEventHandler,
@@ -20,11 +21,9 @@ type Props = {
 }
 
 const IngredientLine: FunctionComponent<Props> = ({
-    allIngredients, errors, searchTerm, handleSearchTerm, click,
-    register, defaultValues, index, ...rest }) => {
-
-    //console.log(errors);
-
+    errors, searchTerm, handleSearchTerm, click,
+    register, defaultValues, index, allIngredients, ...rest }) => {
+    
     return (
 
         <>
@@ -44,6 +43,7 @@ const IngredientLine: FunctionComponent<Props> = ({
                         onChange={handleSearchTerm}
                         key={defaultValues[index].ingredient.name}
                         onFocus={(e) => e.target.value = ""}
+                        list="ingredientUpdate"
                     />
                     {/* liste qui propose des ingredients*/}
                     <datalist id="ingredientUpdate">
@@ -55,6 +55,7 @@ const IngredientLine: FunctionComponent<Props> = ({
                                     key={ingredient.id}
                                 />
                             )}
+
                     </datalist>
                     <ErrorMessage className={'text-danger mt-1 ms-1'} name={`recettesIngredients.${index}.ingredient.name`} errors={errors} as="p" />
 

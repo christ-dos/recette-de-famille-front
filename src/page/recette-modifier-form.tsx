@@ -52,6 +52,8 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
     });
 
   const { isSubmitted, isSubmitSuccessful } = formState
+  const copyAllIngredients: Ingredient[] = [...allIngredients];
+
 
   const { fields, append, remove } = useFieldArray({
     name: 'recettesIngredients',
@@ -63,6 +65,14 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
     getAllIngredient().then(allIngredients => setAllIngredients(allIngredients));
   }, []);
 
+
+
+  /*  useEffect(() => {
+     getAllIngredient().then(allIngredients => setAllIngredients(allIngredients));
+ 
+ 
+   }, [searchTerm]);
+  */
   useEffect(() => {
     if (!selectedFile) {
       setPreview(undefined)
@@ -91,8 +101,10 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
   }
 
   const handleSearchTerm = (e: ChangeEvent<HTMLInputElement>, setSearchTerm: any) => {
+
     let value = e.target.value;
     value.length > 2 ? (setSearchTerm(value)) : (setSearchTerm(""))
+    setSearchTerm("")
   }
 
   async function onSubmit(data: any) {
@@ -140,9 +152,12 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
         console.log(response.error);
       } else {
         console.log(response);
+        window.scrollTo(0, 0)
       }
     })
+
   }
+
 
   return (
     <>
@@ -228,6 +243,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
                 id={"categorieId"}
                 array={categoriesOptions}
               />
+
               {/*************************** Les Durées *********************************/}
               <div className={styles.duree}>
                 <TitreH5
@@ -286,6 +302,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
               </div>
 
             </div>
+
             {/*************************** Le nombre de parts *********************************/}
             <div className="col-12 col-md-12 col-lg-7 ">
               <TitreH5
@@ -310,14 +327,15 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
                   key={index}
                   defaultValues={fields}
                   click={() => {
-                    handleRemove(index)
+                    handleRemove(index);
                   }}
                   register={register}
                   errors={errors}
                   searchTerm={searchTerm}
                   allIngredients={allIngredients}
                   handleSearchTerm={(e) => handleSearchTerm(e, setSearchTerm)}
-                  index={index} />
+                  index={index}
+                />
               ))}
 
               <Button className="mt-3 me-1"
