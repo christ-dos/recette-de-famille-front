@@ -76,7 +76,6 @@ const Schema = yup.object({
                     .required("Ce champs est requis"),
                 ingredient: yup.object({
                     name: yup.string()
-
                         .required("Ce champs est requis")
                         .matches(/^[A-Z  a-z]*$/, "Uniquement les lettes sont acceptés")
                 }).required(),
@@ -89,7 +88,6 @@ const Schema = yup.object({
                 const ingredientNameSet = new Set();
                 const ingredientNameValue: (string | undefined)[] = [];
                 value?.forEach(element => {
-                    console.log(element.ingredient.name);
                     ingredientNameSet.add(element.ingredient.name)
                     ingredientNameValue.push(element.ingredient.name);
                 });

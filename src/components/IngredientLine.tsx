@@ -28,7 +28,6 @@ const IngredientLine: FunctionComponent<Props> = ({
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const inputName = e.target.getAttribute('name');
-        console.log(inputName);
         for (const field of defaultValues) {
             if (e.target.value === field.ingredient.name) {
                 setError(inputName, { type: "custom", message: "Cette ingrédient existe déjà" }, { shouldFocus: true })

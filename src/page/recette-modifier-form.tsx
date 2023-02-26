@@ -359,7 +359,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
               >
                 +
               </Button>
-
             </div>
 
           </section>
@@ -380,8 +379,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
             variant="secondary"
             type={"submit"}
             name={"updateSubmit"}
-            onClick={() => console.log("click")
-            }
           >
             {/*isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>*/}
             Valider
