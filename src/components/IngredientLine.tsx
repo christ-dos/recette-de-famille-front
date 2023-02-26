@@ -1,29 +1,44 @@
 
 import { ErrorMessage } from "@hookform/error-message";
-import { useEffect } from "react";
-import { ChangeEvent, FunctionComponent, MouseEventHandler, useState } from "react";
+import { ChangeEvent, FunctionComponent, MouseEventHandler } from "react";
 import { Button } from "react-bootstrap";
-import { FieldErrors, useForm } from "react-hook-form";
+import { FieldErrors } from "react-hook-form";
 import { Ingredient } from "../models/Ingredient";
-import { Recette } from "../models/recette";
 import { RecettesIngredients, UniteMesureEnum } from "../models/RecetteIngredient";
-import { getAllIngredient } from "../services/IngredientService";
+import { Form } from "./forms/form-recette";
 
 type Props = {
     click?: MouseEventHandler,
     register: any,
     index: number,
     errors: FieldErrors,
+    setError: any,
+    clearErrors: any,
     searchTerm: string,
     allIngredients: Ingredient[],
     defaultValues: RecettesIngredients[],
+    form: Form,
     handleSearchTerm(e: ChangeEvent<HTMLInputElement>): any
 }
 
 const IngredientLine: FunctionComponent<Props> = ({
     errors, searchTerm, handleSearchTerm, click,
-    register, defaultValues, index, allIngredients, ...rest }) => {
-    
+    register, defaultValues, index, allIngredients,
+    setError, clearErrors, form, ...rest }) => {
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const inputName = e.target.getAttribute('name');
+        console.log(inputName);
+        for (const field of defaultValues) {
+            if (e.target.value === field.ingredient.name) {
+                setError(inputName, { type: "custom", message: "Cette ingrédient existe déjà" }, { shouldFocus: true })
+            } else if (e.target.value === "") {
+                clearErrors(inputName);
+            }
+        }
+        return handleSearchTerm;
+    }
+
     return (
 
         <>
@@ -38,9 +53,9 @@ const IngredientLine: FunctionComponent<Props> = ({
 
                 <div className="me-2">
                     <input type="text"
-                        {...register(`recettesIngredients.${index}.ingredient.name` as const, { required: { value: true, message: "le champs est requissss" } })}
+                        {...register(`recettesIngredients.${index}.ingredient.name` as const)}
                         className="form-control"
-                        onChange={handleSearchTerm}
+                        onChange={(e) => handleChange(e)}
                         key={defaultValues[index].ingredient.name}
                         onFocus={(e) => e.target.value = ""}
                         list="ingredientUpdate"
@@ -59,8 +74,6 @@ const IngredientLine: FunctionComponent<Props> = ({
                     </datalist>
                     <ErrorMessage className={'text-danger mt-1 ms-1'} name={`recettesIngredients.${index}.ingredient.name`} errors={errors} as="p" />
 
-                    {/*<p className="text-danger">{errors.ingredient?.message?.toString()}</p>*/}
-
                 </div>
 
                 <div className="w-25">
@@ -73,10 +86,7 @@ const IngredientLine: FunctionComponent<Props> = ({
                         key={defaultValues[index].quantite}
                         onFocus={(e) => e.target.value = ""}
                     />
-                    <ErrorMessage className={'text-danger mt-1 ms-1'} name={`recettesIngredients.${index}.quantite`} errors={errors} as="p" />
-
-                    {<p className="text-danger">{errors.quantity?.message?.toString()}</p>}
-
+                    <ErrorMessage className={'text-danger mt-1 ms-2'} name={`recettesIngredients.${index}.quantite`} errors={errors} as="p" />
                 </div>
                 <div className="w-50 me-3">
                     <select
@@ -91,14 +101,13 @@ const IngredientLine: FunctionComponent<Props> = ({
                         <option key={""} disabled>Mesure</option>
                         {Object.keys(UniteMesureEnum)
                             .filter(key => isNaN(Number(key)))
-                            .filter(key => key != "map")
+                            .filter(key => key !== "map")
                             .map(key => <option key={key} defaultValue={key.toLowerCase()}>{key}
 
                             </option>)}
                     </select>
                     <ErrorMessage className={'text-danger mt-1 ms-3'} name={`recettesIngredients.${index}.uniteMesure`} errors={errors} as="p" />
                 </div>
-                {/*<p className="text-danger">{errors.uniteMesure?.message?.toString()}</p>*/}
                 <div>
                     <Button className="mb-3 ms-1"
                         variant="danger"

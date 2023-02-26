@@ -30,7 +30,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [form, setForm] = useState<Form>(Formulaire(recipe));
 
-  const { register, handleSubmit, formState,
+  const { register, handleSubmit, formState, setError, clearErrors,
     formState: { errors }, control } = useForm<Recette>({
       mode: 'onChange',
 
@@ -47,11 +47,12 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
         numberOfPeople: form.numberOfPeople.value,
         stepPreparation: form.stepPreparation.value,
         recettesIngredients: form.recettesIngredients.value
+
       },
       resolver: yupResolver(Schema)
     });
 
-  const { isSubmitted, isSubmitSuccessful } = formState
+  const { isSubmitted, isSubmitSuccessful, isSubmitting } = formState
   const copyAllIngredients: Ingredient[] = [...allIngredients];
 
 
@@ -67,12 +68,10 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
 
 
 
-  /*  useEffect(() => {
-     getAllIngredient().then(allIngredients => setAllIngredients(allIngredients));
- 
- 
-   }, [searchTerm]);
-  */
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [isSubmitting]);
+
   useEffect(() => {
     if (!selectedFile) {
       setPreview(undefined)
@@ -107,8 +106,11 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
     setSearchTerm("")
   }
 
+
+
   async function onSubmit(data: any) {
     console.log("datas:", data)
+
 
     data.id = +data.id;
     /*gestion de l'image: Cnversion du blob en url pour sauvegarde en BDD*/
@@ -146,14 +148,14 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
     });
 
     updateRecipe(data).then((response) => {
-      console.log("je suis dans update recipe");
 
       if (response.error) {
         console.log(response.error);
       } else {
         console.log(response);
-        window.scrollTo(0, 0)
+
       }
+      window.scrollTo(0, 0)
     })
 
   }
@@ -162,7 +164,9 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
   return (
     <>
       <TitreH2 titre={"Editer une Recette"} />
+
       {isSubmitSuccessful && <div className="alert alert-success mt-4">Recette mise à jour avec succés</div>}
+      {!isSubmitSuccessful && errors.recettesIngredients?.message && <div className="alert alert-danger mt-4">{errors?.recettesIngredients?.message?.toString()}</div>}
 
       <form id="recette-modifier-form" action="" onSubmit={handleSubmit(onSubmit)} className="border border-secundary shadow-lg">
         <main className="container " >
@@ -335,6 +339,9 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
                   allIngredients={allIngredients}
                   handleSearchTerm={(e) => handleSearchTerm(e, setSearchTerm)}
                   index={index}
+                  setError={setError}
+                  clearErrors={clearErrors}
+                  form={form}
                 />
               ))}
 
@@ -373,7 +380,11 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
             variant="secondary"
             type={"submit"}
             name={"updateSubmit"}
-          >Valider
+            onClick={() => console.log("click")
+            }
+          >
+            {/*isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>*/}
+            Valider
           </Button>
         </div>
       </form>

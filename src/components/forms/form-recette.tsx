@@ -30,7 +30,9 @@ export type Form = {
 
   categorie: Field,
 
-  recettesIngredients: Field
+  recettesIngredients: Field,
+
+  customError: Field
 
 }
 
@@ -61,7 +63,10 @@ export function Formulaire(recette: Recette): Form {
 
     categorie: { value: recette.categorie.id.toString(), isValid: true },
 
-    recettesIngredients: { value: recette.recettesIngredients, isValid: true }
+    recettesIngredients: { value: recette.recettesIngredients, isValid: true },
+
+    customError: { value: '', isValid: true }
+
   }
   return form;
 

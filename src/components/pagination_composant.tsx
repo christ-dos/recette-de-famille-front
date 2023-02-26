@@ -21,7 +21,7 @@ const PaginationComposant: FunctionComponent<Props> = ({ click }) => {
 
     let items = [];
 
-    for (let page = -1; page <= pagesTotal; page++) {
+   for (let page = -1; page <= pagesTotal; page++) {
         if (page === pagesTotal) {
             items.push(<Pagination.Next key={-2} active={page === currentPage} onClick={() => { click(-2); setCurrentPage(pagesTotal) }} />)
         } else if (page === -1) {
