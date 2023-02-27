@@ -102,18 +102,6 @@ const AjoutRecettePage: FunctionComponent = () => {
             .catch((error) => console.log(error));
     };
 
-    /* const onSelectFile = (e: ChangeEvent<HTMLInputElement>) => {
-         console.log(e.target.files)
-         if (!e.target.files || e.target.files.length === 0) {
-             setSelectedFile(undefined)
-             return
-         }
-         // I've kept this example simple by using the first image instead of multiple
-         setSelectedFile(e.target.files[0])
-         setPreview(selectedFile)
-     }*/
-
-
     const appendIngredient = () => {
         append({
             quantite: 100,
@@ -127,6 +115,7 @@ const AjoutRecettePage: FunctionComponent = () => {
     async function onSubmit(data: any) {
         console.log(data);
 
+        /*gestion de l'image: Conversion du blob en url pour sauvegarder en BDD*/
         if (selectedFile) {
             let blob = selectedFile.slice();
 
@@ -140,6 +129,7 @@ const AjoutRecettePage: FunctionComponent = () => {
             data.urlPicture = '/images/mystere.jpg';
         }
 
+        /*récupération de la catégorie en BDD*/
         const resultCategorie = await getCategorieById(data.categorie);
         data.categorie = { id: resultCategorie.id, name: resultCategorie.name, urlPicture: resultCategorie.urlPicture }
 
@@ -169,7 +159,6 @@ const AjoutRecettePage: FunctionComponent = () => {
         })
 
     }
-    console.log(errors)
 
     return (
         <>
@@ -191,18 +180,30 @@ const AjoutRecettePage: FunctionComponent = () => {
                                     id="title" />
                             </div>
                         </div>
-                        <ErrorMessage className={'text-danger d-flex justify-content-center'} name={'title'} errors={errors} as="p" />
+                        <ErrorMessage
+                            className={'text-danger d-flex justify-content-center'}
+                            name={'title'}
+                            errors={errors}
+                            as="p"
+                        />
 
                         {/*************************** Choisir une image *********************************/}
                         <div className="d-flex flex-column ">
                             <div className=" d-flex justify-content-center mt-5" >
                                 <label htmlFor="avatar">Choisir une image:</label>
-                                <input  {...register("urlPicture")} type="file" id="avatar"
+                                <input  {...register("urlPicture")}
+                                    type="file"
+                                    id="avatar"
                                     accept="image/png, image/jpeg"
                                     onChange={(e) => onSelectFile(e, setSelectedFile, setPreview, selectedFile)}
                                 />
                             </div>
-                            <ErrorMessage className={'text-danger d-flex justify-content-center'} name={'urlPicture'} errors={errors} as="p" />
+                            <ErrorMessage
+                                className={'text-danger d-flex justify-content-center'}
+                                name={'urlPicture'}
+                                errors={errors}
+                                as="p"
+                            />
 
                             <div className=" d-flex justify-content-center mt-5">
                                 <figure >
@@ -217,8 +218,7 @@ const AjoutRecettePage: FunctionComponent = () => {
                 </main>
                 <main className="container mt-4 ">
                     {/************************** Infos Clefs (Selecteurs) ********************************/}
-                    <section className="row d-flex justify-content-center pt-3 px-2 mx-4 py-4 "
-                        style={{ backgroundColor: 'rgba(131,197,190,0.1)', boxShadow: '1px 1px 1px rgba(131,197,190,0.9)', border: '1px 1px solid rgba(131,197,190,0.9)', borderRadius: ' 20px' }}>
+                    <section className={`${styles.my_style_row} row d-flex justify-content-center pt-3 px-2 mx-4 py-4 `}>
                         <div className="col-12 col-md-12 col-lg-4 form-group ">
                             <TitreH5
                                 titre={"Infos clés"}

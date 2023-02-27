@@ -83,14 +83,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
     return () => URL.revokeObjectURL(objectUrl)
   }, [selectedFile])
 
-  /* const onSelectFile = (e: ChangeEvent<HTMLInputElement>) => {
-     if (!e.target.files || e.target.files.length === 0) {
-       setSelectedFile(undefined)
-       return
-     }
-     setSelectedFile(e.target.files[0])
-     setPreview(selectedFile)
-   }*/
 
   const handleRemove = (index: number) => {
     if (fields.length > 1) {
@@ -126,7 +118,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
       data.urlPicture = form.urlPicture.value;
     }
 
-    /*récupération de la catégorie en base*/
+    /*récupération de la catégorie en BDD*/
     const resultCategorie = await getCategorieById(data.categorie);
     data.categorie = { id: resultCategorie.id, name: resultCategorie.name, urlPicture: resultCategorie.urlPicture }
 
@@ -184,7 +176,12 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
                 />
               </div>
             </div>
-            <ErrorMessage className={'text-danger d-flex justify-content-center'} name={'title'} errors={errors} as="p" />
+            <ErrorMessage
+              className={'text-danger d-flex justify-content-center'}
+              name={'title'}
+              errors={errors}
+              as="p"
+            />
             {/*************************** Choisir une image *********************************/}
             <div className="">
               <div className=" d-flex justify-content-center mt-3 mb-3" >
@@ -198,7 +195,12 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
                   onChange={(e: ChangeEvent<HTMLInputElement>) => onSelectFile(e, setSelectedFile, setPreview, selectedFile)}
                 />
               </div>
-              <ErrorMessage className={'text-danger d-flex justify-content-center'} name={'urlPicture'} errors={errors} as="p" />
+              <ErrorMessage
+                className={'text-danger d-flex justify-content-center'}
+                name={'urlPicture'}
+                errors={errors}
+                as="p"
+              />
 
               <div className=" d-flex justify-content-center mt-2">
                 <figure >
@@ -212,13 +214,9 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
           </div>
         </main>
         <main className="container mt-4">
-          <section className={`${styles.my_style_row} row d-flex justify-content-center pt-3 px-2 mx-4 py-4 `}
-            style={{
-              backgroundColor: 'rgba(131,197,190,0.1)',
-              boxShadow: '1px 1px 1px rgba(131,197,190,0.9)',
-              border: '1px 1px solid rgba(131,197,190,0.9)',
-              borderRadius: ' 20px'
-            }}>
+          <section
+            className={`${styles.my_style_row} row d-flex justify-content-center pt-3 px-2 mx-4 py-4 `}
+          >
             <div className="col-12 col-md-12 col-lg-4 form-group d-flex flex-column justify-content-center ">
 
               {/************************** Infos Clefs (Selecteurs) ********************************/}
