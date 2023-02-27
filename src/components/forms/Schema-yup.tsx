@@ -72,7 +72,9 @@ const Schema = yup.object({
                 uniteMesure: yup.mixed()
                     .oneOf(Object.values(UniteMesureEnum)
                         .filter(key => isNaN(Number(key)))
-                        .filter(key => key !== "map"), 'Ce champs ne peut être vide')
+                        .filter(key => key !== "map")
+                        .filter(key => key !== "Mesures"),
+                        'Ce champs ne peut être vide')
                     .required("Ce champs est requis"),
                 ingredient: yup.object({
                     name: yup.string()

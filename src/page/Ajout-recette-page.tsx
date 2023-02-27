@@ -101,13 +101,6 @@ const AjoutRecettePage: FunctionComponent = () => {
             .catch((error) => console.log(error));
     };
 
-    /*  function getIngedientByName(name: string): Ingredient | undefined {
-         const result = allIngredients.filter(x => x.name.toLowerCase() === name.toLowerCase())
-         if (result) {
-             return result[0];
-         }
-     } */
-
     const onSelectFile = (e: ChangeEvent<HTMLInputElement>) => {
         console.log(e.target.files)
         if (!e.target.files || e.target.files.length === 0) {
@@ -176,12 +169,11 @@ const AjoutRecettePage: FunctionComponent = () => {
                 console.log(response.error);
             } else {
                 console.log(response);
+                window.scrollTo(0, 0);
             }
         })
-        window.scrollTo(0, 0);
+
     }
-
-
     console.log(errors)
 
     return (
@@ -205,8 +197,8 @@ const AjoutRecettePage: FunctionComponent = () => {
                             </div>
                         </div>
                         <ErrorMessage className={'text-danger d-flex justify-content-center'} name={'title'} errors={errors} as="p" />
-                        {/*************************** Choisir une image *********************************/}
 
+                        {/*************************** Choisir une image *********************************/}
                         <div className="d-flex flex-column ">
                             <div className=" d-flex justify-content-center mt-5" >
                                 <label htmlFor="avatar">Choisir une image:</label>
@@ -216,7 +208,6 @@ const AjoutRecettePage: FunctionComponent = () => {
                                 />
                             </div>
                             <ErrorMessage className={'text-danger d-flex justify-content-center'} name={'urlPicture'} errors={errors} as="p" />
-                            {/*<p className="text-danger d-flex justify-content-center">{errors.urlPicture?.message?.toString()}</p>*/}
 
                             <div className=" d-flex justify-content-center mt-5">
                                 <figure >
@@ -230,10 +221,10 @@ const AjoutRecettePage: FunctionComponent = () => {
                     </div>
                 </main>
                 <main className="container mt-4 ">
+                    {/************************** Infos Clefs (Selecteurs) ********************************/}
                     <section className="row d-flex justify-content-center pt-3 px-2 mx-4 py-4 "
                         style={{ backgroundColor: 'rgba(131,197,190,0.1)', boxShadow: '1px 1px 1px rgba(131,197,190,0.9)', border: '1px 1px solid rgba(131,197,190,0.9)', borderRadius: ' 20px' }}>
                         <div className="col-12 col-md-12 col-lg-4 form-group ">
-                            {/************************** Infos Clefs (Selecteurs) ********************************/}
                             <TitreH5
                                 titre={"Infos clés"}
                                 className={"custom-color-dore mb-3 ms-2"}
@@ -314,89 +305,6 @@ const AjoutRecettePage: FunctionComponent = () => {
                             </div>
                         </div>
 
-
-
-                        {/*<h4 className="custom-color-dore mb-3 ">Infos clés</h4>
-                            <select {...register('difficultyLevel')}
-                                className="form-select form-select-lg mb-1  w-75"
-                                aria-label=".form-select-lg example"
-                                name="difficultyLevel"
-                                defaultValue={""}
-                            >
-                                <option selected value="" disabled >Difficultés</option>
-                                <option value="Facile">Facile</option>
-                                <option value="Intermediaire">Intermédiaire</option>
-                                <option value="Difficile">Difficile</option>
-                            </select>
-                            {<p className="text-danger ms-1">{errors.difficultyLevel?.message?.toString()}</p>}
-
-                            <select {...register('categorie')}
-                                className="form-select form-select-lg mb-1  w-75 "
-                                defaultValue={""}
-                                name="categorie"
-                                aria-label=".form-select-lg example">
-                                <option value="" disabled>Catégories</option>
-                                <option value="1">Plat</option>
-                                <option value="2">Entrees</option>
-                                <option value="3">Desserts</option>
-                                <option value="4">Apéritifs</option>
-                            </select>
-                            {<p className="text-danger ms-1">{errors.categorie?.message?.toString()}</p>}
-                            */}
-                        {/* <div className={`${styles.duree} `}>
-                                <h4 className="custom-color-dore">Temps total</h4>
-                                <div className=" d-flex flex-row justify-content-between  ">
-                                    <div className="input-group w-75 ">
-                                        <input {...register("totalTimePreparation")}
-                                            type="text"
-                                            className="form-control"
-                                            aria-label="Dollar amount (with dot and two decimal places)" />
-                                        <span className="input-group-text">Minutes</span>
-                                        {<p className="text-danger ms-1 mt-1">{errors.totalTimePreparation?.message?.toString()}</p>}
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div className={styles.duree}>
-                                <h4 className="custom-color-dore">Temps de préparation</h4>
-                                <div className=" d-flex flex-row justify-content-between">
-                                    <div className="input-group w-75">
-                                        <input {...register("timePreparation")} type="text" className="form-control "
-                                            aria-label="Dollar amount (with dot and two decimal places)" />
-                                        <span className="input-group-text">Minutes</span>
-                                    </div>
-                                </div>
-                                {<p className="text-danger mt-1">{errors.timePreparation?.message?.toString()}</p>}
-                            </div>
-
-                            <div className={styles.duree}>
-                                <h4 className="custom-color-dore">Temps de cuisson</h4>
-                                <div className=" d-flex flex-row justify-content-between">
-                                    <div className="input-group w-75">
-                                        <input {...register("cookingTime")}
-                                            type="text"
-                                            className="form-control"
-                                            aria-label="Dollar amount (with dot and two decimal places)" />
-                                        <span className="input-group-text">Minutes</span>
-                                    </div>
-                                </div>
-                                {<p className="text-danger mt-1">{errors.cookingTime?.message?.toString()}</p>}
-                            </div>
-
-                            <div className={styles.duree}>
-                                <h4 className="custom-color-dore">Temps de repos</h4>
-                                <div className=" d-flex flex-row justify-content-between">
-                                    <div className="input-group w-75">
-                                        <input {...register('restTime')} type="text" className="form-control"
-                                            aria-label="Dollar amount (with dot and two decimal places)" />
-                                        <span className="input-group-text">Minutes</span>
-                                    </div>
-                                </div>
-                            </div>
-                            {<p className="text-danger mt-1">{errors.restTime?.message?.toString()}</p>}
-                            */}
-
                         {/*************************** Le nombre de parts *********************************/}
                         <div className="col-12 col-md-12 col-lg-7 ">
                             <TitreH5
@@ -410,6 +318,7 @@ const AjoutRecettePage: FunctionComponent = () => {
                                 valeur={"Personne(s)"}
                                 type="text"
                             />
+
                             {/*************************** Les ingredients *********************************/}
                             <TitreH5
                                 titre={"Ingrédients"}
@@ -442,81 +351,6 @@ const AjoutRecettePage: FunctionComponent = () => {
                                 +
                             </Button>
 
-                            {/* <h4 className="mb-3  custom-color-dore">Nombre de personnes</h4>
-                            <div className=" d-flex flex-row justify-content-between">
-                                <div className="input-group w-75">
-                                    <input {...register("numberOfPeople")} type="text" className="form-control "
-                                        aria-label="Dollar amount (with dot and two decimal places)" />
-                                    <span className="input-group-text ">personnes</span>
-                                </div>
-                            </div>
-                            {<p className="text-danger mt-1">{errors.numberOfPeople?.message?.toString()}</p>}
-
-                            <h4 className="custom-color-dore">Ingrédients</h4>
-                            {ingredients.map((ingredient, index) =>
-                            (
-                                <div key={index} className=" d-flex flex-row justify-content-between mb-1 mt-3">
-                                    <div className=" w-50 me-2">
-                                        <input type="text" placeholder='oeufs'
-                                            className="form-control" {...register(`recettesIngredients.${index}.ingredient.name`)}
-                                            aria-label="Dollar amount (with dot and two decimal places)"
-                                            onChange={(e) => handleSearchTerm(e)}
-                                            list="ingredients"
-
-                                        />
-                                        <datalist id="ingredients">
-                                            {allIngredients
-                                                .filter(ingredient => ingredient.name.includes(searchTerm))
-                                                .map(ingredient =>
-                                                    <option key={ingredient.id} value={ingredient.name} />
-                                                )}
-                                        </datalist>
-                                        {<p className="text-danger">{errors.ingredient?.message?.toString()}</p>}
-                                    </div>
-
-                                    <div className=" w-25">
-                                        <input type="number" step={1} min={0} placeholder='quantité'
-                                            className="form-control" {...register(`recettesIngredients.${index}.quantite`)}
-                                            aria-label="Dollar amount (with dot and two decimal places)"
-                                            onChange={(e) => console.log(e.target.value)}
-
-                                        />
-
-                                        {<p className="text-danger">{errors.quantity?.message?.toString()}</p>}
-                                    </div>
-
-                                    <div>
-                                        <select {...register(`recettesIngredients.${index}.uniteMesure`, { required: true })}
-                                            className="form-select form-select mb-3 w-75 ms-2"
-                                            required
-                                            aria-label=".form-select-lg example">
-                                            <option key={ingredient.uniteMesure} selected>Mesure</option>
-                                            {Object.keys(UniteMesureEnum)
-                                                .filter(key => isNaN(Number(key)))
-                                                .filter(key => key != "map")
-                                                .map(key => <option value={key}>{key}</option>)}
-                                        </select>
-                                        {<p className="text-danger">{errors.quantity?.message?.toString()}</p>}
-                                    </div>
-                                </div>
-
-                            ))}
-
-                            <Button className="mt-3 me-1"
-                                variant="secondary"
-                                type={"button"}
-                                onClick={addNewLine}>
-                                +
-                            </Button>
-                            <Button className="mt-3"
-                                variant="danger"
-                                type={"button"}
-                                onClick={deleteLine}
-                                id="deleteIngredient"
-
-                            >
-                                X
-                            </Button>*/}
                         </div>
                     </section>
                 </main>

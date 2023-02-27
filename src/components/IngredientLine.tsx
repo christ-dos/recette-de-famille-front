@@ -96,7 +96,7 @@ const IngredientLine: FunctionComponent<Props> = ({
                         onChange={(e) => console.log(e.target.value)}
                         defaultValue={""}
                     >
-                        {/* <option value={""} key={"Mesures"} disabled>Mesures</option>*/}
+                        {/**  <option value={""} key={"Mesures"}>Mesures</option>*/}
                         {Object.keys(UniteMesureEnum)
                             .filter(key => isNaN(Number(key)))
                             .filter(key => key !== "map")
@@ -104,7 +104,7 @@ const IngredientLine: FunctionComponent<Props> = ({
                                 <option
                                     key={key}
                                     value={key}
-                                    disabled={key === "Mesures" ? (true) : (false)}
+
                                 >{key}
                                 </option>
                             )
