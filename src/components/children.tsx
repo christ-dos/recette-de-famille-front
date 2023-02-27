@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 import '../css/children.css';
-import { camelize } from '../utils/fonctiosn-utils';
+import { camelize } from '../utils/fonctions-utils';
 
 
 /****************** Composant Encart de présentation ************************/

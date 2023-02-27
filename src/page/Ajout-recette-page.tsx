@@ -1,65 +1,23 @@
 
+import { ErrorMessage } from '@hookform/error-message';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ChangeEvent, FunctionComponent, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import { useForm } from "react-hook-form";
-import * as yup from "yup";
-import { TitreH2 } from "../components/children";
+import { useFieldArray, useForm } from "react-hook-form";
+import { TitreH2, TitreH5 } from "../components/children";
+import { categoriesOptions, difficultyOptions, FormGroupInputSpan, InputSelect } from '../components/forms/InputsForm';
+import Schema from "../components/forms/Schema-yup";
+import IngredientLine from '../components/IngredientLine';
+import StepPreparation from '../components/Step-preparation';
 import styles from '../css/ajout-recette-page.module.css';
 import '../css/common.css';
+import { CategorieEnum } from '../models/CategorieEnum';
 import { Ingredient } from "../models/Ingredient";
-import { UniteMesureEnum } from '../models/RecetteIngredient';
+import { Recette } from '../models/recette';
+import { RecettesIngredients, UniteMesureEnum } from '../models/RecetteIngredient';
 import { getCategorieById } from "../services/CategorieService";
 import { getAllIngredient } from "../services/IngredientService";
-import Schema from "../components/forms/Schema-yup";
 
-/*const schema = yup.object({
-    title: yup.string()
-        .required("Ce champs est requis")
-        .min(3, "Entrer au min 3 caracteres ")
-        .max(100, "100 caractères maximum"),
-
-    urlPicture: yup.string()
-        .required("Ce champs est requis"),
-
-    totalTimePreparation: yup.string()
-        .matches(/^[0-9]*$/, "Uniquement les nombres sont acceptés")
-        .required("Ce champs est requis")
-        .max(5, "5 caractères maximum"),
-
-    timePreparation: yup.string()
-        .matches(/^[0-9]*$/, "Uniquement les nombres sont acceptés")
-        .max(5, "5 caractères maximum"),
-
-    cookingTime: yup.string()
-        .matches(/^[0-9]*$/, "Uniquement les nombres sont acceptés")
-        .max(5, "5 caractères maximum"),
-
-    restTime: yup.string()
-        .matches(/^[0-9]*$/, "Uniquement les nombres sont acceptés")
-        .max(5, "5 caractères maximum"),
-
-    stepPreparation: yup.string()
-        .required("Ce champs est requis"),
-
-    difficultyLevel: yup.string(),
-
-    numberOfPeople: yup.string()
-        .matches(/^[0-9]*$/, "Uniquement les nombres sont acceptés"),
-
-    categorie: yup.string()
-        .required("Ce champs est requis")*/
-
-/* quantity: yup.number()
- .required("Ce champs est requis"),
- 
- ingredient: yup.string()
- .required("Ce champs est requis"),
- 
- uniteMesure: yup.string()
- .required("Ce champs est requis")
-
-}).required();*/
 
 const AjoutRecettePage: FunctionComponent = () => {
 
@@ -70,24 +28,52 @@ const AjoutRecettePage: FunctionComponent = () => {
         }, quantite: '', uniteMesure: 'PIECE'
     }]);
     const [allIngredients, setAllIngredients] = useState<Ingredient[]>([]);
-    const [count, setCount] = useState(0);
+    const [count, setCount] = useState(1);
     const [selectedFile, setSelectedFile] = useState<any>()
     const [preview, setPreview] = useState<string | undefined>()
     const [searchTerm, setSearchTerm] = useState("");
 
 
-    const { register, handleSubmit, formState: { errors }, formState } = useForm<any>({
-        mode: 'onChange',
-        resolver: yupResolver(Schema)
-    });
+    const { register, handleSubmit, formState: { errors },
+        control, formState, setError, clearErrors } = useForm<Recette>({
+            mode: 'onChange',
 
-    const { isSubmitted, isSubmitSuccessful } = formState
+            defaultValues: {
+                id: 0,
+                title: "",
+                urlPicture: "",
+                totalTimePreparation: "",
+                timePreparation: "",
+                cookingTime: "",
+                restTime: "",
+                numberOfPeople: "",
+                stepPreparation: "",
+                recettesIngredients: [
+                    {
+                        id: { recetteId: 0, ingredientId: 0 },
+                        quantite: 100,
+                        ingredient: { id: 0, name: allIngredients.length !== 0 ? (allIngredients[count]?.name) : ("pomme") }
+                    }
+                ]
+            },
 
+            resolver: yupResolver(Schema)
+        });
+
+    const { isSubmitSuccessful, isSubmitting } = formState
+
+    const { fields, append, remove } = useFieldArray({
+        name: 'recettesIngredients',
+        control,
+    })
     useEffect(() => {
         getAllIngredient().then(allIngredients => setAllIngredients(allIngredients));
-        console.log(allIngredients);
+        //appendIngredient();
     }, []);
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [isSubmitting]);
 
     useEffect(() => {
         if (!selectedFile) {
@@ -100,17 +86,9 @@ const AjoutRecettePage: FunctionComponent = () => {
         return () => URL.revokeObjectURL(objectUrl)
     }, [selectedFile])
 
-
-    function addNewLine() {
-        const newLine = { ingredient: { name: '', urlPicture: '' }, uniteMesure: '', quantite: '' }
-        setIngredients([...ingredients, newLine])
-        setCount(count + 1);
-    }
-
-    function deleteLine() {
-        if (ingredients.length > 1) {
-            ingredients.pop()
-            setIngredients([...ingredients])
+    const handleRemove = (index: number) => {
+        if (fields.length > 1) {
+            remove(index);
         }
     }
 
@@ -123,12 +101,12 @@ const AjoutRecettePage: FunctionComponent = () => {
             .catch((error) => console.log(error));
     };
 
-    function getIngedientByName(name: string): Ingredient | undefined {
-        const result = allIngredients.filter(x => x.name.toLowerCase() === name.toLowerCase())
-        if (result) {
-            return result[0];
-        }
-    }
+    /*  function getIngedientByName(name: string): Ingredient | undefined {
+         const result = allIngredients.filter(x => x.name.toLowerCase() === name.toLowerCase())
+         if (result) {
+             return result[0];
+         }
+     } */
 
     const onSelectFile = (e: ChangeEvent<HTMLInputElement>) => {
         console.log(e.target.files)
@@ -142,12 +120,21 @@ const AjoutRecettePage: FunctionComponent = () => {
         console.log(selectedFile);
     }
 
-    const handleSearchTerm = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleSearchTerm = (e: ChangeEvent<HTMLInputElement>, setSearchTerm: any) => {
         let value = e.target.value;
-        console.log(value)
-        setSearchTerm(value)
-
+        value.length > 2 ? (setSearchTerm(value)) : (setSearchTerm(""))
+        setSearchTerm("")
     }
+
+    const appendIngredient = () => {
+        append({
+            quantite: 100,
+            uniteMesure: UniteMesureEnum.Mesures,
+            ingredient: { id: 0, name: allIngredients.length !== 0 ? (allIngredients[count]?.name) : ("pomme") }
+        })
+        setCount(count + 1);
+    }
+
 
     async function onSubmit(data: any) {
         console.log(data);
@@ -168,12 +155,20 @@ const AjoutRecettePage: FunctionComponent = () => {
         const resultCategorie = await getCategorieById(data.categorie);
         data.categorie = { id: resultCategorie.id, name: resultCategorie.name, urlPicture: resultCategorie.urlPicture }
 
-        data.recettesIngredients.map((recIng: any) => {
-            const ingredient = getIngedientByName(recIng.ingredient.name)
-            if (ingredient) {
-                recIng.ingredient = ingredient;
-            }
+        /*On recherche les ingredients par leur nom et on remplit le recetteIngredient id avec les respectifs ids*/
+        data.recettesIngredients.map((recetteIngredient: RecettesIngredients) => {
 
+            const ingredient = allIngredients.find(ingredient => ingredient.name === recetteIngredient.ingredient.name);
+            if (ingredient) {
+                const recetteIngredientId = { recetteId: +data.id, ingredientId: ingredient.id };
+                recetteIngredient.ingredient = ingredient;
+                recetteIngredient.id = recetteIngredientId;
+            } else {
+                const recetteIngredientId = { recetteId: +data.id, ingredientId: 0 };
+                recetteIngredient.ingredient.id = 0;
+                recetteIngredient.ingredient.urlPicture = 'https://previews.123rf.com/images/kerdkanno/kerdkanno1701/kerdkanno170100010/68705276-divers-de-la-cuisine-tha%C3%AFlandaise-ingr%C3%A9dients-de-cuisine-pour-%C3%A9pices-curry-rouge-p%C3%A2te-ingr%C3%A9dient-de-.jpg'
+                recetteIngredient.id = recetteIngredientId;
+            }
         });
 
         createRecipe(data).then((response) => {
@@ -183,6 +178,7 @@ const AjoutRecettePage: FunctionComponent = () => {
                 console.log(response);
             }
         })
+        window.scrollTo(0, 0);
     }
 
 
@@ -191,12 +187,12 @@ const AjoutRecettePage: FunctionComponent = () => {
     return (
         <>
             <TitreH2 titre={"Ajouter une Recette"} />
+            {isSubmitSuccessful && <div className="alert alert-success mt-4">Recette ajoutée avec succés</div>}
+
             <form action="" onSubmit={handleSubmit(onSubmit)} className="border border-secundary shadow-lg">
                 <main className="container " >
-                    <div className='row mx-4 my-2 pb-3 mt-3 ' style={{
-                        border: '1px 1px solidrgba(131,197,190,0.9)', backgroundColor: 'rgba(131,197,190,0.1)',
-                        boxShadow: '1px 1px 1px rgba(131,197,190,0.9)', borderRadius: ' 20px'
-                    }}>
+                    <div className={`${styles.my_style_row} row mx-4 my-2 pb-3 mt-3 `} >
+                        {/*************************** Titre *********************************/}
                         <div className="d-flex justify-content-center">
                             <div className="input-group-text  mt-5 w-50 ">
                                 <span className="input-group-text" id="inputGroup-sizing-default">Titre</span>
@@ -208,7 +204,8 @@ const AjoutRecettePage: FunctionComponent = () => {
                                     id="title" />
                             </div>
                         </div>
-                        {<p className="text-danger d-flex justify-content-center">{errors.title?.message?.toString()}</p>}
+                        <ErrorMessage className={'text-danger d-flex justify-content-center'} name={'title'} errors={errors} as="p" />
+                        {/*************************** Choisir une image *********************************/}
 
                         <div className="d-flex flex-column ">
                             <div className=" d-flex justify-content-center mt-5" >
@@ -218,7 +215,8 @@ const AjoutRecettePage: FunctionComponent = () => {
                                     onChange={onSelectFile}
                                 />
                             </div>
-                            {<p className="text-danger d-flex justify-content-center">{errors.urlPicture?.message?.toString()}</p>}
+                            <ErrorMessage className={'text-danger d-flex justify-content-center'} name={'urlPicture'} errors={errors} as="p" />
+                            {/*<p className="text-danger d-flex justify-content-center">{errors.urlPicture?.message?.toString()}</p>*/}
 
                             <div className=" d-flex justify-content-center mt-5">
                                 <figure >
@@ -235,7 +233,90 @@ const AjoutRecettePage: FunctionComponent = () => {
                     <section className="row d-flex justify-content-center pt-3 px-2 mx-4 py-4 "
                         style={{ backgroundColor: 'rgba(131,197,190,0.1)', boxShadow: '1px 1px 1px rgba(131,197,190,0.9)', border: '1px 1px solid rgba(131,197,190,0.9)', borderRadius: ' 20px' }}>
                         <div className="col-12 col-md-12 col-lg-4 form-group ">
-                            <h4 className="custom-color-dore mb-3 ">Infos clés</h4>
+                            {/************************** Infos Clefs (Selecteurs) ********************************/}
+                            <TitreH5
+                                titre={"Infos clés"}
+                                className={"custom-color-dore mb-3 ms-2"}
+                            />
+                            <InputSelect
+                                register={register}
+                                name={"difficultyLevel"}
+                                errors={errors}
+                                className={"form-select form-select-lg w-75"}
+                                id={"difficultyLevel"}
+                                array={difficultyOptions}
+                            />
+
+                            <InputSelect
+                                register={register}
+                                name={"categorie"}
+                                errors={errors}
+                                className={"form-select form-select-lg mt-3 w-75"}
+                                id={"categorieId"}
+                                array={categoriesOptions}
+                            />
+
+                            {/*************************** Les Durées *********************************/}
+                            <div className={styles.duree}>
+                                <TitreH5
+                                    titre={"Temps total"}
+                                    className={"custom-color-dore mb-3 ms-1"}
+                                />
+                                <FormGroupInputSpan
+                                    register={register}
+                                    name={"totalTimePreparation"}
+                                    valeur={"Minutes"}
+                                    type="text"
+                                    errors={errors}
+                                />
+                            </div>
+
+                            <div className={styles.duree}>
+                                <TitreH5
+                                    titre={"Temps de Préparation"}
+                                    className={"custom-color-dore mb-3 ms-1"}
+                                />
+                                <FormGroupInputSpan
+                                    register={register}
+                                    errors={errors}
+                                    name={"timePreparation"}
+                                    valeur={"Minutes"}
+                                    type="text"
+                                />
+                            </div>
+
+                            <div className={styles.duree}>
+                                <TitreH5
+                                    titre={"Temps de cuisson"}
+                                    className={"custom-color-dore mb-3 ms-1"}
+                                />
+                                <FormGroupInputSpan
+                                    register={register}
+                                    errors={errors}
+                                    name={"cookingTime"}
+                                    valeur={"Minutes"}
+                                    type="text"
+                                />
+                            </div>
+
+                            <div className={styles.duree}>
+                                <TitreH5
+                                    titre={"Temps de repos"}
+                                    className={"custom-color-dore mb-3 ms-1"}
+                                />
+                                <FormGroupInputSpan
+                                    register={register}
+                                    errors={errors}
+                                    name={"restTime"}
+                                    valeur={"Minutes"}
+                                    type="text"
+                                />
+                            </div>
+                        </div>
+
+
+
+                        {/*<h4 className="custom-color-dore mb-3 ">Infos clés</h4>
                             <select {...register('difficultyLevel')}
                                 className="form-select form-select-lg mb-1  w-75"
                                 aria-label=".form-select-lg example"
@@ -261,8 +342,8 @@ const AjoutRecettePage: FunctionComponent = () => {
                                 <option value="4">Apéritifs</option>
                             </select>
                             {<p className="text-danger ms-1">{errors.categorie?.message?.toString()}</p>}
-
-                            <div className={`${styles.duree} `}>
+                            */}
+                        {/* <div className={`${styles.duree} `}>
                                 <h4 className="custom-color-dore">Temps total</h4>
                                 <div className=" d-flex flex-row justify-content-between  ">
                                     <div className="input-group w-75 ">
@@ -314,10 +395,54 @@ const AjoutRecettePage: FunctionComponent = () => {
                                 </div>
                             </div>
                             {<p className="text-danger mt-1">{errors.restTime?.message?.toString()}</p>}
-                        </div>
+                            */}
 
+                        {/*************************** Le nombre de parts *********************************/}
                         <div className="col-12 col-md-12 col-lg-7 ">
-                            <h4 className="mb-3  custom-color-dore">Nombre de personnes</h4>
+                            <TitreH5
+                                titre={"Nombre de personnes"}
+                                className={"custom-color-dore mb-3 ms-1"}
+                            />
+                            <FormGroupInputSpan
+                                register={register}
+                                errors={errors}
+                                name={"numberOfPeople"}
+                                valeur={"Personne(s)"}
+                                type="text"
+                            />
+                            {/*************************** Les ingredients *********************************/}
+                            <TitreH5
+                                titre={"Ingrédients"}
+                                className={"custom-color-dore mt-4 ms-1"}
+                            />
+                            {fields.map((field: RecettesIngredients, index: number) => (
+
+                                <IngredientLine
+                                    key={index}
+                                    defaultValues={fields}
+                                    click={() => {
+                                        handleRemove(index);
+                                    }}
+                                    register={register}
+                                    errors={errors}
+                                    searchTerm={searchTerm}
+                                    allIngredients={allIngredients}
+                                    handleSearchTerm={(e) => handleSearchTerm(e, setSearchTerm)}
+                                    index={index}
+                                    setError={setError}
+                                    clearErrors={clearErrors}
+                                />
+                            ))}
+
+                            <Button className="mt-3 me-1"
+                                variant="secondary"
+                                type={"button"}
+                                onClick={() => { appendIngredient() }}
+                            >
+                                +
+                            </Button>
+
+                            {/* <h4 className="mb-3  custom-color-dore">Nombre de personnes</h4>
                             <div className=" d-flex flex-row justify-content-between">
                                 <div className="input-group w-75">
                                     <input {...register("numberOfPeople")} type="text" className="form-control "
@@ -361,7 +486,7 @@ const AjoutRecettePage: FunctionComponent = () => {
                                     </div>
 
                                     <div>
-                                        <select {...register(`recettesIngredients.${index}.uniteMesure`, { required: true})}
+                                        <select {...register(`recettesIngredients.${index}.uniteMesure`, { required: true })}
                                             className="form-select form-select mb-3 w-75 ms-2"
                                             required
                                             aria-label=".form-select-lg example">
@@ -391,29 +516,30 @@ const AjoutRecettePage: FunctionComponent = () => {
 
                             >
                                 X
-                            </Button>
+                            </Button>*/}
                         </div>
                     </section>
                 </main>
                 <main className="container">
+                    {/*************************** Les étapes de préparations *********************************/}
                     <section className="row">
-                        <div className="col-12 col-md-12 col-lg-12 ">
-                            <h3 className={` ms-4 custom-color-dore mt-2`}>Préparation</h3>
-                            <div className="form-floating mx-4" style={{ boxShadow: '1px 1px 1px rgba(131,197,190,0.9)' }}>
-                                <textarea {...register("stepPreparation")} className={`form-control ${styles.textarea}`}
-                                    placeholder="Leave a comment here"
-                                    id="floatingTextarea"></textarea>
-
-                                <label htmlFor="floatingTextarea">Aller à la ligne pour chaque étape</label>
-                            </div>
-                            {<p className="text-danger ms-4 mt-md-1">{errors.stepPreparation?.message?.toString()}</p>}
-                        </div>
+                        <StepPreparation
+                            register={register}
+                            name={"stepPreparation"}
+                            errors={errors} />
                     </section>
                 </main>
                 <div className="d-flex justify-content-center mb-3">
-                    <Button className="mt-3 " variant="secondary" type={"submit"}>Valider</Button>
+                    <Button
+                        className="mt-3 "
+                        variant="secondary"
+                        type={"submit"}
+                        name={"updateSubmit"}
+                    >
+                        {isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
+                        Valider
+                    </Button>
                 </div>
-                {isSubmitSuccessful && <div className="alert alert-success mt-4">Recette ajoutée avec succés</div>}
             </form>
 
         </>

@@ -1,7 +1,8 @@
-export enum CategorieEnum  {
+export enum CategorieEnum {
+    Catégories,
+    PLATS,
+    ENTREES,
+    APERITIFS,
+    DESSERTS,
 
-   PLATS= 'PLATS',
-   ENTREES='ENTREES', 
-   APERITIFS='APERITIFS', 
-   DESSERTS= 'DESSERTS'
 }

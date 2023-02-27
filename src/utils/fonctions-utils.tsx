@@ -8,20 +8,6 @@ export function camelize(titre: string) {
   return tab.map(word => word.replace((word.charAt(0)), () => word.charAt(0).toUpperCase())).join(" ")
 
 }
-
-/****************** fonction qui ajoute une ligne d'ingredient dans les formulaire ajout et update ************************/
-export function addNewLine(recettesIngredients: RecettesIngredients[], setRecettesIngredients: any) {
-  const newLine = {
-    id: { recetteId: 0, ingredientId: 0 },
-    quantite: 0,
-    uniteMesure: UniteMesureEnum.map,
-    ingredient: { id: 0, name: 'new ingredient' },
-  }
-  recettesIngredients.push(newLine);
-  setRecettesIngredients([...recettesIngredients])
-
-}
-
 /****************** fonction qui permet de rechercher par term ************************/
 export const handleSearchTerm = (e: ChangeEvent<HTMLInputElement>, setSearchTerm: any) => {
   let value = e.target.value;

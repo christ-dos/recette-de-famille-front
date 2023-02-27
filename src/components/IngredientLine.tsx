@@ -17,7 +17,7 @@ type Props = {
     searchTerm: string,
     allIngredients: Ingredient[],
     defaultValues: RecettesIngredients[],
-    form: Form,
+    form?: Form,
     handleSearchTerm(e: ChangeEvent<HTMLInputElement>): any
 }
 
@@ -72,7 +72,6 @@ const IngredientLine: FunctionComponent<Props> = ({
 
                     </datalist>
                     <ErrorMessage className={'text-danger mt-1 ms-1'} name={`recettesIngredients.${index}.ingredient.name`} errors={errors} as="p" />
-
                 </div>
 
                 <div className="w-25">
@@ -81,29 +80,35 @@ const IngredientLine: FunctionComponent<Props> = ({
                         step={1}
                         min={0}
                         className="form-control"
-                        onChange={(e) => console.log(e.target.value)}
                         key={defaultValues[index].quantite}
-                        onFocus={(e) => e.target.value = ""}
+
                     />
                     <ErrorMessage className={'text-danger mt-1 ms-2'} name={`recettesIngredients.${index}.quantite`} errors={errors} as="p" />
                 </div>
+
                 <div className="w-50 me-3">
                     <select
                         {...register(`recettesIngredients.${index}.uniteMesure` as const)}
                         className="form-select form-select ms-2"
-                        aria-label=".form-select example"
                         id="uniteMesure"
                         key={defaultValues[index].uniteMesure}
-                        defaultValue={""}
                         name={`recettesIngredients.${index}.uniteMesure`}
+                        onChange={(e) => console.log(e.target.value)}
+                        defaultValue={""}
                     >
-                        <option key={""} disabled>Mesure</option>
+                        {/* <option value={""} key={"Mesures"} disabled>Mesures</option>*/}
                         {Object.keys(UniteMesureEnum)
                             .filter(key => isNaN(Number(key)))
                             .filter(key => key !== "map")
-                            .map(key => <option key={key} defaultValue={key.toLowerCase()}>{key}
-
-                            </option>)}
+                            .map(key =>
+                                <option
+                                    key={key}
+                                    value={key}
+                                    disabled={key === "Mesures" ? (true) : (false)}
+                                >{key}
+                                </option>
+                            )
+                        }
                     </select>
                     <ErrorMessage className={'text-danger mt-1 ms-3'} name={`recettesIngredients.${index}.uniteMesure`} errors={errors} as="p" />
                 </div>

@@ -54,7 +54,8 @@ export const InputSelect: FunctionComponent<Props> = ({ array,
                     <option
                         key={element.value}
                         value={element.value}
-                        disabled={element.value === "" ? (true) : (false)}>{element.label}</option>
+                        disabled={element.value === "" ? (true) : (false)}>{element.label}
+                    </option>
                 ))}
             </select>
             <ErrorMessage className={'text-danger mt-1 ms-1'} name={name} errors={errors} as="p" />
@@ -99,7 +100,7 @@ export const FormGroupInputSpan: FunctionComponent<Props> = ({ id, name, valeur,
 
     return (
         <div className=" d-flex flex-row justify-content-between">
-            <div className="input-group w-50 mb-1">
+            <div className="input-group w-75 mb-1">
                 <input {...register(name)}
                     type={type}
                     className="form-control"

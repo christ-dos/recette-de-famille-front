@@ -7,7 +7,7 @@ import { Form } from "./forms/form-recette";
 type Props = {
     register: any,
     name: string,
-    form: Form,
+    form?: Form,
     errors: FieldErrors
 }
 

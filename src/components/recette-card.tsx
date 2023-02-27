@@ -38,22 +38,18 @@ const RecetteCard: FunctionComponent<Props> = ({ recette, click }) => {
                   <p className="card-text overflow-elipsis">{recette.numberOfPeople} parts</p>
                   <p className="card-text overflow-elipsis">{recette.totalTimePreparation} min</p>
                 </blockquote>
+                
               </div>
             </div>
-
           </div>
         </NavLink>
         <div className="card-footer d-flex justify-content-end  ">
-          <DeleteModal id={recette.id} click={click} />
           <div>
             <BoutonLiens href={'/recettes/edit/' + recette.id} icon={faPencil} />
           </div>
-
-
+          <DeleteModal id={recette.id} click={click} />
         </div>
       </div>
-
-
     </div>
   );
 }

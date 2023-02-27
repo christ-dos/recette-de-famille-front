@@ -1,4 +1,5 @@
 
+import { ErrorMessage } from "@hookform/error-message";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ChangeEvent, FunctionComponent, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
@@ -52,8 +53,8 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
       resolver: yupResolver(Schema)
     });
 
-  const { isSubmitted, isSubmitSuccessful, isSubmitting } = formState
-  const copyAllIngredients: Ingredient[] = [...allIngredients];
+  const { isSubmitSuccessful, isSubmitting } = formState
+  //onst copyAllIngredients: Ingredient[] = [...allIngredients];
 
 
   const { fields, append, remove } = useFieldArray({
@@ -65,7 +66,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
   useEffect(() => {
     getAllIngredient().then(allIngredients => setAllIngredients(allIngredients));
   }, []);
-
 
 
   useEffect(() => {
@@ -100,20 +100,27 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
   }
 
   const handleSearchTerm = (e: ChangeEvent<HTMLInputElement>, setSearchTerm: any) => {
-
     let value = e.target.value;
     value.length > 2 ? (setSearchTerm(value)) : (setSearchTerm(""))
     setSearchTerm("")
   }
 
+  const appendIngredient = () => {
+    append({
+      id: { recetteId: 0, ingredientId: 0 },
+      quantite: 100,
+      uniteMesure: UniteMesureEnum.Mesures,
+      ingredient: { id: 0, name: allIngredients.length !== 0 ? (allIngredients[count]?.name) : ("pomme") }
+    })
+    setCount(count + 1);
+  }
 
 
   async function onSubmit(data: any) {
     console.log("datas:", data)
 
-
     data.id = +data.id;
-    /*gestion de l'image: Cnversion du blob en url pour sauvegarde en BDD*/
+    /*gestion de l'image: Conversion du blob en url pour sauvegarder en BDD*/
     if (selectedFile) {
       let blob = selectedFile.slice();
 
@@ -153,13 +160,11 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
         console.log(response.error);
       } else {
         console.log(response);
-
       }
       window.scrollTo(0, 0)
     })
 
   }
-
 
   return (
     <>
@@ -170,8 +175,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
 
       <form id="recette-modifier-form" action="" onSubmit={handleSubmit(onSubmit)} className="border border-secundary shadow-lg">
         <main className="container " >
-          <div className={`${styles.my_style_row} row mx-4 my-2 pb-3 mt-3`}
-          >
+          <div className={`${styles.my_style_row} row mx-4 my-2 pb-3 mt-3`}>
             {/*************************** Titre *********************************/}
             <div className="d-flex justify-content-center">
               <div className="input-group-text  mt-5 w-50 ">
@@ -181,8 +185,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
                 <span className="input-group-text me-1" id="inputGroup-sizing-default">Titre</span>
                 <input type="text"
                   {...register("title")}
-                  onChange={(e) => console.log(e.target.value)
-                  }
                   className="form-control"
                   aria-label="Sizing example input"
                   aria-describedby="inputGroup-sizing-default"
@@ -190,8 +192,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
                 />
               </div>
             </div>
-            {<p className="text-danger d-flex justify-content-center">{errors.title?.message?.toString()}</p>}
-
+            <ErrorMessage className={'text-danger d-flex justify-content-center'} name={'title'} errors={errors} as="p" />
             {/*************************** Choisir une image *********************************/}
             <div className="">
               <div className=" d-flex justify-content-center mt-3 mb-3" >
@@ -205,7 +206,8 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
                   onChange={onSelectFile}
                 />
               </div>
-              {<p className="text-danger d-flex justify-content-center">{errors.urlPicture?.message?.toString()}</p>}
+              <ErrorMessage className={'text-danger d-flex justify-content-center'} name={'urlPicture'} errors={errors} as="p" />
+              {/*<p className="text-danger d-flex justify-content-center">{errors.urlPicture?.message?.toString()}</p>*/}
 
               <div className=" d-flex justify-content-center mt-2">
                 <figure >
@@ -348,14 +350,7 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
               <Button className="mt-3 me-1"
                 variant="secondary"
                 type={"button"}
-                onClick={() => {
-                  append({
-                    id: { recetteId: 0, ingredientId: 0 },
-                    quantite: 0,
-                    uniteMesure: UniteMesureEnum.map,
-                    ingredient: { id: 0, name: `ingredient ${count}` }
-                  }); setCount(count + 1)
-                }}
+                onClick={() => appendIngredient()}
               >
                 +
               </Button>
