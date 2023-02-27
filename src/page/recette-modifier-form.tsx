@@ -17,6 +17,7 @@ import { RecettesIngredients, UniteMesureEnum } from "../models/RecetteIngredien
 import { getCategorieById } from "../services/CategorieService";
 import { getAllIngredient } from "../services/IngredientService";
 import { updateRecipe } from "../services/RecetteService";
+import { handleSearchTerm, onSelectFile } from "../utils/fonctions-utils";
 
 type Props = {
   recipe: Recette
@@ -54,8 +55,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
     });
 
   const { isSubmitSuccessful, isSubmitting } = formState
-  //onst copyAllIngredients: Ingredient[] = [...allIngredients];
-
 
   const { fields, append, remove } = useFieldArray({
     name: 'recettesIngredients',
@@ -84,25 +83,19 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
     return () => URL.revokeObjectURL(objectUrl)
   }, [selectedFile])
 
-  const onSelectFile = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files || e.target.files.length === 0) {
-      setSelectedFile(undefined)
-      return
-    }
-    setSelectedFile(e.target.files[0])
-    setPreview(selectedFile)
-  }
+  /* const onSelectFile = (e: ChangeEvent<HTMLInputElement>) => {
+     if (!e.target.files || e.target.files.length === 0) {
+       setSelectedFile(undefined)
+       return
+     }
+     setSelectedFile(e.target.files[0])
+     setPreview(selectedFile)
+   }*/
 
   const handleRemove = (index: number) => {
     if (fields.length > 1) {
       remove(index);
     }
-  }
-
-  const handleSearchTerm = (e: ChangeEvent<HTMLInputElement>, setSearchTerm: any) => {
-    let value = e.target.value;
-    value.length > 2 ? (setSearchTerm(value)) : (setSearchTerm(""))
-    setSearchTerm("")
   }
 
   const appendIngredient = () => {
@@ -114,7 +107,6 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
     })
     setCount(count + 1);
   }
-
 
   async function onSubmit(data: any) {
     console.log("datas:", data)
@@ -203,11 +195,10 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
                   name={"urlPicture"}
                   id={"avatar"}
                   accept="image/png, image/jpeg"
-                  onChange={onSelectFile}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => onSelectFile(e, setSelectedFile, setPreview, selectedFile)}
                 />
               </div>
               <ErrorMessage className={'text-danger d-flex justify-content-center'} name={'urlPicture'} errors={errors} as="p" />
-              {/*<p className="text-danger d-flex justify-content-center">{errors.urlPicture?.message?.toString()}</p>*/}
 
               <div className=" d-flex justify-content-center mt-2">
                 <figure >
@@ -222,7 +213,12 @@ const RecetteEditForm: FunctionComponent<Props> = ({ recipe }) => {
         </main>
         <main className="container mt-4">
           <section className={`${styles.my_style_row} row d-flex justify-content-center pt-3 px-2 mx-4 py-4 `}
-            style={{ backgroundColor: 'rgba(131,197,190,0.1)', boxShadow: '1px 1px 1px rgba(131,197,190,0.9)', border: '1px 1px solid rgba(131,197,190,0.9)', borderRadius: ' 20px' }}>
+            style={{
+              backgroundColor: 'rgba(131,197,190,0.1)',
+              boxShadow: '1px 1px 1px rgba(131,197,190,0.9)',
+              border: '1px 1px solid rgba(131,197,190,0.9)',
+              borderRadius: ' 20px'
+            }}>
             <div className="col-12 col-md-12 col-lg-4 form-group d-flex flex-column justify-content-center ">
 
               {/************************** Infos Clefs (Selecteurs) ********************************/}

@@ -12,7 +12,19 @@ export function camelize(titre: string) {
 export const handleSearchTerm = (e: ChangeEvent<HTMLInputElement>, setSearchTerm: any) => {
   let value = e.target.value;
   value.length > 2 ? (setSearchTerm(value)) : (setSearchTerm(""))
+  setSearchTerm("")
 }
+
+export const onSelectFile = (e: ChangeEvent<HTMLInputElement>, setSelectedFile: any, setPreview: any, selectedFile: any) => {
+        console.log(e.target.files)
+        if (!e.target.files || e.target.files.length === 0) {
+            setSelectedFile(undefined)
+            return
+        }
+        // I've kept this example simple by using the first image instead of multiple
+        setSelectedFile(e.target.files[0])
+        setPreview(selectedFile);
+    }
 
 
 

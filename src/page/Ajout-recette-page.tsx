@@ -1,7 +1,7 @@
 
 import { ErrorMessage } from '@hookform/error-message';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ChangeEvent, FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useFieldArray, useForm } from "react-hook-form";
 import { TitreH2, TitreH5 } from "../components/children";
@@ -11,12 +11,13 @@ import IngredientLine from '../components/IngredientLine';
 import StepPreparation from '../components/Step-preparation';
 import styles from '../css/ajout-recette-page.module.css';
 import '../css/common.css';
-import { CategorieEnum } from '../models/CategorieEnum';
 import { Ingredient } from "../models/Ingredient";
 import { Recette } from '../models/recette';
 import { RecettesIngredients, UniteMesureEnum } from '../models/RecetteIngredient';
 import { getCategorieById } from "../services/CategorieService";
 import { getAllIngredient } from "../services/IngredientService";
+import { handleSearchTerm, onSelectFile } from "../utils/fonctions-utils";
+
 
 
 const AjoutRecettePage: FunctionComponent = () => {
@@ -101,23 +102,17 @@ const AjoutRecettePage: FunctionComponent = () => {
             .catch((error) => console.log(error));
     };
 
-    const onSelectFile = (e: ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target.files)
-        if (!e.target.files || e.target.files.length === 0) {
-            setSelectedFile(undefined)
-            return
-        }
-        // I've kept this example simple by using the first image instead of multiple
-        setSelectedFile(e.target.files[0])
-        setPreview(selectedFile)
-        console.log(selectedFile);
-    }
+    /* const onSelectFile = (e: ChangeEvent<HTMLInputElement>) => {
+         console.log(e.target.files)
+         if (!e.target.files || e.target.files.length === 0) {
+             setSelectedFile(undefined)
+             return
+         }
+         // I've kept this example simple by using the first image instead of multiple
+         setSelectedFile(e.target.files[0])
+         setPreview(selectedFile)
+     }*/
 
-    const handleSearchTerm = (e: ChangeEvent<HTMLInputElement>, setSearchTerm: any) => {
-        let value = e.target.value;
-        value.length > 2 ? (setSearchTerm(value)) : (setSearchTerm(""))
-        setSearchTerm("")
-    }
 
     const appendIngredient = () => {
         append({
@@ -204,7 +199,7 @@ const AjoutRecettePage: FunctionComponent = () => {
                                 <label htmlFor="avatar">Choisir une image:</label>
                                 <input  {...register("urlPicture")} type="file" id="avatar"
                                     accept="image/png, image/jpeg"
-                                    onChange={onSelectFile}
+                                    onChange={(e) => onSelectFile(e, setSelectedFile, setPreview, selectedFile)}
                                 />
                             </div>
                             <ErrorMessage className={'text-danger d-flex justify-content-center'} name={'urlPicture'} errors={errors} as="p" />
